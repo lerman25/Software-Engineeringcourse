@@ -1,4 +1,4 @@
-package application;
+
 import java.awt.Image;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -31,15 +31,15 @@ public class Home_controller {
 			// items********************************************
 
 			String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=Nemo_ships;user=sas;password=123123147";
-			public ArrayList<item> getCustomers() {
-				ArrayList<item> results = new ArrayList<item>();
+			public ArrayList<Item> getCustomers() {
+				ArrayList<Item> results = new ArrayList<Item>();
 				try (Connection con = DriverManager.getConnection(connectionUrl); Statement stmt = con.createStatement();) {
 					String SQL = "{Call ALLcustomers}";
 					ResultSet rs = stmt.executeQuery(SQL);
 
 					while (rs.next()) {
 						int i = 1;
-						results.add(new item(rs.getString(i++),rs.getDouble(i++),rs.getString(i++),rs.getString(i++),rs.getString(i++),rs.getString(i++)));
+						results.add(new Item(rs.getString(i++),rs.getDouble(i++),rs.getString(i++),rs.getString(i++),rs.getString(i++),rs.getString(i++)));
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();

@@ -1,10 +1,10 @@
-package application;
+
 
 import java.awt.Image;
 
 //import java.awt.Image;
 
-class item {
+class Item {
 		private	String	Name;
 		private double  Price;
 	    private  String	Kind;
@@ -14,7 +14,7 @@ class item {
 		private Image    image;
 	    
 	
-	    public item(String _name,double  _Price, String	_Kind, String	_Color, String  _Size,String     _id ) {
+	    public Item(String _name,double  _Price, String	_Kind, String	_Color, String  _Size,String     _id ) {
 			// TODO Auto-generated constructor stub
 	    	setName(_name);
 	    	setPrice(_Price);
