@@ -59,6 +59,9 @@ class item {
 		public void setId(String id) {
 			this.id = id;
 		}
-	
+		public String to_String()
+		{
+			return Name+" "+Double.toString(Price)+" "+Kind+" "+Color+" "+Size+" "+id;
+		}
 }
 
