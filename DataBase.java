@@ -1,5 +1,4 @@
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -32,32 +31,30 @@ public class DataBase {
 	}
 
 	public static DataBase getInstance() {
-		if (_instance == null)
-		{
+		if (_instance == null) {
 			_instance = new DataBase();
-		try {
-			Class.forName(JDBC_DRIVER);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("CONNECTED TO DB");
+			try {
+				Class.forName(JDBC_DRIVER);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("<<<DATABASE>> CONNECTED TO DB");
 		}
 		return _instance;
 	}
-
 
 	public ArrayList<Item> get_flowers() {
 
 		ArrayList<Item> catalog = new ArrayList<Item>();
 		try {
-			ResultSet rs = this.get_ItemResultSet();
+			ResultSet rs = this.get_TableResultSet("Item");
 
 			while (rs.next()) {
 				String Name = rs.getString("Name");
@@ -69,46 +66,53 @@ public class DataBase {
 				catalog.add(new Item(Name, Price, Kind, Color, Size, id));
 			}
 
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
-			return catalog;
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return catalog;
 
 	}
 
-	public String add_to_DB(Item item) {
+	public String add_to_DB(Object object) {
 
 		try {
-			ResultSet rs = this.get_ItemResultSet();
+			String table = object.getClass().getName();
+			ResultSet rs = this.get_TableResultSet(table);
 
 			boolean id_flag = false;
 
-			if (this.exists_in_DB(item).equals("TRUE"))
-				return item.to_String() + " ID IN DB";
-			PreparedStatement stmt1 = conn.prepareStatement(
-					"INSERT INTO Item(Name, Price, Kind,Color,Size,ID,Image) VALUES (?, ?, ?,?,?,?,?)");
-			stmt1.setString(1, item.getName());
-			stmt1.setInt(2, (int) item.getPrice());
-			stmt1.setString(3, item.getKind());
-			stmt1.setString(4, item.getColor());
-			stmt1.setInt(5, 11);
-			stmt1.setInt(6, Integer.valueOf(item.getId()));
-			stmt1.setString(7, "NOTYET");
-
-			stmt1.executeUpdate();
-			 rs = this.get_ItemResultSet();
+			if (this.exists_in_DB(object).equals("TRUE"))
+				return table + " " + object.toString() + " ID IN DB";
+			switch(table)
+			{
+			case "Item" :
+				{	
+					Item item = (Item) object;
+					PreparedStatement stmt1 = conn.prepareStatement(
+							"INSERT INTO Item(Name, Price, Kind,Color,Size,ID,Image) VALUES (?, ?, ?,?,?,?,?)");
+					stmt1.setString(1, item.getName());
+					stmt1.setInt(2, (int) item.getPrice());
+					stmt1.setString(3, item.getKind());
+					stmt1.setString(4, item.getColor());
+					stmt1.setInt(5, 11);
+					stmt1.setInt(6, Integer.valueOf(item.getId()));
+					stmt1.setString(7, "NOTYET");
+					stmt1.executeUpdate();
+				}
+			}
+			rs = this.get_TableResultSet(table);
 
 			boolean id_flag2 = false;
 
 			while (rs.next()) {
 				String id = (rs.getString("ID"));
-				if (id.equals(item.getId()))
+				if (id.equals(object.toString()))
 					id_flag2 = true;
 			}
-			if (this.exists_in_DB(item).equals("TRUE"))
-				return item.to_String() + " Added to DB";
+			if (this.exists_in_DB(object).equals("TRUE"))
+				return table + " " + object.toString() + " Added to DB";
 
-		} catch ( SQLException e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -116,68 +120,65 @@ public class DataBase {
 
 	}
 
-	public String delet_from_DB(Item item) {
+	public String delet_from_DB(Object object) {
 		try {
 
 			boolean id_flag = false;
-			ResultSet rs = this.get_ItemResultSet();
+			String table = object.getClass().getName();
+			ResultSet rs = this.get_TableResultSet(table);
 
 			while (rs.next()) {
 				String id = (rs.getString("ID"));
-				if (id.equals(item.getId()))
-				{
+				if (id.equals(object.toString())) {
 					id_flag = true;
-					   PreparedStatement st = conn.prepareStatement("DELETE FROM Item WHERE ID = ?");
-				        st.setInt(1,Integer.valueOf(item.getId()));
-				        st.executeUpdate(); 
+					PreparedStatement st = conn.prepareStatement("DELETE FROM " + table + " WHERE ID = ?");
+					st.setInt(1, Integer.valueOf(object.toString()));
+					st.executeUpdate();
 				}
 			}
-			if(!id_flag)
-				return "FAIL-NO-ID";
-			else
-			{
-				if(this.exists_in_DB(item).equals("FALSE"))
-					return item.to_String()+" DELETED FROM DB";
+			if (!id_flag)
+				return "FAIL-NO-ID IN";
+			else {
+				if (this.exists_in_DB(object).equals("FALSE"))
+					return table + " " + object.toString() + " DELETED FROM DB";
 				else
-					System.out.println("FAIL - CHECK DB");
+					System.out.println("<<<DATABASE>>FAIL - CHECK DB");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-			return "UNKNOWN-FAIL";
+		return "UNKNOWN-FAIL";
 	}
-		public String exists_in_DB(Item item)
-		{
-			try {
-			ResultSet rs = this.get_ItemResultSet();
+
+	public String exists_in_DB(Object object) {
+		String table = object.getClass().getName();
+		try {
+			ResultSet rs = this.get_TableResultSet(table);
 			while (rs.next()) {
 				String id = (rs.getString("ID"));
-				if (id.equals(item.getId()))
+				if (id.equals(object.toString()))
 					return "TRUE";
 			}
 			return "FALSE";
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return "FAIL-UNKNOWN";
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		private ResultSet get_ItemResultSet() throws SQLException
-		{
-			Statement stmt;
-				stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			
-			String sql = "SELECT * FROM Item";
-			PreparedStatement prep_stmt = conn.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery(sql);
-			rs = prep_stmt.executeQuery();
-			return rs;
-		}
+		return "FAIL-UNKNOWN";
+	}
 
-protected void finalize() throws SQLException
-{
-	System.out.println("Closing Connection");
-	conn.close();	
-}
+	private ResultSet get_TableResultSet(String table) throws SQLException {
+		Statement stmt;
+		stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
+		PreparedStatement prep_stmt = conn.prepareStatement("SELECT * FROM " + table);
+		ResultSet rs = prep_stmt.executeQuery();
+		return rs;
+	}
+
+	protected void finalize() throws SQLException {
+		System.out.println("<<<DATABASE>>Closing Connection");
+		conn.close();
+	}
 }

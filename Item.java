@@ -63,5 +63,9 @@ class Item {
 		{
 			return Name+" "+Double.toString(Price)+" "+Kind+" "+Color+" "+Size+" "+id;
 		}
+		public String toString()
+		{
+			return id;
+		}
 }
 
