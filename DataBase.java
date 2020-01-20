@@ -99,6 +99,7 @@ public class DataBase {
 					stmt1.setString(7, "NOTYET");
 					stmt1.executeUpdate();
 				}
+		
 			}
 			rs = this.get_TableResultSet(table);
 
@@ -178,7 +179,7 @@ public class DataBase {
 	}
 
 	protected void finalize() throws SQLException {
-		System.out.println("<<<DATABASE>>Closing Connection");
+		System.out.println("<<<DATABASE>> Closing Connection");
 		conn.close();
 	}
 }
