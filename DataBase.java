@@ -282,15 +282,15 @@ public class DataBase {
 	}
 
 	public void person_delete() {
-		PreparedStatement prep_stmt = null;
+		Statement prep_stmt = null;
 		try {
-			prep_stmt = conn.prepareStatement("DELETE FROM Person");
+			prep_stmt = conn.createStatement();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
-			prep_stmt.executeQuery();
+			prep_stmt.executeQuery("DELETE FROM *");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
