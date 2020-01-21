@@ -76,8 +76,15 @@ public class DataBase {
 	public String add_to_DB(Object object) {
 
 		try {
+			Class cls = Person.class;
+			boolean isAflag = cls.isInstance(object);
+			boolean isntPerson = !(object.getClass().getName().equals(cls.getName()));
+			if (isAflag&&isntPerson )
+			{
+				Person p = new Person((Person) object);
+				System.out.println(add_to_DB(p));
+			}
 			String table = object.getClass().getName();
-			System.out.println(table);
 
 			ResultSet rs = this.get_TableResultSet(table);
 
@@ -85,26 +92,23 @@ public class DataBase {
 
 			if (this.exists_in_DB(object).equals("TRUE"))
 				return table + " " + object.toString() + " ID IN DB";
-			switch(table)
-			{
-			case "Item" :
-				{	
-					Item item = (Item) object;
-					PreparedStatement stmt1 = conn.prepareStatement(
-							"INSERT INTO Item(Name, Price, Kind,Color,Size,ID,Image) VALUES (?, ?, ?,?,?,?,?)");
-					stmt1.setString(1, item.getName());
-					stmt1.setInt(2, (int) item.getPrice());
-					stmt1.setString(3, item.getKind());
-					stmt1.setString(4, item.getColor());
-					stmt1.setInt(5, 11);
-					stmt1.setInt(6, Integer.valueOf(item.getId()));
-					stmt1.setString(7, "NOTYET");
-					stmt1.executeUpdate();
-					break;
-				}
-			case "Person":
-			{
-				Person person = (Person)object;
+			switch (table) {
+			case "Item": {
+				Item item = (Item) object;
+				PreparedStatement stmt1 = conn.prepareStatement(
+						"INSERT INTO Item(Name, Price, Kind,Color,Size,ID,Image) VALUES (?, ?, ?,?,?,?,?)");
+				stmt1.setString(1, item.getName());
+				stmt1.setInt(2, (int) item.getPrice());
+				stmt1.setString(3, item.getKind());
+				stmt1.setString(4, item.getColor());
+				stmt1.setInt(5, 11);
+				stmt1.setInt(6, Integer.valueOf(item.getId()));
+				stmt1.setString(7, "NOTYET");
+				stmt1.executeUpdate();
+				break;
+			}
+			case "Person": {
+				Person person = (Person) object;
 				PreparedStatement stmt1 = conn.prepareStatement(
 						"INSERT INTO Person(FirstName,LastName,ID,Email,PhoneNumber,CreditCard,Age,Gender,Address) VALUES (?, ?, ?,?,?,?,?,?,?)");
 				stmt1.setString(1, person.getFirstName());
@@ -119,23 +123,18 @@ public class DataBase {
 				stmt1.executeUpdate();
 				break;
 			}
-			case "Client":
-			{
-				
-				Client client = (Client)object;
-				Person p= new Person((Person)client);
-				System.out.println(add_to_DB(p));
-				PreparedStatement stmt1 = conn.prepareStatement(
-						"INSERT INTO Client(Username,Password,ID) VALUES (?, ?, ?)");
-				stmt1.setString(1,client.getUsername());
+			case "Client": {
+				Client client =(Client)object;
+				PreparedStatement stmt1 = conn
+						.prepareStatement("INSERT INTO Client(Username,Password,ID) VALUES (?, ?, ?)");
+				stmt1.setString(1, client.getUsername());
 				stmt1.setString(2, client.getPassword());
 				stmt1.setInt(3, client.getId());
 				stmt1.executeUpdate();
-				System.out.println("hey");
 
 				break;
 			}
-		
+
 			}
 			rs = this.get_TableResultSet(table);
 
@@ -157,7 +156,7 @@ public class DataBase {
 
 	}
 
-	public String delet_from_DB(Object object) {
+	public String delete_from_DB(Object object) {
 		try {
 
 			boolean id_flag = false;
@@ -176,6 +175,16 @@ public class DataBase {
 			if (!id_flag)
 				return "FAIL-NO-ID IN";
 			else {
+				Class cls = Person.class;
+				boolean isAflag = cls.isInstance(object);
+				boolean isntPerson = !(object.getClass().getName().equals(cls.getName()));
+				if (isAflag&&isntPerson ) {
+					Person p = new Person(table, table, 0, table, 0, table, 0, table, table);
+  					if (p.getClass().isAssignableFrom(object.getClass())) {
+						p = new Person((Person) object);
+					System.out.println(delete_from_DB(p));
+					}
+				}
 				if (this.exists_in_DB(object).equals("FALSE"))
 					return table + " " + object.toString() + " DELETED FROM DB";
 				else
