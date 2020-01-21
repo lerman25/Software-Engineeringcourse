@@ -72,39 +72,34 @@ public class DataBase {
 		return catalog;
 
 	}
-	public int checkLogin_user(String username , String password) 
-	{
+
+	public int checkLogin_user(String username, String password) {
 		ResultSet rs;
 		try {
 			rs = get_TableResultSet("Client");
-	
-		while(rs.next())
-		{
-			String _password = rs.getString("Password");
-			String _username = rs.getString("Username");
-			if(_username.equals(username))
-			{
-				if(_password.equals(password))
-				{
-					return rs.getInt("ID");
-				}
-				else
-				{
-					System.out.println("Wrong Password");
-					return 0;
-				}
-			}
 
-		}
-		System.out.println("No Such Username");
-		return -1;
+			while (rs.next()) {
+				String _password = rs.getString("Password");
+				String _username = rs.getString("Username");
+				if (_username.equals(username)) {
+					if (_password.equals(password)) {
+						return rs.getInt("ID");
+					} else {
+						System.out.println("Wrong Password");
+						return 0;
+					}
+				}
+
+			}
+			System.out.println("No Such Username");
+			return -1;
 		} catch (SQLException e) {
 			System.out.println("DB ERROR");
 			e.printStackTrace();
 			return -2;
 
 		}
-		
+
 	}
 
 	public String add_to_DB(Object object) {
@@ -113,10 +108,15 @@ public class DataBase {
 			Class cls = Person.class;
 			boolean isAflag = cls.isInstance(object);
 			boolean isntPerson = !(object.getClass().getName().equals(cls.getName()));
-			if (isAflag&&isntPerson )
-			{
+			if (isAflag && isntPerson) {
 				Person p = new Person((Person) object);
-				System.out.println(add_to_DB(p));
+				String output = add_to_DB(p);
+				if(output.equals(p.getClass().getName() + " " +p.toString() + " ID IN DB"))
+				{
+					return (object.toString()+" Is in Person");
+				}
+				System.out.println(output);
+
 			}
 			String table = object.getClass().getName();
 
@@ -158,7 +158,7 @@ public class DataBase {
 				break;
 			}
 			case "Client": {
-				Client client =(Client)object;
+				Client client = (Client) object;
 				PreparedStatement stmt1 = conn
 						.prepareStatement("INSERT INTO Client(Username,Password,ID) VALUES (?, ?, ?)");
 				stmt1.setString(1, client.getUsername());
@@ -168,7 +168,18 @@ public class DataBase {
 
 				break;
 			}
-
+			case "Employee": {
+				Employee employee = (Employee) object;
+				PreparedStatement stmt1 = conn.prepareStatement(
+						"INSERT INTO Employee(`Username`, `Password`, `BranchID`, `Rank`, `ID` ) VALUES (?, ?, ?, ?, ?)");
+				stmt1.setString(1, employee.getUsername());
+				stmt1.setString(2, employee.getPassword());
+				stmt1.setInt(3, employee.getBranchID());
+				stmt1.setInt(4, employee.getRank());
+				stmt1.setInt(5, employee.getId());
+				stmt1.executeUpdate();
+				break;
+			}
 			}
 			rs = this.get_TableResultSet(table);
 
@@ -212,11 +223,11 @@ public class DataBase {
 				Class cls = Person.class;
 				boolean isAflag = cls.isInstance(object);
 				boolean isntPerson = !(object.getClass().getName().equals(cls.getName()));
-				if (isAflag&&isntPerson ) {
+				if (isAflag && isntPerson) {
 					Person p = new Person(table, table, 0, table, 0, table, 0, table, table);
-  					if (p.getClass().isAssignableFrom(object.getClass())) {
+					if (p.getClass().isAssignableFrom(object.getClass())) {
 						p = new Person((Person) object);
-					System.out.println(delete_from_DB(p));
+						System.out.println(delete_from_DB(p));
 					}
 				}
 				if (this.exists_in_DB(object).equals("FALSE"))
@@ -233,23 +244,22 @@ public class DataBase {
 
 	public String exists_in_DB(Object object) {
 		String table = object.getClass().getName();
-		System.out.println("<<<<<<<<<"+table);
+		System.out.println("<<<<<<<<<" + table);
 		try {
 			ResultSet rs = this.get_TableResultSet(table);
 			Class cls = Account.class;
 			boolean isAccountflag = cls.isInstance(object);
 			boolean isntPerson = !(object.getClass().getName().equals(cls.getName()));
-			System.out.println(table+" Is Account "+isAccountflag+" Is Perosn "+isntPerson);
-			if (isAccountflag&&isntPerson )
-			{
-				Account a = (Account)object;
+			System.out.println(table + " Is Account " + isAccountflag + " Is Perosn " + isntPerson);
+			if (isAccountflag && isntPerson) {
+				Account a = (Account) object;
 				while (rs.next()) {
 					String username = (rs.getString("Username"));
 					if (username.equals(a.getUsername()))
 						return "TRUE";
 				}
-			}	
-			rs=this.get_TableResultSet(table);
+			}
+			rs = this.get_TableResultSet(table);
 			while (rs.next()) {
 				String id = (rs.getString("ID"));
 				if (id.equals(object.toString()))
