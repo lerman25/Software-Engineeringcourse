@@ -13,10 +13,10 @@ public class Main {
 			System.out.println(myDB.add_to_DB(new Item("Omer",11,"OMER","OMER","11","14")));*/
 			Client c = new Client("Omer","Lerman",19,"@gmail",054,"5426",22,"Male","haifa","omerlerman2","test");
 			System.out.println(myDB.add_to_DB(c));
-			System.out.println(myDB.check_user("omerlerman", "test"));
-			System.out.println(myDB.check_user("omerlerman", "test1"));
-			System.out.println(myDB.check_user("omerlerman2", "test"));
-			System.out.println(myDB.check_user("omerlerman3", "test"));
+			System.out.println(myDB.checkLogin_user("omerlerman", "test"));
+			System.out.println(myDB.checkLogin_user("omerlerman", "test1"));
+			System.out.println(myDB.checkLogin_user("omerlerman2", "test"));
+			System.out.println(myDB.checkLogin_user("omerlerman3", "test"));
 			System.out.println(myDB.delete_from_DB(i));
 			System.out.println(myDB.delete_from_DB(c));
 

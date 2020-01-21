@@ -72,7 +72,7 @@ public class DataBase {
 		return catalog;
 
 	}
-	public int check_user(String username , String password) 
+	public int checkLogin_user(String username , String password) 
 	{
 		ResultSet rs;
 		try {
