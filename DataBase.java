@@ -77,6 +77,8 @@ public class DataBase {
 
 		try {
 			String table = object.getClass().getName();
+			System.out.println(table);
+
 			ResultSet rs = this.get_TableResultSet(table);
 
 			boolean id_flag = false;
@@ -98,7 +100,41 @@ public class DataBase {
 					stmt1.setInt(6, Integer.valueOf(item.getId()));
 					stmt1.setString(7, "NOTYET");
 					stmt1.executeUpdate();
+					break;
 				}
+			case "Person":
+			{
+				Person person = (Person)object;
+				PreparedStatement stmt1 = conn.prepareStatement(
+						"INSERT INTO Person(FirstName,LastName,ID,Email,PhoneNumber,CreditCard,Age,Gender,Address) VALUES (?, ?, ?,?,?,?,?,?,?)");
+				stmt1.setString(1, person.getFirstName());
+				stmt1.setString(2, person.getLastName());
+				stmt1.setInt(3, person.getId());
+				stmt1.setString(4, person.getMail());
+				stmt1.setInt(5, person.getPhone_number());
+				stmt1.setString(6, person.getCredit_card());
+				stmt1.setInt(7, person.getAge());
+				stmt1.setString(8, person.getGender());
+				stmt1.setString(9, person.getAddress());
+				stmt1.executeUpdate();
+				break;
+			}
+			case "Client":
+			{
+				
+				Client client = (Client)object;
+				Person p= new Person((Person)client);
+				System.out.println(add_to_DB(p));
+				PreparedStatement stmt1 = conn.prepareStatement(
+						"INSERT INTO Client(Username,Password,ID) VALUES (?, ?, ?)");
+				stmt1.setString(1,client.getUsername());
+				stmt1.setString(2, client.getPassword());
+				stmt1.setInt(3, client.getId());
+				stmt1.executeUpdate();
+				System.out.println("hey");
+
+				break;
+			}
 		
 			}
 			rs = this.get_TableResultSet(table);

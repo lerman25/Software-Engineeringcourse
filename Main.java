@@ -6,13 +6,14 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 			DataBase myDB= DataBase.getInstance();
-			System.out.println(myDB.add_to_DB(new Item("Omer",11,"OMER","OMER","11","12")));
+		/*	System.out.println(myDB.add_to_DB(new Item("Omer",11,"OMER","OMER","11","12")));
 			System.out.println(myDB.add_to_DB(new Item("Omer",11,"OMER","OMER","11","12")));
 			System.out.println(myDB.add_to_DB(new Item("Omer",11,"OMER","OMER","11","13")));
-			System.out.println(myDB.add_to_DB(new Item("Omer",11,"OMER","OMER","11","14")));
-
-			ArrayList<Item> my = myDB.get_flowers();
-		for(int i=0;i<my.size();i++)
+			System.out.println(myDB.add_to_DB(new Item("Omer",11,"OMER","OMER","11","14")));*/
+			Client c = new Client("Omer","Lerman",18,"@gmail",054,"5426",22,"Male","haifa","omerlerman","test");
+			System.out.println(myDB.add_to_DB(c));
+		//	ArrayList<Item> my = myDB.get_flowers();
+	/*	for(int i=0;i<my.size();i++)
 		{
 			System.out.println(my.get(i).to_String()+"\n");
 		}
@@ -22,6 +23,7 @@ public class Main {
 		{
 			System.out.println(my.get(i).to_String()+"\n");
 		}
+		*/
 		try {
 			myDB.finalize();
 		} catch (SQLException e) {
