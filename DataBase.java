@@ -72,7 +72,40 @@ public class DataBase {
 		return catalog;
 
 	}
+	public int check_user(String username , String password) 
+	{
+		ResultSet rs;
+		try {
+			rs = get_TableResultSet("Client");
 	
+		while(rs.next())
+		{
+			String _password = rs.getString("Password");
+			String _username = rs.getString("Username");
+			if(_username.equals(username))
+			{
+				if(_password.equals(password))
+				{
+					return rs.getInt("ID");
+				}
+				else
+				{
+					System.out.println("Wrong Password");
+					return 0;
+				}
+			}
+
+		}
+		System.out.println("No Such Username");
+		return -1;
+		} catch (SQLException e) {
+			System.out.println("DB ERROR");
+			e.printStackTrace();
+			return -2;
+
+		}
+		
+	}
 
 	public String add_to_DB(Object object) {
 
@@ -200,8 +233,23 @@ public class DataBase {
 
 	public String exists_in_DB(Object object) {
 		String table = object.getClass().getName();
+		System.out.println("<<<<<<<<<"+table);
 		try {
 			ResultSet rs = this.get_TableResultSet(table);
+			Class cls = Account.class;
+			boolean isAccountflag = cls.isInstance(object);
+			boolean isntPerson = !(object.getClass().getName().equals(cls.getName()));
+			System.out.println(table+" Is Account "+isAccountflag+" Is Perosn "+isntPerson);
+			if (isAccountflag&&isntPerson )
+			{
+				Account a = (Account)object;
+				while (rs.next()) {
+					String username = (rs.getString("Username"));
+					if (username.equals(a.getUsername()))
+						return "TRUE";
+				}
+			}	
+			rs=this.get_TableResultSet(table);
 			while (rs.next()) {
 				String id = (rs.getString("ID"));
 				if (id.equals(object.toString()))
