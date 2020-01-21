@@ -9,17 +9,22 @@ public  class Person {
 	private int age;
 	private String gender;
 	private String address;
-	public Person(String _firstname,String _lastname, int _id,String _mail,int _phone,String _credit,int _age,String _gender,String _address)
+	private String username;
+	private String password;
+	static int counter=0;
+	public Person(String _firstname,String _lastname, int _id,String _mail,int _phone,String _credit,int _age,String _gender,String _address,String _username,String _password)
 	{
 		firstName=_firstname;
 		lastName=_lastname;
-		id=_id;
+		id=++counter;
 		mail=_mail;
 		phone_number=_phone;
 		credit_card=_credit;
 		age=_age;
 		gender=_gender;
 		address=_address;
+		username=_username;
+		password=_password;
 	}
 	public Person(Person p)
 	{
@@ -32,6 +37,8 @@ public  class Person {
 		age=p.getAge();
 		gender=p.getGender();
 		address=p.getAddress();
+		username=p.getUsername();
+		password=p.getPassword();
 	}
 	public int getId() {
 		return id;
@@ -97,6 +104,18 @@ public  class Person {
 	public Person getPerson()
 	{
 		return this;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

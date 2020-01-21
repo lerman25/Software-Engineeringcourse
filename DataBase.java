@@ -76,7 +76,7 @@ public class DataBase {
 	public int checkLogin_user(String username, String password) {
 		ResultSet rs;
 		try {
-			rs = get_TableResultSet("Client");
+			rs = get_TableResultSet("Person");
 
 			while (rs.next()) {
 				String _password = rs.getString("Password");
@@ -105,27 +105,26 @@ public class DataBase {
 	public String add_to_DB(Object object) {
 
 		try {
+			String table = object.getClass().getName();
+			if (this.exists_in_DB(object) > 1)
+				return table + " " + object.toString() + " ID IN DB";
 			Class cls = Person.class;
 			boolean isAflag = cls.isInstance(object);
 			boolean isntPerson = !(object.getClass().getName().equals(cls.getName()));
 			if (isAflag && isntPerson) {
 				Person p = new Person((Person) object);
 				String output = add_to_DB(p);
-				if(output.equals(p.getClass().getName() + " " +p.toString() + " ID IN DB"))
-				{
-					return (object.toString()+" Is in Person");
+				if (output.equals(p.getClass().getName() + " " + p.toString() + " ID IN DB")) {
+					return (object.toString() + " Is in Person");
 				}
 				System.out.println(output);
 
 			}
-			String table = object.getClass().getName();
 
 			ResultSet rs = this.get_TableResultSet(table);
 
 			boolean id_flag = false;
 
-			if (this.exists_in_DB(object).equals("TRUE"))
-				return table + " " + object.toString() + " ID IN DB";
 			switch (table) {
 			case "Item": {
 				Item item = (Item) object;
@@ -144,7 +143,7 @@ public class DataBase {
 			case "Person": {
 				Person person = (Person) object;
 				PreparedStatement stmt1 = conn.prepareStatement(
-						"INSERT INTO Person(FirstName,LastName,ID,Email,PhoneNumber,CreditCard,Age,Gender,Address) VALUES (?, ?, ?,?,?,?,?,?,?)");
+						"INSERT INTO Person(FirstName,LastName,ID,Email,PhoneNumber,CreditCard,Age,Gender,Address,Username,Password) VALUES (?, ?, ?,?,?,?,?,?,?,?,?)");
 				stmt1.setString(1, person.getFirstName());
 				stmt1.setString(2, person.getLastName());
 				stmt1.setInt(3, person.getId());
@@ -154,6 +153,8 @@ public class DataBase {
 				stmt1.setInt(7, person.getAge());
 				stmt1.setString(8, person.getGender());
 				stmt1.setString(9, person.getAddress());
+				stmt1.setString(10, person.getUsername());
+				stmt1.setString(11, person.getPassword());
 				stmt1.executeUpdate();
 				break;
 			}
@@ -190,7 +191,7 @@ public class DataBase {
 				if (id.equals(object.toString()))
 					id_flag2 = true;
 			}
-			if (this.exists_in_DB(object).equals("TRUE"))
+			if (this.exists_in_DB(object) > 0)
 				return table + " " + object.toString() + " Added to DB";
 
 		} catch (SQLException e) {
@@ -203,74 +204,72 @@ public class DataBase {
 
 	public String delete_from_DB(Object object) {
 		try {
-
-			boolean id_flag = false;
 			String table = object.getClass().getName();
+			Class cls = Person.class;
+			boolean isAflag = cls.isInstance(object);
+			boolean isntPerson = !(object.getClass().getName().equals(cls.getName()));
 			ResultSet rs = this.get_TableResultSet(table);
-
-			while (rs.next()) {
-				String id = (rs.getString("ID"));
-				if (id.equals(object.toString())) {
-					id_flag = true;
-					PreparedStatement st = conn.prepareStatement("DELETE FROM " + table + " WHERE ID = ?");
-					st.setInt(1, Integer.valueOf(object.toString()));
-					st.executeUpdate();
-				}
-			}
-			if (!id_flag)
-				return "FAIL-NO-ID IN";
-			else {
-				Class cls = Person.class;
-				boolean isAflag = cls.isInstance(object);
-				boolean isntPerson = !(object.getClass().getName().equals(cls.getName()));
-				if (isAflag && isntPerson) {
-					Person p = new Person(table, table, 0, table, 0, table, 0, table, table);
-					if (p.getClass().isAssignableFrom(object.getClass())) {
-						p = new Person((Person) object);
-						System.out.println(delete_from_DB(p));
+			if (isAflag && isntPerson) {
+				Person p = new Person((Person) object);
+				String out = delete_from_DB(p);
+				if(out=="FAIL-NO-ID IN")
+					return out;
+				PreparedStatement st = conn.prepareStatement("DELETE FROM " + table + " WHERE Username = ?");
+				st.setString(1, object.toString());
+				st.executeUpdate();
+				if (this.exists_in_DB(object) == 0)
+					return table + " " + object.toString() + " DELETED FROM DB";
+			} else {
+				boolean id_flag = false;
+				while (rs.next()) {
+					String id = (rs.getString("ID"));
+					if (id.equals(object.toString())) {
+						id_flag = true;
+						PreparedStatement st = conn.prepareStatement("DELETE FROM " + table + " WHERE ID = ?");
+						st.setInt(1, Integer.valueOf(object.toString()));
+						st.executeUpdate();
 					}
 				}
-				if (this.exists_in_DB(object).equals("FALSE"))
+				if (!id_flag)
+					return "FAIL-NO-ID IN";
+				if (this.exists_in_DB(object) == 0)
 					return table + " " + object.toString() + " DELETED FROM DB";
-				else
-					System.out.println("<<<DATABASE>>FAIL - CHECK DB");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "UNKNOWN-FAIL";
+
 	}
 
-	public String exists_in_DB(Object object) {
+	public int exists_in_DB(Object object) {
 		String table = object.getClass().getName();
 		System.out.println("<<<<<<<<<" + table);
 		try {
-			ResultSet rs = this.get_TableResultSet(table);
-			Class cls = Account.class;
+			Class cls = Person.class;
 			boolean isAccountflag = cls.isInstance(object);
-			boolean isntPerson = !(object.getClass().getName().equals(cls.getName()));
-			System.out.println(table + " Is Account " + isAccountflag + " Is Perosn " + isntPerson);
-			if (isAccountflag && isntPerson) {
-				Account a = (Account) object;
+			if (isAccountflag) {
+				ResultSet rs = this.get_TableResultSet("Person");
+				Person p = (Person) object;
 				while (rs.next()) {
 					String username = (rs.getString("Username"));
-					if (username.equals(a.getUsername()))
-						return "TRUE";
+					if (username.equals(p.getUsername()))
+						return 2;
 				}
 			}
-			rs = this.get_TableResultSet(table);
+			ResultSet rs = this.get_TableResultSet(table);
 			while (rs.next()) {
 				String id = (rs.getString("ID"));
 				if (id.equals(object.toString()))
-					return "TRUE";
+					return 1;
 			}
-			return "FALSE";
+			return 0;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "FAIL-UNKNOWN";
+		return -1;
 	}
 
 	private ResultSet get_TableResultSet(String table) throws SQLException {
@@ -280,6 +279,22 @@ public class DataBase {
 		PreparedStatement prep_stmt = conn.prepareStatement("SELECT * FROM " + table);
 		ResultSet rs = prep_stmt.executeQuery();
 		return rs;
+	}
+
+	public void person_delete() {
+		PreparedStatement prep_stmt = null;
+		try {
+			prep_stmt = conn.prepareStatement("DELETE FROM Person");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			prep_stmt.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	protected void finalize() throws SQLException {

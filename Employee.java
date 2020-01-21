@@ -1,18 +1,18 @@
 
-public class Employee extends Account {
+public class Employee extends Person {
 
 
 
 	private int branchID;
 	private int rank=0;
 	public Employee(int _branchID,String _username, String _password, Person p) {
-		super(_username, _password, p);
+		super( p);
 		// TODO Auto-generated constructor stub
 		branchID=_branchID;
 	}
 	public Employee(int _branchID,String _firstname, String _lastname, int _id, String _mail, int _phone, String _credit, int _age,
 			String _gender, String _address,String _username, String _password) {
-		super(_username, _password, _firstname, _lastname, _id, _mail, _phone, _credit, _age, _gender, _address);
+		super( _firstname, _lastname, _id, _mail, _phone, _credit, _age, _gender, _address,_username, _password);
 		// TODO Auto-generated constructor stub
 		branchID=_branchID;
 
@@ -35,7 +35,7 @@ public class Employee extends Account {
 	}
 	public String toString()
 	{
-		return String.valueOf(this.getId());
+		return this.getUsername();
 
 	}
 
