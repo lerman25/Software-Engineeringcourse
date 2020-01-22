@@ -181,6 +181,18 @@ public class DataBase {
 				stmt1.executeUpdate();
 				break;
 			}
+			case "ShopManager": {
+				ShopManager shopManager = (ShopManager) object;
+				PreparedStatement stmt1 = conn.prepareStatement(
+						"INSERT INTO ShopManager(`Username`, `Password`, `BranchID`, `ID` ) VALUES (?, ?, ?, ?)");
+				stmt1.setString(1, shopManager.getUsername());
+				stmt1.setString(2, shopManager.getPassword());
+				stmt1.setInt(3, shopManager.getBranchID());
+				stmt1.setInt(4, shopManager.getId());
+				stmt1.executeUpdate();
+				break;
+
+			}
 			}
 			rs = this.get_TableResultSet(table);
 
@@ -212,7 +224,7 @@ public class DataBase {
 			if (isAflag && isntPerson) {
 				Person p = new Person((Person) object);
 				String out = delete_from_DB(p);
-				if(out=="FAIL-NO-ID IN")
+				if (out == "FAIL-NO-ID IN")
 					return out;
 				PreparedStatement st = conn.prepareStatement("DELETE FROM " + table + " WHERE Username = ?");
 				st.setString(1, object.toString());
@@ -281,20 +293,15 @@ public class DataBase {
 		return rs;
 	}
 
-	public void person_delete() {
-		Statement prep_stmt = null;
+	public void person_delete(String table) {
 		try {
-			prep_stmt = conn.createStatement();
+			PreparedStatement st = conn.prepareStatement("TRUNCATE " + table);
+			st.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try {
-			prep_stmt.executeQuery("DELETE FROM *");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 	}
 
 	protected void finalize() throws SQLException {
