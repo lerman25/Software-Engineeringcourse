@@ -1,4 +1,4 @@
-import java.util.Date;
+import java.sql.Date;
 
 public class Orders {
 	private int ID;
@@ -12,6 +12,8 @@ public class Orders {
 	private Date DeliveryTime;
 	private int DeliveryCost;
 	private ItemInOrder itemList;
+	private static int counter=0;
+
 
 	public Orders(Orders _order) {
 		ID = _order.getID();
@@ -27,9 +29,9 @@ public class Orders {
 		itemList = _order.getItemList();
 	}
 
-	public Orders(int _id, int _clientID, Date _time, Date _orderDate, int _shipment, String _address,
-			int _receiverPhone, String _reciverName, Date _deliveryTime, int _deliveryCost, ItemInOrder _itemList) {
-		ID = _id;
+	public Orders( int _clientID, Date _time, Date _orderDate, int _shipment, String _address,
+			int _receiverPhone, String _reciverName, Date _deliveryTime, int _deliveryCost) {
+		ID =++counter;
 		ClientID = _clientID;
 		Time = _time;
 		OrderDate = _orderDate;
@@ -39,7 +41,6 @@ public class Orders {
 		ReciverName = _reciverName;
 		DeliveryTime = _deliveryTime;
 		DeliveryCost = _deliveryCost;
-		itemList = _itemList;
 	}
 
 	public int getClientID() {
@@ -128,5 +129,9 @@ public class Orders {
 
 	public void setItemList(ItemInOrder itemList) {
 		this.itemList = itemList;
+	}
+	public String toString()
+	{
+		return String.valueOf(this.ID);
 	}
 }

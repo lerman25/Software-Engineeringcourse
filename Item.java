@@ -12,17 +12,17 @@ class Item {
 		private	 String  Size;	
 		private	 String     id  ;
 		private Image    image;
-		private int amount = 0;
+		private static int count = 0;
 	    
 	
-	    public Item(String _name,double  _Price, String	_Kind, String	_Color, String  _Size,String     _id ) {
+	    public Item(String _name,double  _Price, String	_Kind, String	_Color, String  _Size) {
 			// TODO Auto-generated constructor stub
 	    	setName(_name);
 	    	setPrice(_Price);
 	    	setKind(_Kind);
 	    	setColor(_Color);
 	    	setSize(_Size);
-	    	setId(_id);
+	    	setId(Integer.toString(++count));
 		}
 	    public String getColor() {
 			return Color;
@@ -68,11 +68,6 @@ class Item {
 		{
 			return id;
 		}
-		public int getAmount() {
-			return amount;
-		}
-		public void setAmount(int amount) {
-			this.amount = amount;
-		}
 }
+
 

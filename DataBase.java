@@ -1,5 +1,6 @@
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -63,7 +64,9 @@ public class DataBase {
 				String Color = rs.getString("Color");
 				String Size = (rs.getString("Size"));
 				String id = (rs.getString("ID"));
-				catalog.add(new Item(Name, Price, Kind, Color, Size, id));
+				Item newitem= new Item(Name, Price, Kind, Color, Size);
+				newitem.setId(id);
+				catalog.add(newitem);
 			}
 
 		} catch (SQLException se) {
@@ -106,7 +109,7 @@ public class DataBase {
 
 		try {
 			String table = object.getClass().getName();
-			if (this.exists_in_DB(object) > 1)
+			if (this.exists_in_DB(object) > 0)
 				return table + " " + object.toString() + " ID IN DB";
 			Class cls = Person.class;
 			boolean isAflag = cls.isInstance(object);
@@ -166,6 +169,7 @@ public class DataBase {
 				stmt1.setString(2, client.getPassword());
 				stmt1.setInt(3, client.getId());
 				stmt1.executeUpdate();
+				stmt1.executeUpdate();
 
 				break;
 			}
@@ -193,8 +197,7 @@ public class DataBase {
 				break;
 
 			}
-			case "ChainManager" : 
-			{
+			case "ChainManager": {
 				ChainManager cm = (ChainManager) object;
 				PreparedStatement stmt1 = conn
 						.prepareStatement("INSERT INTO ChainManager(Username,Password,ID) VALUES (?, ?, ?)");
@@ -202,17 +205,58 @@ public class DataBase {
 				stmt1.setString(2, cm.getPassword());
 				stmt1.setInt(3, cm.getId());
 				stmt1.executeUpdate();
+				break;
 			}
+			case "Orders":
+			{
+				Orders order = (Orders) object;
+				PreparedStatement stmt1 = conn.prepareStatement(
+						"INSERT INTO Orders(`ID`, `ClientID`, `Time`, `OrderDate`, `Shipment_Method`, `Address`, `ReciverPhone`, `ReciverName`, `DeliveryTime`, `DeliveryCost`) VALUES(?, ?, ?,?,?,?,?,?,?,?)");
+				stmt1.setInt(1, order.getID());
+				stmt1.setInt(2, order.getClientID());
+				stmt1.setDate(3,  order.getTime());
+				stmt1.setDate(4,  order.getOrderDate());
+				stmt1.setInt(5,  order.getShipment_Method());
+				stmt1.setString(6,  order.getAddress());
+				stmt1.setInt(7,  order.getReciverPhone());
+				stmt1.setString(8,  order.getReciverName());
+				stmt1.setDate(9,  order.getDeliveryTime());
+				stmt1.setInt(10,  order.getDeliveryCost());
+				System.out.println(add_to_DB(order.getItemList()));
+				stmt1.executeUpdate();
+				break;
 			}
-			rs = this.get_TableResultSet(table);
+			case "ItemInOrder":
+			{
+				ItemInOrder items = (ItemInOrder) object;
+				PreparedStatement stmt1 = conn
+						.prepareStatement("INSERT INTO ItemInOrder(`ItemID`, `Amount`, `OrderID`, `ClientID`, `ID`) VALUES (?, ?, ?,?,?)");
+				ArrayList<Item> itemList = new ArrayList(items.getItemList());
+				stmt1.setInt(3, items.getOrderID());
+				stmt1.setInt(4, items.getClientID());
+				stmt1.setInt(5, items.getID());
+				for(int i=0; i<itemList.size();i++)
+				{
+					int amount=1;
+					Item current = itemList.get(i);
+					for(int j=itemList.size()-1;j>i;j--)
+					{
+						if(itemList.get(j).getId()==current.getId())
+						{
+							amount++;
+							itemList.remove(j);
+						}
+					}
+					stmt1.setInt(1, Integer.valueOf(current.getId()));
+					stmt1.setInt(2, amount);
+					stmt1.executeUpdate();
 
-			boolean id_flag2 = false;
+				}
+				break;
 
-			while (rs.next()) {
-				String id = (rs.getString("ID"));
-				if (id.equals(object.toString()))
-					id_flag2 = true;
 			}
+			}
+
 			if (this.exists_in_DB(object) > 0)
 				return table + " " + object.toString() + " Added to DB";
 
@@ -227,6 +271,11 @@ public class DataBase {
 	public String delete_from_DB(Object object) {
 		try {
 			String table = object.getClass().getName();
+			if(table.equals("Orders"))
+			{
+				Orders order = (Orders)object;
+				System.out.println(delete_from_DB(order.getItemList()));
+			}
 			Class cls = Person.class;
 			boolean isAflag = cls.isInstance(object);
 			boolean isntPerson = !(object.getClass().getName().equals(cls.getName()));
@@ -303,7 +352,7 @@ public class DataBase {
 		return rs;
 	}
 
-	public void person_delete(String table) {
+	public void table_delete(String table) {
 		try {
 			PreparedStatement st = conn.prepareStatement("TRUNCATE " + table);
 			st.executeUpdate();
