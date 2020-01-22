@@ -33,13 +33,18 @@ public class Main {
 		ItemInOrder iio = new ItemInOrder(order.getID(), c.getId());
 		iio.setItemList(list);
 		order.setItemList(iio);
-
+		Complaint complient = new Complaint(new Date(22,1,1),"Not Satisfied!",c.getId(),0,order.getID());
+		
 		ShopManager sm = new ShopManager(1, "Omer", "Lerman", 20, "@gmail", 054, "5426", 22, "Male", "haifa",
 				"omerlerman1", "test");
 		ChainManager cm = new ChainManager("Omer", "Lerman", 20, "@gmail", 054, "5426", 22, "Male", "haifa",
 				"omerlerman4", "test");
 		System.out.println(myDB.add_to_DB(order));
+		System.out.println(myDB.add_to_DB(complient));
+
 		System.out.println(myDB.delete_from_DB(order));
+		System.out.println(myDB.delete_from_DB(complient));
+
 
 		/*
 		 * System.out.println(myDB.add_to_DB(c));

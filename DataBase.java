@@ -221,7 +221,7 @@ public class DataBase {
 				stmt1.setString(8, order.getReciverName());
 				stmt1.setDate(9, order.getDeliveryTime());
 				stmt1.setInt(10, order.getDeliveryCost());
-				stmt1.setInt(11, order.getItemList().getSumOfitems()+order.getDeliveryCost());
+				stmt1.setInt(11, order.getItemList().getSumOfitems() + order.getDeliveryCost());
 				System.out.println(add_to_DB(order.getItemList()));
 				stmt1.executeUpdate();
 				break;
@@ -251,6 +251,21 @@ public class DataBase {
 				break;
 
 			}
+			case "Complaint": {
+				Complaint complaint = (Complaint) object;
+				PreparedStatement stmt1 = conn.prepareStatement(
+						"INSERT INTO Complaint(`Date`, `TextField`, `ClientID`, `Status`, `OrderID`, `ID`) VALUES (?, ?, ?,?,?,?)");
+				stmt1.setDate(1, complaint.getDate());
+				stmt1.setString(2, complaint.getText());
+				stmt1.setInt(3, complaint.getClientID());
+				stmt1.setInt(4, complaint.getStatus());
+				stmt1.setInt(5, complaint.getOrderID());
+				stmt1.setInt(6, complaint.getID());
+				stmt1.executeUpdate();
+
+			}
+				break;
+
 			}
 
 			if (this.exists_in_DB(object) > 0)
