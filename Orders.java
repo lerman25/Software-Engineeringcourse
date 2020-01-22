@@ -10,8 +10,8 @@ public class Orders {
 	private int ReciverPhone;
 	private String ReciverName;
 	private Date DeliveryTime;
-	private int DeliveryCost;
 	private ItemInOrder itemList;
+	private static int DeliveryCost=10;
 	private static int counter = 0;
 
 	public Orders(Orders _order) {
@@ -24,12 +24,11 @@ public class Orders {
 		ReciverPhone = _order.ReciverPhone;
 		ReciverName = _order.getReciverName();
 		DeliveryTime = _order.getDeliveryTime();
-		DeliveryCost = _order.getDeliveryCost();
 		itemList = _order.getItemList();
 	}
 
 	public Orders(int _clientID, Date _time, Date _orderDate, int _shipment, String _address, int _receiverPhone,
-			String _reciverName, Date _deliveryTime, int _deliveryCost) {
+			String _reciverName, Date _deliveryTime) {
 		ID = ++counter;
 		ClientID = _clientID;
 		Time = _time;
@@ -39,7 +38,6 @@ public class Orders {
 		ReciverPhone = _receiverPhone;
 		ReciverName = _reciverName;
 		DeliveryTime = _deliveryTime;
-		DeliveryCost = _deliveryCost;
 	}
 
 	public int getClientID() {
@@ -114,13 +112,7 @@ public class Orders {
 		DeliveryTime = deliveryTime;
 	}
 
-	public int getDeliveryCost() {
-		return DeliveryCost;
-	}
 
-	public void setDeliveryCost(int deliveryCost) {
-		DeliveryCost = deliveryCost;
-	}
 
 	public ItemInOrder getItemList() {
 		return itemList;
@@ -132,5 +124,13 @@ public class Orders {
 
 	public String toString() {
 		return String.valueOf(this.ID);
+	}
+
+	public static int getDeliveryCost() {
+		return DeliveryCost;
+	}
+
+	public static void setDeliveryCost(int deliveryCost) {
+		DeliveryCost = deliveryCost;
 	}
 }

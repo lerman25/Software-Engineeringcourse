@@ -210,7 +210,7 @@ public class DataBase {
 			case "Orders": {
 				Orders order = (Orders) object;
 				PreparedStatement stmt1 = conn.prepareStatement(
-						"INSERT INTO Orders(`ID`, `ClientID`, `Time`, `OrderDate`, `Shipment_Method`, `Address`, `ReciverPhone`, `ReciverName`, `DeliveryTime`, `DeliveryCost`) VALUES(?, ?, ?,?,?,?,?,?,?,?)");
+						"INSERT INTO Orders(`ID`, `ClientID`, `Time`, `OrderDate`, `Shipment_Method`, `Address`, `ReciverPhone`, `ReciverName`, `DeliveryTime`, `DeliveryCost`, `TotalCost`) VALUES(?, ?, ?,?,?,?,?,?,?,?,?)");
 				stmt1.setInt(1, order.getID());
 				stmt1.setInt(2, order.getClientID());
 				stmt1.setDate(3, order.getTime());
@@ -221,6 +221,7 @@ public class DataBase {
 				stmt1.setString(8, order.getReciverName());
 				stmt1.setDate(9, order.getDeliveryTime());
 				stmt1.setInt(10, order.getDeliveryCost());
+				stmt1.setInt(11, order.getItemList().getSumOfitems()+order.getDeliveryCost());
 				System.out.println(add_to_DB(order.getItemList()));
 				stmt1.executeUpdate();
 				break;
@@ -310,7 +311,6 @@ public class DataBase {
 
 	public int exists_in_DB(Object object) {
 		String table = object.getClass().getName();
-		System.out.println("<<<<<<<<<" + table);
 		try {
 			Class cls = Person.class;
 			boolean isAccountflag = cls.isInstance(object);

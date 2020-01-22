@@ -29,7 +29,7 @@ public class Main {
 		list.add(item2);
 		list.add(item1);
 		Orders order = new Orders(c.getId(), new Date(22, 1, 1), new Date(22, 1, 1), 0, c.getAddress(), 0,
-				c.getFirstName(), new Date(22, 1, 1), 0);
+				c.getFirstName(), new Date(22, 1, 1));
 		ItemInOrder iio = new ItemInOrder(order.getID(), c.getId());
 		iio.setItemList(list);
 		order.setItemList(iio);
