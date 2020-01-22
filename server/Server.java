@@ -1,4 +1,5 @@
 package server;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import common.*;
@@ -15,6 +16,42 @@ public class Server extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		// TODO Auto-generated method stub
+		Massage massage=(Massage)msg;
+		switch(massage.getCommand())
+		{
+			case ADD:
+			{
+				System.out.println(mydb.add_to_DB(massage.getObject()));
+			}
+			case CHECK:
+			{
+				Account account = (Account)massage.getObject();
+				System.out.println(mydb.checkLogin_user(account.getUsername(),account.getPassword()));
+
+			}
+			case DELETE:
+			{
+				System.out.println(mydb.delete_from_DB(massage.getObject()));
+			}
+			case EXISTS:
+			{
+				mydb.exists_in_DB(massage.getObject());
+			}
+			case GETCATALOG:
+			{
+				try {
+					client.sendToClient(mydb.get_flowers());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			case UPDATE:
+			{
+				System.out.println("TO BE IMPLEMENTED");
+			}
+		}
 		
 
 	}
