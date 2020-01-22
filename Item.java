@@ -12,6 +12,7 @@ class Item {
 		private	 String  Size;	
 		private	 String     id  ;
 		private Image    image;
+		private int amount = 0;
 	    
 	
 	    public Item(String _name,double  _Price, String	_Kind, String	_Color, String  _Size,String     _id ) {
@@ -66,6 +67,12 @@ class Item {
 		public String toString()
 		{
 			return id;
+		}
+		public int getAmount() {
+			return amount;
+		}
+		public void setAmount(int amount) {
+			this.amount = amount;
 		}
 }
 

@@ -193,6 +193,16 @@ public class DataBase {
 				break;
 
 			}
+			case "ChainManager" : 
+			{
+				ChainManager cm = (ChainManager) object;
+				PreparedStatement stmt1 = conn
+						.prepareStatement("INSERT INTO ChainManager(Username,Password,ID) VALUES (?, ?, ?)");
+				stmt1.setString(1, cm.getUsername());
+				stmt1.setString(2, cm.getPassword());
+				stmt1.setInt(3, cm.getId());
+				stmt1.executeUpdate();
+			}
 			}
 			rs = this.get_TableResultSet(table);
 
