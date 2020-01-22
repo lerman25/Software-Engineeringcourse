@@ -1,6 +1,6 @@
 
 public class ChainManager extends Person {
-	
+
 	public ChainManager(Person p) {
 		super(p);
 		// TODO Auto-generated constructor stub
@@ -12,8 +12,7 @@ public class ChainManager extends Person {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String toString()
-	{
+	public String toString() {
 		return this.getUsername();
 	}
 }

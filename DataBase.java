@@ -64,7 +64,7 @@ public class DataBase {
 				String Color = rs.getString("Color");
 				String Size = (rs.getString("Size"));
 				String id = (rs.getString("ID"));
-				Item newitem= new Item(Name, Price, Kind, Color, Size);
+				Item newitem = new Item(Name, Price, Kind, Color, Size);
 				newitem.setId(id);
 				catalog.add(newitem);
 			}
@@ -207,42 +207,37 @@ public class DataBase {
 				stmt1.executeUpdate();
 				break;
 			}
-			case "Orders":
-			{
+			case "Orders": {
 				Orders order = (Orders) object;
 				PreparedStatement stmt1 = conn.prepareStatement(
 						"INSERT INTO Orders(`ID`, `ClientID`, `Time`, `OrderDate`, `Shipment_Method`, `Address`, `ReciverPhone`, `ReciverName`, `DeliveryTime`, `DeliveryCost`) VALUES(?, ?, ?,?,?,?,?,?,?,?)");
 				stmt1.setInt(1, order.getID());
 				stmt1.setInt(2, order.getClientID());
-				stmt1.setDate(3,  order.getTime());
-				stmt1.setDate(4,  order.getOrderDate());
-				stmt1.setInt(5,  order.getShipment_Method());
-				stmt1.setString(6,  order.getAddress());
-				stmt1.setInt(7,  order.getReciverPhone());
-				stmt1.setString(8,  order.getReciverName());
-				stmt1.setDate(9,  order.getDeliveryTime());
-				stmt1.setInt(10,  order.getDeliveryCost());
+				stmt1.setDate(3, order.getTime());
+				stmt1.setDate(4, order.getOrderDate());
+				stmt1.setInt(5, order.getShipment_Method());
+				stmt1.setString(6, order.getAddress());
+				stmt1.setInt(7, order.getReciverPhone());
+				stmt1.setString(8, order.getReciverName());
+				stmt1.setDate(9, order.getDeliveryTime());
+				stmt1.setInt(10, order.getDeliveryCost());
 				System.out.println(add_to_DB(order.getItemList()));
 				stmt1.executeUpdate();
 				break;
 			}
-			case "ItemInOrder":
-			{
+			case "ItemInOrder": {
 				ItemInOrder items = (ItemInOrder) object;
-				PreparedStatement stmt1 = conn
-						.prepareStatement("INSERT INTO ItemInOrder(`ItemID`, `Amount`, `OrderID`, `ClientID`, `ID`) VALUES (?, ?, ?,?,?)");
+				PreparedStatement stmt1 = conn.prepareStatement(
+						"INSERT INTO ItemInOrder(`ItemID`, `Amount`, `OrderID`, `ClientID`, `ID`) VALUES (?, ?, ?,?,?)");
 				ArrayList<Item> itemList = new ArrayList(items.getItemList());
 				stmt1.setInt(3, items.getOrderID());
 				stmt1.setInt(4, items.getClientID());
 				stmt1.setInt(5, items.getID());
-				for(int i=0; i<itemList.size();i++)
-				{
-					int amount=1;
+				for (int i = 0; i < itemList.size(); i++) {
+					int amount = 1;
 					Item current = itemList.get(i);
-					for(int j=itemList.size()-1;j>i;j--)
-					{
-						if(itemList.get(j).getId()==current.getId())
-						{
+					for (int j = itemList.size() - 1; j > i; j--) {
+						if (itemList.get(j).getId() == current.getId()) {
 							amount++;
 							itemList.remove(j);
 						}
@@ -271,9 +266,8 @@ public class DataBase {
 	public String delete_from_DB(Object object) {
 		try {
 			String table = object.getClass().getName();
-			if(table.equals("Orders"))
-			{
-				Orders order = (Orders)object;
+			if (table.equals("Orders")) {
+				Orders order = (Orders) object;
 				System.out.println(delete_from_DB(order.getItemList()));
 			}
 			Class cls = Person.class;

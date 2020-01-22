@@ -12,8 +12,7 @@ public class Orders {
 	private Date DeliveryTime;
 	private int DeliveryCost;
 	private ItemInOrder itemList;
-	private static int counter=0;
-
+	private static int counter = 0;
 
 	public Orders(Orders _order) {
 		ID = _order.getID();
@@ -29,9 +28,9 @@ public class Orders {
 		itemList = _order.getItemList();
 	}
 
-	public Orders( int _clientID, Date _time, Date _orderDate, int _shipment, String _address,
-			int _receiverPhone, String _reciverName, Date _deliveryTime, int _deliveryCost) {
-		ID =++counter;
+	public Orders(int _clientID, Date _time, Date _orderDate, int _shipment, String _address, int _receiverPhone,
+			String _reciverName, Date _deliveryTime, int _deliveryCost) {
+		ID = ++counter;
 		ClientID = _clientID;
 		Time = _time;
 		OrderDate = _orderDate;
@@ -130,8 +129,8 @@ public class Orders {
 	public void setItemList(ItemInOrder itemList) {
 		this.itemList = itemList;
 	}
-	public String toString()
-	{
+
+	public String toString() {
 		return String.valueOf(this.ID);
 	}
 }

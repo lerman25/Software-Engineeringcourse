@@ -77,8 +77,7 @@ public  class Person {
 		this.gender = gender;
 	}
 
-	public String toString()
-	{
+	public String toString() {
 		return String.valueOf(this.id);
 	}
 	public String getFirstName() {
