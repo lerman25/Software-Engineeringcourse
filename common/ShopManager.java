@@ -1,3 +1,4 @@
+package common;
 
 public class ShopManager extends Person {
 	private int BranchID;

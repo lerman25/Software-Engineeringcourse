@@ -1,12 +1,16 @@
+package common;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import server.Server;
 
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		DataBase myDB = DataBase.getInstance();
+	/*	DataBase myDB = DataBase.getInstance();
 		// myDB.table_delete("Item");
 		// Item
 
@@ -68,12 +72,25 @@ public class Main {
 		 * myDB.get_flowers(); for (int i = 0; i < my.size(); i++) {
 		 * System.out.println(my.get(i).to_String() + "\n"); }
 		 */
+		Server server = new Server(5555);
 		try {
+			server.listen();
+			for(int i=0;i<100000000;i++)
+			{
+				System.out.print("");
+			}
+			server.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*try {
 			myDB.finalize();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
+		
 	}
 
 }

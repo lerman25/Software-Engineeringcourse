@@ -1,3 +1,4 @@
+package common;
 import java.sql.Date;
 
 public class Orders {

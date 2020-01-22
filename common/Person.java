@@ -1,3 +1,4 @@
+package common;
 
 public  class Person {
 	private String firstName;

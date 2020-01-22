@@ -1,3 +1,4 @@
+package common;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -372,7 +373,7 @@ public class DataBase {
 
 	}
 
-	protected void finalize() throws SQLException {
+	public void finalize() throws SQLException {
 		System.out.println("<<<DATABASE>> Closing Connection");
 		conn.close();
 	}

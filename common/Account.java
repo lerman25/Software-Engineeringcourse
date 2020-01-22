@@ -1,3 +1,4 @@
+package common;
 //needs to be changed if needed to be in use!
 public class Account extends Person{
 	private String username;

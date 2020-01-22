@@ -1,3 +1,4 @@
+package common;
 
 public class Client extends Person {
 	public Client(String _firstname, String _lastname, int _id, String _mail, int _phone, String _credit, int _age,
