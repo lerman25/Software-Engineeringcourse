@@ -105,6 +105,29 @@ public class DataBase {
 		}
 
 	}
+	public int checkLogin_user(String username) {
+		ResultSet rs;
+		try {
+			rs = get_TableResultSet("Person");
+
+			while (rs.next()) {
+				String _username = rs.getString("Username");
+				if (_username.equals(username)) {
+						return rs.getInt("ID");
+
+				}
+
+			}
+			System.out.println("No Such Username");
+			return -1;
+		} catch (SQLException e) {
+			System.out.println("DB ERROR");
+			e.printStackTrace();
+			return -2;
+
+		}
+
+	}
 
 	public String add_to_DB(Object object) {
 
