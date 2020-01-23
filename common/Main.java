@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import client.LClient;
 import server.Server;
 
 public class Main {
@@ -72,14 +73,34 @@ public class Main {
 		 * myDB.get_flowers(); for (int i = 0; i < my.size(); i++) {
 		 * System.out.println(my.get(i).to_String() + "\n"); }
 		 */
+	/*	DataBase myDB = DataBase.getInstance();
+		ShopManager sm = new ShopManager(1, "Omer", "Lerman", 20, "@gmail", 054, "5426", 22, "Male", "haifa",
+				"omerlerman1", "test");
+		System.out.println(myDB.add_to_DB(sm));
+		try {
+			myDB.finalize();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
+
 		Server server = new Server(5555);
+		DataBase myDB=server.getDataBase();
+		LClient client = new LClient("127.0.0.1",5555);
 		try {
 			server.listen();
-			for(int i=0;i<100000000;i++)
+			client.openConnection();
+			for(int i=0;i<10000000;i++)
 			{
 				System.out.print("");
 			}
-			server.close();
+			client.sendToServer(new Massage(Commands.LOGIN,"omerlerman1","test"));
+			for(int i=0;i<10000000;i++)
+			{
+				System.out.print("");
+			}
+			while(true);
+			//server.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

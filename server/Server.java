@@ -17,7 +17,13 @@ public class Server extends AbstractServer {
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		// TODO Auto-generated method stub
 		Massage massage=(Massage)msg;
-		switch(massage.getCommand())
+		String user = massage.getUsername();
+		String pass= massage.getPassword();
+		System.out.println(user);
+		System.out.println(pass);
+		if(massage.getCommand()==Commands.LOGIN)
+		System.out.println(mydb.checkLogin_user(user,pass));
+		/*switch(massage.getCommand())
 		{
 			case ADD:
 			{
@@ -53,7 +59,11 @@ public class Server extends AbstractServer {
 			}
 		}
 		
-
+*/
+	}
+	public DataBase getDataBase()
+	{
+		return mydb;
 	}
 	protected void serverStarted()
 	{

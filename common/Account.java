@@ -3,16 +3,14 @@ package common;
 public class Account {
 	private String username;
 	private String password;
-	public Account(String _username, String _password,Person p)
+	public Account(String _username, String _password)
 	{
 		username=_username;
 		password = _password;
 	}
-	public Account(String _username, String _password,String _firstname, String _lastname, int _id, String _mail, int _phone, String _credit, int _age,
-			String _gender, String _address)
+	public Account(Object msg)
 	{
-		username=_username;
-		password = _password;
+		
 	}
 	public String getUsername() {
 		return username;

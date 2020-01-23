@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="203.0" prefWidth="253.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.ServerSceneController">
+   <children>
+      <BorderPane prefHeight="207.0" prefWidth="256.0">
+         <bottom>
+            <Button fx:id="stop" mnemonicParsing="false" prefHeight="38.0" prefWidth="165.0" text="STOP SERVER" BorderPane.alignment="CENTER" />
+         </bottom>
+         <top>
+            <Button fx:id="start" mnemonicParsing="false" prefHeight="44.0" prefWidth="153.0" text="START SERVER" BorderPane.alignment="CENTER" />
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>

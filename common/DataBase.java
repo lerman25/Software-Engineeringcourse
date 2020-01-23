@@ -109,7 +109,7 @@ public class DataBase {
 	public String add_to_DB(Object object) {
 
 		try {
-			String table = object.getClass().getName();
+			String table = object.getClass().getSimpleName();
 			if (this.exists_in_DB(object) > 0)
 				return table + " " + object.toString() + " ID IN DB";
 			Class cls = Person.class;

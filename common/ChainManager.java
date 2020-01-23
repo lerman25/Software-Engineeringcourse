@@ -1,6 +1,8 @@
 package common;
 
-public class ChainManager extends Person {
+import java.io.Serializable;
+
+public class ChainManager extends Person implements Serializable {
 
 	public ChainManager(Person p) {
 		super(p);
