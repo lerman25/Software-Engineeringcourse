@@ -77,6 +77,42 @@ public class DataBase {
 
 	}
 
+	public ArrayList<Item> get_flowers(String criteria, String wanted) {
+
+		ArrayList<Item> catalog = new ArrayList<Item>();
+		try {
+			ResultSet rs = this.get_TableResultSet("Item");
+
+			while (rs.next()) {
+				String Name = rs.getString("Name");
+				double Price = rs.getInt("Price");
+				String Kind = rs.getString("Kind");
+				String Color = rs.getString("Color");
+				String Size = (rs.getString("Size"));
+				String id = (rs.getString("ID"));
+				if (criteria.equals("Price")) {
+					if (rs.getInt(criteria) == Integer.parseInt(wanted)) {
+						Item newitem = new Item(Name, Price, Kind, Color, Size);
+						newitem.setId(id);
+						catalog.add(newitem);
+					}
+
+				} else {
+					if (rs.getString(criteria).equals(wanted)) {
+						Item newitem = new Item(Name, Price, Kind, Color, Size);
+						newitem.setId(id);
+						catalog.add(newitem);
+					}
+				}
+			}
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return catalog;
+
+	}
+
 	public int checkLogin_user(String username, String password) {
 		ResultSet rs;
 		try {
@@ -105,6 +141,7 @@ public class DataBase {
 		}
 
 	}
+
 	public int checkLogin_user(String username) {
 		ResultSet rs;
 		try {
@@ -113,7 +150,7 @@ public class DataBase {
 			while (rs.next()) {
 				String _username = rs.getString("Username");
 				if (_username.equals(username)) {
-						return rs.getInt("ID");
+					return rs.getInt("ID");
 
 				}
 
@@ -133,15 +170,15 @@ public class DataBase {
 
 		try {
 			String table = object.getClass().getSimpleName();
-			if (this.exists_in_DB(object) > 0)
+			if (this.exists_in_DB(object) > 0)//
 				return table + " " + object.toString() + " ID IN DB";
 			Class cls = Person.class;
 			boolean isAflag = cls.isInstance(object);
-			boolean isntPerson = !(object.getClass().getName().equals(cls.getName()));
+			boolean isntPerson = !(object.getClass().getSimpleName().equals(cls.getSimpleName()));
 			if (isAflag && isntPerson) {
 				Person p = new Person((Person) object);
 				String output = add_to_DB(p);
-				if (output.equals(p.getClass().getName() + " " + p.toString() + " ID IN DB")) {
+				if (output.equals(p.getClass().getSimpleName() + " " + p.toString() + " ID IN DB")) {
 					return (object.toString() + " Is in Person");
 				}
 				System.out.println(output);
@@ -286,9 +323,9 @@ public class DataBase {
 				stmt1.setInt(5, complaint.getOrderID());
 				stmt1.setInt(6, complaint.getID());
 				stmt1.executeUpdate();
+				break;
 
 			}
-				break;
 
 			}
 
@@ -305,14 +342,14 @@ public class DataBase {
 
 	public String delete_from_DB(Object object) {
 		try {
-			String table = object.getClass().getName();
+			String table = object.getClass().getSimpleName();
 			if (table.equals("Orders")) {
 				Orders order = (Orders) object;
 				System.out.println(delete_from_DB(order.getItemList()));
 			}
 			Class cls = Person.class;
 			boolean isAflag = cls.isInstance(object);
-			boolean isntPerson = !(object.getClass().getName().equals(cls.getName()));
+			boolean isntPerson = !(object.getClass().getSimpleName().equals(cls.getSimpleName()));
 			ResultSet rs = this.get_TableResultSet(table);
 			if (isAflag && isntPerson) {
 				Person p = new Person((Person) object);
@@ -349,7 +386,7 @@ public class DataBase {
 	}
 
 	public int exists_in_DB(Object object) {
-		String table = object.getClass().getName();
+		String table = object.getClass().getSimpleName();
 		try {
 			Class cls = Person.class;
 			boolean isAccountflag = cls.isInstance(object);
@@ -381,6 +418,15 @@ public class DataBase {
 		stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 		PreparedStatement prep_stmt = conn.prepareStatement("SELECT * FROM " + table);
+		ResultSet rs = prep_stmt.executeQuery();
+		return rs;
+	}
+
+	private ResultSet get_TableResultSet(String table, String criteria) throws SQLException {
+		Statement stmt;
+		stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
+		PreparedStatement prep_stmt = conn.prepareStatement("SELECT " + criteria + "FROM " + table);
 		ResultSet rs = prep_stmt.executeQuery();
 		return rs;
 	}
