@@ -1,6 +1,7 @@
 package server;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import common.*;
 import ocsf.server.AbstractServer;
@@ -8,10 +9,20 @@ import ocsf.server.ConnectionToClient;
 
 public class Server extends AbstractServer {
 	private DataBase mydb;
+	private ArrayList<ConnectionToClient> connectedClients;
 	public Server(int port) {
 		super(port);
+		connectedClients=new ArrayList<ConnectionToClient>();
 		// TODO Auto-generated constructor stub
 	}
+	  protected void clientConnected(ConnectionToClient client) {
+		  connectedClients.add(client);
+	  }
+	  synchronized protected void clientDisconnected(
+			    ConnectionToClient client) {
+		  connectedClients.remove(client);
+	  }
+
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
@@ -22,7 +33,14 @@ public class Server extends AbstractServer {
 		System.out.println(user);
 		System.out.println(pass);
 		if(massage.getCommand()==Commands.LOGIN)
-		System.out.println(mydb.checkLogin_user(user,pass));
+		{
+			int login= mydb.checkLogin_user(user,pass);
+			System.out.println(mydb.checkLogin_user(user,pass));
+			if(login>0)
+			{
+				client.setInfo("username",user);
+			}
+		}
 		/*switch(massage.getCommand())
 		{
 			case ADD:
