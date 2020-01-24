@@ -66,8 +66,7 @@ public class DataBase {
 				String Color = rs.getString("Color");
 				String Size = (rs.getString("Size"));
 				String id = (rs.getString("ID"));
-				Item newitem = new Item(Name, Price, Kind, Color, Size);
-				newitem.setId(id);
+				Item newitem = new Item(Name, Price, Kind, Color, Size,id);
 				catalog.add(newitem);
 			}
 
@@ -93,15 +92,13 @@ public class DataBase {
 				String id = (rs.getString("ID"));
 				if (criteria.equals("Price")) {
 					if (rs.getInt(criteria) == Integer.parseInt(wanted)) {
-						Item newitem = new Item(Name, Price, Kind, Color, Size);
-						newitem.setId(id);
+						Item newitem = new Item(Name, Price, Kind, Color, Size,id);
 						catalog.add(newitem);
 					}
 
 				} else {
 					if (rs.getString(criteria).equals(wanted)) {
-						Item newitem = new Item(Name, Price, Kind, Color, Size);
-						newitem.setId(id);
+						Item newitem = new Item(Name, Price, Kind, Color, Size,id);
 						catalog.add(newitem);
 					}
 				}
@@ -111,6 +108,65 @@ public class DataBase {
 			se.printStackTrace();
 		}
 		return catalog;
+
+	}
+
+	public ArrayList<Complaint> get_complaints() {
+
+		ArrayList<Complaint> complaints = new ArrayList<Complaint>();
+		try {
+			ResultSet rs = this.get_TableResultSet("Complaint");
+
+			while (rs.next()) {
+				Date date = rs.getDate("Date");
+				String text = rs.getString("TextField");
+				int clientID = rs.getInt("ClientID");
+				int Status = rs.getInt("Status");
+				int OrderID = (rs.getInt("OrderID"));
+				int cid = (rs.getInt("ID"));
+				Complaint complaint = new Complaint(date, text, clientID, Status, OrderID, cid);
+				complaints.add(complaint);
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return complaints;
+
+	}
+
+	public ArrayList<Complaint> get_complaints(String criteria, String wanted) {
+
+		ArrayList<Complaint> complaints = new ArrayList<Complaint>();
+		try {
+			ResultSet rs = this.get_TableResultSet("Complaint");
+
+			while (rs.next()) {
+				Date date = rs.getDate("Date");
+				String text = rs.getString("TextField");
+				int clientID = rs.getInt("ClientID");
+				int Status = rs.getInt("Status");
+				int OrderID = (rs.getInt("OrderID"));
+				int cid = (rs.getInt("ID"));
+				if (criteria.equals("ClientID")) {
+					if (rs.getInt(criteria) == Integer.parseInt(wanted)) {
+						Complaint complaint = new Complaint(date, text, clientID, Status, OrderID, cid);
+
+						complaints.add(complaint);
+					}
+
+				} else {
+					if (rs.getString(criteria).equals(wanted)) {
+						Complaint complaint = new Complaint(date, text, clientID, Status, OrderID, cid);
+						complaints.add(complaint);
+
+					}
+				}
+			}
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return complaints;
 
 	}
 

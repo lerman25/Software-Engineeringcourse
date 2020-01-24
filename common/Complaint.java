@@ -27,7 +27,15 @@ public class Complaint {
 		 orderID=_orderID;
 		 ID=++counter;
 	 }
-	 
+	 public Complaint(Date _date,String _text,int _clientID,int _status,int _orderID,int id)
+	 {
+		 date=_date;
+		 text=_text;
+		 clientID=_clientID;
+		 status=_status;
+		 orderID=_orderID;
+		 ID=id;
+	 }
 	public Date getDate() {
 		return date;
 	}

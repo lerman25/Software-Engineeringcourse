@@ -23,7 +23,15 @@ class Item {
 		setSize(_Size);
 		setId(Integer.toString(++count));
 	}
-
+	public Item(String _name, double _Price, String _Kind, String _Color, String _Size,String _id) {
+		// TODO Auto-generated constructor stub
+		setName(_name);
+		setPrice(_Price);
+		setKind(_Kind);
+		setColor(_Color);
+		setSize(_Size);
+		setId(id);
+	}
 	public String getColor() {
 		return Color;
 	}
