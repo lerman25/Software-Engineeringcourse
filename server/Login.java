@@ -1,10 +1,11 @@
- package application;
+ package server;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 
+import application.Toast;
 import common.DataBase;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -43,14 +44,14 @@ public class Login implements Initializable {
   @FXML JFXButton next;
   @FXML private JFXButton loginSignup;
   @FXML private JFXButton Back;
-//  @FXML private JFXTextField NewuserName;
+  @FXML private JFXTextField NewuserName;
   @FXML private Text password_text1;
- // @FXML private JFXPasswordField NewPassword;
- // @FXML private JFXPasswordField NewPassword1;
+  @FXML private JFXPasswordField NewPassword;
+  @FXML private JFXPasswordField NewPassword1;
   @FXML private JFXButton signup;
   @FXML private Group grpSignup;
   @FXML private Group grpLogin;
- RequiredFieldValidator reqUserValidator = new RequiredFieldValidator();
+  RequiredFieldValidator reqUserValidator = new RequiredFieldValidator();
   RequiredFieldValidator reqPasswordValidator = new RequiredFieldValidator();
 
   /**
@@ -75,9 +76,9 @@ public class Login implements Initializable {
 	    reqPasswordValidator.setMessage("Password is Required");
 	    userName.getValidators().add(reqUserValidator);
 	    password.getValidators().add(reqPasswordValidator);
-	 //   NewuserName.getValidators().add(reqUserValidator);
-	    //NewPassword.getValidators().add(reqPasswordValidator);
-	   // NewPassword1.getValidators().add(reqPasswordValidator);
+	    NewuserName.getValidators().add(reqUserValidator);
+	    NewPassword.getValidators().add(reqPasswordValidator);
+	    NewPassword1.getValidators().add(reqPasswordValidator);
 	  
   }
   
@@ -145,10 +146,10 @@ public class Login implements Initializable {
   void backToLogin(MouseEvent event) {
     grpSignup.setVisible(false);
     grpLogin.setVisible(true);
-  //  userName.setText(NewuserName.getText());
-   // NewuserName.clear();
-   // NewPassword.clear();
-   // NewPassword1.clear();
+    userName.setText(NewuserName.getText());
+    NewuserName.clear();
+    NewPassword.clear();
+    NewPassword1.clear();
   }
 
   /**
