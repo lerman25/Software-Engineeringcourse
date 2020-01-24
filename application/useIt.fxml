@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+
+<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.Controllers.MainWindowController">
+   <children>
+      <VBox fx:id="mainAnchorPaneVBox" prefHeight="600.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="mainLabel" alignment="CENTER" prefHeight="100.0" prefWidth="400.0" text="Main Menu">
+               <font>
+                  <Font name="Times New Roman" size="35.0" />
+               </font>
+            </Label>
+            <Button fx:id="mainArtistButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#onClickArtist" prefHeight="100.0" prefWidth="400.0" text="Search for Artist">
+               <font>
+                  <Font name="Times New Roman" size="35.0" />
+               </font>
+            </Button>
+            <Button fx:id="mainAlbumButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#onClickAlbum" prefHeight="100.0" prefWidth="400.0" text="Search for Album">
+               <font>
+                  <Font name="Times New Roman" size="35.0" />
+               </font>
+            </Button>
+            <Button fx:id="mainTrackButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#onClickTrack" prefHeight="100.0" prefWidth="400.0" text="Search for Track">
+               <font>
+                  <Font name="Times New Roman" size="35.0" />
+               </font>
+            </Button>
+            <Button fx:id="mainGenreButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#onClickGenre" prefHeight="100.0" prefWidth="400.0" text="Search for Genre">
+               <font>
+                  <Font name="Times New Roman" size="35.0" />
+               </font>
+            </Button>
+            <Button fx:id="mainCompilationButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#onClickCompilation" prefHeight="100.0" prefWidth="400.0" text="Search for Compilation">
+               <font>
+                  <Font name="Times New Roman" size="35.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
