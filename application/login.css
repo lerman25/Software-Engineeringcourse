@@ -1,0 +1,7 @@
+
+
+.root{
+ -fx-background-image: url("login.jpg");
+ -fx-background-repeat:no-repeat no-repeat;
+ -fx-background-position: center center;
+}
