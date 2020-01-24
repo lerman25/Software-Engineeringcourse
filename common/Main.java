@@ -10,108 +10,46 @@ import server.Server;
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-	/*	DataBase myDB = DataBase.getInstance();
-		// myDB.table_delete("Item");
-		// Item
-
-		Client c = new Client("Omer", "Lerman", 19, "@gmail", 054, "5426", 22, "Male", "haifa", "omerlerman2", "test");
-		Employee em = new Employee(1, "Omer", "Lerman", 20, "@gmail", 054, "5426", 22, "Male", "haifa", "omerlerman3",
-				"test");
-		Item item1 = new Item("item1", 10, "kind1", "color1", "size1");
-		Item item2 = new Item("item2", 20, "kind2", "color2", "size2");
-		Item item3 = new Item("item3", 30, "kind3", "color3", "size3");
-		Item item4 = new Item("item4", 40, "kind4", "color4", "size4");
-		ArrayList<Item> list = new ArrayList();
-		list.add(item4);
-		list.add(item4);
-		list.add(item4);
-		list.add(item4);
-		list.add(item3);
-		list.add(item3);
-		list.add(item3);
-		list.add(item2);
-		list.add(item2);
-		list.add(item1);
-		Orders order = new Orders(c.getId(), new Date(22, 1, 1), new Date(22, 1, 1), 0, c.getAddress(), 0,
-				c.getFirstName(), new Date(22, 1, 1));
-		ItemInOrder iio = new ItemInOrder(order.getID(), c.getId());
-		iio.setItemList(list);
-		order.setItemList(iio);
-		Complaint complient = new Complaint(new Date(22,1,1),"Not Satisfied!",c.getId(),0,order.getID());
-		
-		ShopManager sm = new ShopManager(1, "Omer", "Lerman", 20, "@gmail", 054, "5426", 22, "Male", "haifa",
-				"omerlerman1", "test");
-		ChainManager cm = new ChainManager("Omer", "Lerman", 20, "@gmail", 054, "5426", 22, "Male", "haifa",
-				"omerlerman4", "test");
-		System.out.println(myDB.add_to_DB(order));
-		System.out.println(myDB.add_to_DB(complient));
-
-		System.out.println(myDB.delete_from_DB(order));
-		System.out.println(myDB.delete_from_DB(complient));
-
-
-		/*
-		 * System.out.println(myDB.add_to_DB(c));
-		 * System.out.println(myDB.add_to_DB(em));
-		 * System.out.println(myDB.add_to_DB(sm));
-		 * System.out.println(myDB.add_to_DB(cm));
-		 * System.out.println(myDB.add_to_DB(order));
-		 * 
-		 * System.out.println(myDB.checkLogin_user("omerlerman", "test"));
-		 * System.out.println(myDB.checkLogin_user("omerlerman", "test1"));
-		 * System.out.println(myDB.checkLogin_user("omerlerman2", "test"));
-		 * System.out.println(myDB.checkLogin_user("omerlerman3", "test"));
-		 * System.out.println(myDB.delete_from_DB(c));
-		 * System.out.println(myDB.delete_from_DB(em));
-		 * System.out.println(myDB.delete_from_DB(sm));
-		 * System.out.println(myDB.delete_from_DB(cm));
-		 * 
-		 * /*ArrayList<Item> my = myDB.get_flowers(); for (int i = 0; i < my.size();
-		 * i++) { System.out.println(my.get(i).to_String() + "\n"); }
-		 * System.out.println(myDB.delete_from_DB(my.get(my.size() - 1))); my =
-		 * myDB.get_flowers(); for (int i = 0; i < my.size(); i++) {
-		 * System.out.println(my.get(i).to_String() + "\n"); }
-		 */
-	/*	DataBase myDB = DataBase.getInstance();
-		ShopManager sm = new ShopManager(1, "Omer", "Lerman", 20, "@gmail", 054, "5426", 22, "Male", "haifa",
-				"omerlerman1", "test");
-		System.out.println(myDB.add_to_DB(sm));
-		try {
-			myDB.finalize();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-
-		Server server = new Server(5555);
-		DataBase myDB=server.getDataBase();
-		LClient client = new LClient("127.0.0.1",5555);
-		try {
-			server.listen();
-			client.openConnection();
-			for(int i=0;i<10000000;i++)
-			{
-				System.out.print("");
-			}
-			client.sendToServer(new Massage(Commands.LOGIN,"omerlerman1","test"));
-			for(int i=0;i<10000000;i++)
-			{
-				System.out.print("");
-			}
-			while(true);
-			//server.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		Complaint complaint1 = new Complaint(new Date(2002,12,12),"not okay",1,1,1);
+		Complaint complaint2 = new Complaint(new Date(2002,12,12),"not okay",2,2,1);
+		Complaint complaint3 = new Complaint(new Date(2002,12,12),"not okay",3,1,1);
+		Complaint complaint4 = new Complaint(new Date(2002,12,12),"not okay",4,3,4);
+		Complaint complaint5 = new Complaint(new Date(2002,12,12),"not okay",2,1,4);
+		DataBase myDB = DataBase.getInstance();
+		myDB.add_to_DB(complaint5);
+		myDB.add_to_DB(complaint4);
+		myDB.add_to_DB(complaint3);
+		myDB.add_to_DB(complaint2);
+		myDB.add_to_DB(complaint1);
+		ArrayList<Complaint> search = new ArrayList<Complaint>();
+		search=myDB.get_complaints();
+		System.out.println("ALL");
+		for(int i=0; i<search.size();i++)
+		{
+			String id =search.get(i).toString();
+			System.out.println(id);
 		}
-		/*try {
-			myDB.finalize();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
+		search=myDB.get_complaints("ClientID","2");
+		System.out.println("ClientID");
+		for(int i=0; i<search.size();i++)
+		{
+			String id =search.get(i).toString();
+			System.out.println(id);
+		}
+		search=myDB.get_complaints("Status","1");
+		System.out.println("ClientID");
+		for(int i=0; i<search.size();i++)
+		{
+			String id =search.get(i).toString();
+			System.out.println(id);
+		}
+		search=myDB.get_complaints("OrderID","1");
+		System.out.println("ClientID");
+		for(int i=0; i<search.size();i++)
+		{
+			String id =search.get(i).toString();
+			System.out.println(id);
+		}
 	}
 
 }
