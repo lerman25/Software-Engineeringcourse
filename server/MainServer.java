@@ -18,7 +18,7 @@ public class MainServer extends Application {
 		try {
 			AnchorPane pane = FXMLLoader.load(url);
 		
-		Scene scene = new Scene(pane);
+		Scene scene = new Scene(pane,300,275);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Server");
 		primaryStage.show();
