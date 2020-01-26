@@ -14,7 +14,7 @@ public class MainServer extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		myServer= new Server(5555);
-		URL url = getClass().getResource("ServerScene.fxml");
+		URL url = getClass().getResource("Login.fxml");
 		try {
 			AnchorPane pane = FXMLLoader.load(url);
 		
