@@ -1,8 +1,15 @@
 package common;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+
 
 import client.LClient;
 import server.Server;
@@ -10,7 +17,7 @@ import server.Server;
 public class Main {
 
 	public static void main(String[] args) {
-		Complaint complaint1 = new Complaint(new Date(2002,12,12),"not okay",1,1,1);
+	/*	Complaint complaint1 = new Complaint(new Date(2002,12,12),"not okay",1,1,1);
 		Complaint complaint2 = new Complaint(new Date(2002,12,12),"not okay",2,2,1);
 		Complaint complaint3 = new Complaint(new Date(2002,12,12),"not okay",3,1,1);
 		Complaint complaint4 = new Complaint(new Date(2002,12,12),"not okay",4,3,4);
@@ -50,6 +57,31 @@ public class Main {
 			String id =search.get(i).toString();
 			System.out.println(id);
 		}
+		*/
+		DataBase myDB = DataBase.getInstance();
+		myDB.table_delete("Item");
+		Item lilac =new Item("lilac",10,"lilac","purple","big");
+		myDB.add_to_DB(lilac);
+		try {
+			BufferedImage imm = ImageIO.read(new File("C:\\Users\\user\\Pictures\\a.jpg"));
+
+
+			myDB.add_image_to_item(Integer.parseInt(lilac.getId()), imm);
+			imm = myDB.get_imageDB(Integer.parseInt(lilac.getId()));
+			File outputfile = new File("C:\\Users\\user\\Pictures\\imageResize4.jpg");
+			ImageIO.write(imm, "jpg", outputfile);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+
+		
 	}
 
 }

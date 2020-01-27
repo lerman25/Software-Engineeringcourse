@@ -8,6 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+
+import com.mysql.cj.jdbc.Blob;
+
+import java.awt.image.BufferedImage;
 import java.io.*;
 //
 
@@ -469,7 +475,58 @@ public class DataBase {
 		}
 		return -1;
 	}
+	public int add_image_to_item(int itemID,BufferedImage imm)
+	{
+				byte[] immAsBytes;
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				//use another encoding if JPG is innappropriate for you
+				try {
+					ImageIO.write(imm, "jpg", baos );
+				
+				baos.flush();
+				immAsBytes = baos.toByteArray();
+				baos.close();
+				PreparedStatement pstmt = conn.prepareStatement("UPDATE Item set `Image`=(?) WHERE `ID` = (?)");
+				ByteArrayInputStream bais = new ByteArrayInputStream(immAsBytes);
+				pstmt.setBinaryStream(1, bais, immAsBytes.length);
+				pstmt.setInt(2, itemID);
+				pstmt.executeUpdate();
+				pstmt.close();
+				return 1;
+				} catch (IOException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return 0;
+	}
+	public BufferedImage get_imageDB(int itemID)
+	{
+		Statement stmt;
+		try {
+			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+	
 
+		PreparedStatement prep_stmt = conn.prepareStatement("SELECT Image FROM Item where id = (?)");
+		prep_stmt.setInt(1, itemID);
+		ResultSet rs = get_TableResultSet("Item");
+		while (rs.next()) {
+			String id = (rs.getString("ID"));
+			if (id.equals(String.valueOf(itemID)))
+				break;
+		}
+		Blob immAsBlob = (Blob) rs.getBlob("Image");
+		byte[] immAsBytes = immAsBlob.getBytes(1, (int)immAsBlob.length());
+		InputStream in = new ByteArrayInputStream(immAsBytes);
+		BufferedImage imgFromDb = ImageIO.read(in);
+		return imgFromDb;
+		
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
 	private ResultSet get_TableResultSet(String table) throws SQLException {
 		Statement stmt;
 		stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
