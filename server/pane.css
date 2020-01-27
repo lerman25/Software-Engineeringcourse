@@ -1,0 +1,66 @@
+.root{
+
+   -fx-background-image: url("home_background.jpg");
+    -fx-background-repeat:repeat repeat;
+}
+
+.tab-pane>*.tab-header-area>*.tab-header-background {
+   -fx-background-image: url("index.jpg");
+
+         }
+.tab {
+  -fx-font-family: Arial;
+  -fx-font-size: 20;
+  
+  -fx-border-color: transparent;
+  /* This is how it is done in Button, but the -1 inset caused a white line  */
+/* to appear beneath the tab, which looks bad, so it's taken out below.    */
+/*    -fx-background-color: -fx-shadow-highlight-color, -fx-tab-border-color, -fx-inner-border, -fx-body-color;
+-fx-background-radius: 5 5 0 0, 5 5 0 0, 4 4 0 0, 3 3 0 0;
+-fx-background-insets: 0 0 -1 0, 0, 1, 2;*/
+-fx-background-insets: 0, 1, 2;
+-fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+-fx-padding: 0.083333em 0.5em 0.083333em 0.5em; /* 1 6 1 6 */
+/*    -fx-text-fill: -fx-text-base-color;*/
+}
+.tab:top 
+{
+-fx-background-color: #fff0f5;
+}
+.tab:right 
+{
+-fx-background-color:#fff0f5;
+}
+.tab:bottom 
+{
+-fx-background-color: #fff0f5;
+}
+.tab:left 
+{
+-fx-background-color: #fff0f5;
+}
+.tab:hover 
+{
+-fx-color: #fff0f5;
+}
+.tab:selected {
+    -fx-background-color: #ffc0cb;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Arc?>
+<?import javafx.scene.shape.ArcTo?>
+<?import javafx.scene.shape.ClosePath?>
+<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.shape.LineTo?>
+<?import javafx.scene.shape.MeshView?>
+<?import javafx.scene.shape.MoveTo?>
+<?import javafx.scene.shape.Path?>
+<?import javafx.scene.shape.QuadCurveTo?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@login.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <ScrollPane prefHeight="800.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="747.0" prefWidth="1143.0">
+               <children>
+                  <Arc fill="DODGERBLUE" layoutX="302.0" layoutY="302.0" length="270.0" radiusX="100.0" radiusY="100.0" startAngle="45.0" stroke="BLACK" strokeType="INSIDE" type="ROUND" />
+                  <Ellipse fill="DODGERBLUE" layoutX="693.0" layoutY="229.0" radiusX="100.0" radiusY="80.0" stroke="BLACK" strokeType="INSIDE" />
+                  <MeshView layoutX="487.0" layoutY="559.0" />
+                  <Path fill="DODGERBLUE" layoutX="645.0" layoutY="471.0" stroke="BLACK" strokeType="INSIDE">
+                      <elements>
+                          <MoveTo x="100.0" />
+                          <LineTo x="150.0" y="50.0" />
+                          <ArcTo radiusX="30.0" radiusY="25" x="200.0" y="100.0" />
+                          <QuadCurveTo controlX="300.0" controlY="300.0" y="150.0" />
+                          <ClosePath />
+                      </elements>
+                  </Path>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
