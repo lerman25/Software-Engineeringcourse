@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="EmployeeListAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.EmployeeController">
+   <children>
+      <TableView prefHeight="800.0" prefWidth="449.0">
+        <columns>
+          <TableColumn prefWidth="145.0" text="Employee" />
+          <TableColumn prefWidth="150.0" text="Rank" />
+            <TableColumn prefWidth="150.0" text="Edit" />
+        </columns>
+      </TableView>
+      <Button fx:id="goBack" layoutX="1020.0" layoutY="612.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
+   </children>
+</AnchorPane>

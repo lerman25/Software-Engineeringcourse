@@ -104,13 +104,9 @@ public class Main {
 			e1.printStackTrace();
 		}
 	
-		ArrayList<Item> search = (ArrayList<Item>)client.getReturnObject();
+		Massage msg = client.getReturnMassage();
 		System.out.println("ALL");
-		for(int i=0; i<search.size();i++)
-		{
-			String id =search.get(i).getName();
-			System.out.println(id);
-		}
+	
 		
 		
 		

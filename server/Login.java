@@ -20,7 +20,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import common.DataBase;
+import common.Commands;
+import common.Massage;
 
 public class Login implements Initializable {
     @FXML
@@ -42,17 +43,13 @@ public class Login implements Initializable {
     @FXML
     Label for_password;
 
-	DataBase mydb ;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    	mydb=DataBase.getInstance();
-    	DataBase mydb = DataBase.getInstance();
+
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int width = gd.getDisplayMode().getWidth();
         int height = gd.getDisplayMode().getHeight();
-       
-        
         anchorer.setPrefHeight(height);
         anchorer.setMinHeight(height);
         anchorer.setMaxHeight(height);
@@ -61,7 +58,7 @@ public class Login implements Initializable {
         anchorer.setMaxWidth(width);
         password.setVisible(false);
         login.setVisible(false);
-        signup.setVisible(false);
+
        /* username.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                next(e);
@@ -79,7 +76,13 @@ public class Login implements Initializable {
     public void  next(ActionEvent event){
         boolean nouser= FormValidation.textFieldNotEmpty(username,for_username,"Username is required!!");
         if(nouser){
-            if(mydb.checkLogin_user(username.getText())>0) {
+        	Massage msg = new Massage();
+        	msg.setCommand(Commands.LOGINUSERNAME);
+        	msg.setUsername(username.getText());
+        	server.Main.send_toServer(msg);
+        	msg = server.Main.get_from_server();
+        	boolean test = (boolean)msg.getObject();
+            if(test) {
                 password.setVisible(true);
                 login.setVisible(true);
                 next.setVisible(false);
@@ -103,12 +106,26 @@ public class Login implements Initializable {
         int height = gd.getDisplayMode().getHeight();
         primaryStage.setScene(new Scene(root, width, height));
     }
+      public void signup(ActionEvent event) throws IOException {
 
+          Stage primaryStage =Main.getStage();
+          Parent root = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
+          // primaryStage.setTitle("Hello World");
+          GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+          int width = gd.getDisplayMode().getWidth();
+          int height = gd.getDisplayMode().getHeight();
+          primaryStage.setScene(new Scene(root, width, height));
+
+      }
 
     public void  login(ActionEvent event) throws IOException {
         boolean nouser= FormValidation.textFieldNotEmpty(password,for_password,"Password is required!!");
         if(nouser){
-            if(mydb.checkLogin_user(username.getText(),password.getText())>0){
+        	Massage msg = new Massage(Commands.LOGIN,username.getText(),password.getText());
+        	server.Main.send_toServer(msg);
+        	msg = server.Main.get_from_server();
+        	boolean test = (boolean)msg.getObject();
+            if(test) {
                 for_password.setTextFill(Color.web("black"));
                 for_password.setText("Welcome to Lilac <3 ^_^ .!");
                //  AnchorPane newanchor = FXMLLoader.load(getClass().getResource("sample.fxml"));

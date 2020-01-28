@@ -24,6 +24,10 @@ public Massage(Commands _command,String _username, String _password)
 	username=_username;
 	password=_password;
 }
+public Massage() {
+	// TODO Auto-generated constructor stub
+}
+
 public String getUsername() {
 	return username;
 }

@@ -93,8 +93,8 @@ public class Server extends AbstractServer {
 			break;
 		}
 		case GETIMAGE: {
-			Item item = (Item) massage.getObject();
-			BufferedImage imm = mydb.get_imageDB(Integer.parseInt(item.getId()));
+			Item item1 = (Item) massage.getObject();
+			BufferedImage imm = mydb.get_imageDB(Integer.parseInt(item1.getId()));
 			try {
 				client.sendToClient(new Massage(imm, Commands.GETIMAGE));
 			} catch (IOException e) {
@@ -109,15 +109,36 @@ public class Server extends AbstractServer {
 			mydb.add_image_to_item(id, imm);
 			break;
 		}
-		case GETEMPLOYEES:
-		{
+		case GETEMPLOYEES: {
 			try {
-				client.sendToClient(new Massage(mydb.get_employees(),Commands.GETEMPLOYEES));
+				client.sendToClient(new Massage(mydb.get_employees(), Commands.GETEMPLOYEES));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
+		}
+		case LOGINUSERNAME: {
+			int test = mydb.checkLogin_user(massage.getUsername());
+			if (test > 0) {
+				try {
+					client.sendToClient(new Massage(true,Commands.LOGINUSERNAME));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			else
+			{
+				try {
+					client.sendToClient(new Massage(false,Commands.LOGINUSERNAME));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
 		}
 		}
 

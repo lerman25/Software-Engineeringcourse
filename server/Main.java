@@ -7,8 +7,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.IOException;
+
+import client.LClient;
+import common.Massage;
 
 public class Main extends Application {
+	static LClient client;
     static private  Stage stage= null;
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -25,8 +30,27 @@ public class Main extends Application {
  static public Stage getStage(){
         return stage;
     }
-
+ static public void send_toServer(Massage m)
+ {
+	 try {
+		client.sendToServer(m);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+ }
+ static Massage get_from_server()
+ {
+	 return client.getReturnMassage();
+ }
     public static void main(String[] args) {
+    	client = new LClient("127.0.0.1",5555);
+    	try {
+			client.openConnection();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         launch(args);
     }
 }

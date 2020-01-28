@@ -18,7 +18,7 @@
 
 <AnchorPane fx:id="anchorer" maxHeight="1080.0" maxWidth="1920.0" minHeight="1080.0" minWidth="1920.0" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@login.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.Login">
    <children>
-      <Pane prefHeight="642.0" prefWidth="373.0">
+      <Pane layoutX="426.0" layoutY="21.0" prefHeight="642.0" prefWidth="373.0">
          <children>
             <ImageView fitHeight="196.0" fitWidth="167.0" layoutX="139.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -36,7 +36,7 @@
             <Label fx:id="for_password" layoutX="130.0" layoutY="430.0" prefHeight="26.0" prefWidth="179.0" />
             <PasswordField fx:id="password" layoutX="133.0" layoutY="466.0" prefHeight="25.0" prefWidth="179.0" promptText="password" style="-fx-background-color: #dda0dd;" />
             <Button fx:id="login" layoutX="130.0" layoutY="506.0" mnemonicParsing="false" onAction="#login" prefHeight="26.0" prefWidth="184.0" style="-fx-background-color: #ffc0cb; -fx-background-radius: 30;" text="Log-in!" />
-            <Button fx:id="signup" layoutX="130.0" layoutY="556.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="184.0" style="-fx-background-color: #ffc0cb; -fx-background-radius: 30;" text="Sign-UP!" />
+            <Button fx:id="signup" layoutX="130.0" layoutY="556.0" mnemonicParsing="false" onAction="#signup" prefHeight="26.0" prefWidth="184.0" style="-fx-background-color: #ffc0cb; -fx-background-radius: 30;" text="Sign-UP!" />
             <Button fx:id="skip" layoutX="181.0" layoutY="598.0" mnemonicParsing="false" onAction="#skip" prefHeight="26.0" prefWidth="77.0" style="-fx-background-color: #ffc0cb; -fx-background-radius: 900;" text="Skip">
                <font>
                   <Font name="MV Boli" size="18.0" />
