@@ -30,6 +30,7 @@
             <Button fx:id="logout" layoutX="970.0" layoutY="94.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="19.0" prefWidth="59.0" text="Log Out" />
             <ImageView fitHeight="150.0" fitWidth="306.0" layoutX="32.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
                <image>
+                  <Image url="@../download.png" />
                </image>
             </ImageView>
          </children>
