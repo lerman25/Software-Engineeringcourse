@@ -69,24 +69,22 @@ public class EmployeeController implements Initializable{
     TableColumn<Orders,String> totalCost;
 
     private ObservableList<Orders> data;
-    DataBase DbConnection;
     @Override
     public void initialize(URL location,ResourceBundle resource){
-            DbConnection = DataBase.getInstance();
-            DataBase DbConnection = DataBase.getInstance();
+
         System.out.println();
 //      username.setText("Kasim Gadban");
         renderOrders();
     }
 
     private void renderOrders(){
-        System.out.println("render orders to table from DB");
+  /*      System.out.println("render orders to table from DB");
         data = FXCollections.observableArrayList();
     	Massage msg = new Massage();
     	msg.setCommand(Commands.GETEMPLOYEES);
     	msg =kasem.Main.get_from_server();
     	ArrayList<Orders> orders = (ArrayList<Orders>) msg.getObject();
-
+*/
         orderID.setCellValueFactory(new PropertyValueFactory<>("OID"));
         clientID.setCellValueFactory(new PropertyValueFactory<>("CID"));
         orderDate.setCellValueFactory(new PropertyValueFactory<>("Date"));
@@ -97,9 +95,9 @@ public class EmployeeController implements Initializable{
         deliveryCost.setCellValueFactory(new PropertyValueFactory<>("delivery cost"));
         totalCost.setCellValueFactory(new PropertyValueFactory<>("Total cost"));
 
-        tableOrders.setItems(null);
+      /*  tableOrders.setItems(null);
         tableOrders.setItems(data);
-        System.out.println(data);
+        System.out.println(data);*/
     }
     @FXML
         void  LogOut(ActionEvent event) throws IOException{
