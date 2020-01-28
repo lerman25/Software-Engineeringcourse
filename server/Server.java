@@ -41,7 +41,7 @@ public class Server extends AbstractServer {
 				client.setInfo("username",user);
 			}
 		}
-		/*switch(massage.getCommand())
+		switch(massage.getCommand())
 		{
 			case ADD:
 			{
@@ -64,11 +64,13 @@ public class Server extends AbstractServer {
 			case GETCATALOG:
 			{
 				try {
-					client.sendToClient(mydb.get_flowers());
+					Massage m = new Massage(mydb.get_flowers(),Commands.ADD);
+					client.sendToClient(m);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				break;
 
 			}
 			case UPDATE:
@@ -77,7 +79,6 @@ public class Server extends AbstractServer {
 			}
 		}
 		
-*/
 	}
 	public DataBase getDataBase()
 	{

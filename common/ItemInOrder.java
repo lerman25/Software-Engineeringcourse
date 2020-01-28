@@ -1,7 +1,8 @@
 package common;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ItemInOrder {
+public class ItemInOrder implements Serializable{
 	private ArrayList<Item> itemList;
 	private int OrderID;
 	private int ClientID;

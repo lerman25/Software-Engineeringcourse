@@ -3,6 +3,10 @@ package server;
 import java.io.IOException;
 import java.net.URL;
 
+import client.LClient;
+import common.Commands;
+import common.Massage;
+import common.Person;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,7 +18,7 @@ public class MainServer extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		myServer= new Server(5555);
-		URL url = getClass().getResource("Login.fxml");
+		URL url = getClass().getResource("ServerScene.fxml");
 		try {
 			AnchorPane pane = FXMLLoader.load(url);
 		
@@ -30,6 +34,7 @@ public class MainServer extends Application {
 
 	public static void main() {
 		launch();
+
 	}
 
 }

@@ -1,10 +1,11 @@
 package common;
 
 import java.awt.Image;
+import java.io.Serializable;
 
 //import java.awt.Image;
 
-class Item {
+public class Item implements Serializable {
 	private String Name;
 	private double Price;
 	private String Kind;

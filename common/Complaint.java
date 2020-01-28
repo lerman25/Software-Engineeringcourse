@@ -1,7 +1,8 @@
 package common;
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Complaint {
+public class Complaint implements Serializable {
 	 private Date date;
 	 private  String text;
 	 private int clientID;

@@ -1,7 +1,8 @@
 package common;
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Orders {
+public class Orders implements Serializable {
 	private int ID;
 	private int ClientID;
 	private Date Time;

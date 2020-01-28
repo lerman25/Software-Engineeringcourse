@@ -77,6 +77,40 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Server myServer= new Server(5555);
+		try {
+			myServer.listen();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			
+			e.printStackTrace();
+		}
+		LClient client =new LClient("127.0.0.1",5555);
+		try {
+			client.openConnection();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Person p = new Person("omer","lerman",2,"gmail",11,"22",11,"male","haifa","omer","lerman");
+		Person p1 = new Person("omer","lerman",2,"gmail",11,"22",11,"male","haifa","omer","lerman");
+		Client c  = new Client("omer","lerman",3,"gmail",333,"fs",22,"male","sss","omer","lerman");
+
+		Massage m = new Massage (null,Commands.GETCATALOG);
+		try {
+			client.sendToServer(m);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	
+		ArrayList<Item> search = client.catalog;
+		System.out.println("ALL");
+		for(int i=0; i<search.size();i++)
+		{
+			String id =search.get(i).getName();
+			System.out.println(id);
+		}
 		
 		
 		

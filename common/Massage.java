@@ -6,12 +6,17 @@ public class Massage implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	//private Commands command;
-	//private Object object;
+	private Object object;
 	private String username;
 	private String password;
 	private Commands command;
+public Massage(Object _object,Commands _command)
+{
+	setObject(_object);
+	command=_command;
+}
+
 public Massage(Commands _command,String _username, String _password)
 {
 	command=_command;
@@ -35,6 +40,14 @@ public Commands getCommand() {
 }
 public void setCommand(Commands command) {
 	this.command = command;
+}
+
+public Object getObject() {
+	return object;
+}
+
+public void setObject(Object object) {
+	this.object = object;
 }
 
 	
