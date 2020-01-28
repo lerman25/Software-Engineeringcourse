@@ -19,6 +19,20 @@ public  class Person implements Serializable{
 	{
 		firstName=_firstname;
 		lastName=_lastname;
+		id=_id;
+		mail=_mail;
+		phone_number=_phone;
+		credit_card=_credit;
+		age=_age;
+		gender=_gender;
+		address=_address;
+		username=_username;
+		password=_password;
+	}
+	public Person(String _firstname,String _lastname,String _mail,int _phone,String _credit,int _age,String _gender,String _address,String _username,String _password)
+	{
+		firstName=_firstname;
+		lastName=_lastname;
 		id=++counter;
 		mail=_mail;
 		phone_number=_phone;

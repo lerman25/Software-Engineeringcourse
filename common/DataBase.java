@@ -72,7 +72,7 @@ public class DataBase {
 				String Color = rs.getString("Color");
 				String Size = (rs.getString("Size"));
 				String id = (rs.getString("ID"));
-				Item newitem = new Item(Name, Price, Kind, Color, Size,id);
+				Item newitem = new Item(Name, Price, Kind, Color, Size, id);
 				catalog.add(newitem);
 			}
 
@@ -98,13 +98,13 @@ public class DataBase {
 				String id = (rs.getString("ID"));
 				if (criteria.equals("Price")) {
 					if (rs.getInt(criteria) == Integer.parseInt(wanted)) {
-						Item newitem = new Item(Name, Price, Kind, Color, Size,id);
+						Item newitem = new Item(Name, Price, Kind, Color, Size, id);
 						catalog.add(newitem);
 					}
 
 				} else {
 					if (rs.getString(criteria).equals(wanted)) {
-						Item newitem = new Item(Name, Price, Kind, Color, Size,id);
+						Item newitem = new Item(Name, Price, Kind, Color, Size, id);
 						catalog.add(newitem);
 					}
 				}
@@ -174,6 +174,56 @@ public class DataBase {
 		}
 		return complaints;
 
+	}
+
+	public Person get_person(int id) {
+		Person person = null;
+		ResultSet rs;
+		try {
+			rs = this.get_TableResultSet("Person");
+
+			while (rs.next()) {
+				int _id = rs.getInt("ID");
+				if (id == _id) {
+					String firstname = rs.getString("FirstName");
+					String lastname = rs.getString("LastName");
+					String mail = rs.getString("Mail");
+					int phone = rs.getInt("PhoneNumber");
+					String credit = rs.getString("CreditCard");
+					int age = rs.getInt("Age");
+					String gender = rs.getString("Gender");
+					String address = rs.getString("Address");
+					String username = rs.getString("Username");
+					String password = rs.getString("Password");
+					person = new Person(firstname, lastname, _id, mail, phone, credit, age, gender, address, username,
+							password);
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return person;
+
+	}
+
+	public ArrayList<Employee> get_employees() {
+		ArrayList<Employee> employees = new ArrayList<Employee>();
+		try {
+			ResultSet rs = this.get_TableResultSet("Employee");
+
+			while (rs.next()) {
+				int id = rs.getInt("ID");
+				Person person = get_person(id);
+				int branchid = rs.getInt("BranchID");
+				int rank = rs.getInt("Rank");
+				employees.add(new Employee(branchid, person.getUsername(),person.getPassword(),person));
+				
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return employees;
 	}
 
 	public int checkLogin_user(String username, String password) {
@@ -448,6 +498,12 @@ public class DataBase {
 
 	}
 
+	public int update_in_DB(Object object) {
+		delete_from_DB(object);
+		add_to_DB(object);
+		return 1;
+	}
+
 	public int exists_in_DB(Object object) {
 		String table = object.getClass().getSimpleName();
 		try {
@@ -475,58 +531,58 @@ public class DataBase {
 		}
 		return -1;
 	}
-	public int add_image_to_item(int itemID,BufferedImage imm)
-	{
-				byte[] immAsBytes;
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				//use another encoding if JPG is innappropriate for you
-				try {
-					ImageIO.write(imm, "jpg", baos );
-				
-				baos.flush();
-				immAsBytes = baos.toByteArray();
-				baos.close();
-				PreparedStatement pstmt = conn.prepareStatement("UPDATE Item set `Image`=(?) WHERE `ID` = (?)");
-				ByteArrayInputStream bais = new ByteArrayInputStream(immAsBytes);
-				pstmt.setBinaryStream(1, bais, immAsBytes.length);
-				pstmt.setInt(2, itemID);
-				pstmt.executeUpdate();
-				pstmt.close();
-				return 1;
-				} catch (IOException | SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				return 0;
+
+	public int add_image_to_item(int itemID, BufferedImage imm) {
+		byte[] immAsBytes;
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		// use another encoding if JPG is innappropriate for you
+		try {
+			ImageIO.write(imm, "jpg", baos);
+
+			baos.flush();
+			immAsBytes = baos.toByteArray();
+			baos.close();
+			PreparedStatement pstmt = conn.prepareStatement("UPDATE Item set `Image`=(?) WHERE `ID` = (?)");
+			ByteArrayInputStream bais = new ByteArrayInputStream(immAsBytes);
+			pstmt.setBinaryStream(1, bais, immAsBytes.length);
+			pstmt.setInt(2, itemID);
+			pstmt.executeUpdate();
+			pstmt.close();
+			return 1;
+		} catch (IOException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
 	}
-	public BufferedImage get_imageDB(int itemID)
-	{
+
+	public BufferedImage get_imageDB(int itemID) {
 		Statement stmt;
 		try {
 			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-	
 
-		PreparedStatement prep_stmt = conn.prepareStatement("SELECT Image FROM Item where id = (?)");
-		prep_stmt.setInt(1, itemID);
-		ResultSet rs = get_TableResultSet("Item");
-		while (rs.next()) {
-			String id = (rs.getString("ID"));
-			if (id.equals(String.valueOf(itemID)))
-				break;
-		}
-		Blob immAsBlob = (Blob) rs.getBlob("Image");
-		byte[] immAsBytes = immAsBlob.getBytes(1, (int)immAsBlob.length());
-		InputStream in = new ByteArrayInputStream(immAsBytes);
-		BufferedImage imgFromDb = ImageIO.read(in);
-		return imgFromDb;
-		
+			PreparedStatement prep_stmt = conn.prepareStatement("SELECT Image FROM Item where id = (?)");
+			prep_stmt.setInt(1, itemID);
+			ResultSet rs = get_TableResultSet("Item");
+			while (rs.next()) {
+				String id = (rs.getString("ID"));
+				if (id.equals(String.valueOf(itemID)))
+					break;
+			}
+			Blob immAsBlob = (Blob) rs.getBlob("Image");
+			byte[] immAsBytes = immAsBlob.getBytes(1, (int) immAsBlob.length());
+			InputStream in = new ByteArrayInputStream(immAsBytes);
+			BufferedImage imgFromDb = ImageIO.read(in);
+			return imgFromDb;
+
 		} catch (SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
-		
+
 	}
+
 	private ResultSet get_TableResultSet(String table) throws SQLException {
 		Statement stmt;
 		stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);

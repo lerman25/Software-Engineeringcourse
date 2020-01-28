@@ -104,7 +104,7 @@ public class Main {
 			e1.printStackTrace();
 		}
 	
-		ArrayList<Item> search = client.catalog;
+		ArrayList<Item> search = (ArrayList<Item>)client.getReturnObject();
 		System.out.println("ALL");
 		for(int i=0; i<search.size();i++)
 		{

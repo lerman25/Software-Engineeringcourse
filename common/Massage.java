@@ -11,6 +11,7 @@ public class Massage implements Serializable {
 	private String username;
 	private String password;
 	private Commands command;
+	private int id=0;
 public Massage(Object _object,Commands _command)
 {
 	setObject(_object);
@@ -48,6 +49,14 @@ public Object getObject() {
 
 public void setObject(Object object) {
 	this.object = object;
+}
+
+public int getId() {
+	return id;
+}
+
+public void setId(int id) {
+	this.id = id;
 }
 
 	

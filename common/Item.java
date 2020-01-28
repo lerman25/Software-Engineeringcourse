@@ -33,6 +33,15 @@ public class Item implements Serializable {
 		setSize(_Size);
 		setId(id);
 	}
+	public Item(Item _item)
+	{
+		setName(_item.getName());
+		setPrice(_item.getPrice());
+		setKind(_item.getKind());
+		setColor(_item.getColor());
+		setSize(_item.getSize());
+		setId(_item.getId());
+	}
 	public String getColor() {
 		return Color;
 	}
