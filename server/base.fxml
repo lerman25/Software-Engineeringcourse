@@ -74,7 +74,11 @@
    			  <fx:include source="Home.fxml" />
              </content>
           </Tab>
-          <Tab fx:id="employee" text="Emlployee" />
+          <Tab text="Employee">
+             <content>
+   			  <fx:include source="EmployeeView.fxml" />
+             </content>
+          </Tab>
         </tabs>
          <GridPane.margin>
             <Insets />

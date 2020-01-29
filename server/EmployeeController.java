@@ -1,4 +1,4 @@
-package kasem;
+package server;
 
 import common.*;
 import javafx.collections.FXCollections;
@@ -21,8 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 //import server.FormValidation;
 //import server.Main;
-
-
+import server.Main;
 
 import java.awt.*;
 import java.io.*;
@@ -89,8 +88,8 @@ public class EmployeeController implements Initializable{
     	Massage msg = new Massage();
         msg.setCommand(Commands.GETORDERS);
         data=FXCollections.observableArrayList();
-        kasem.Main.send_toServer(msg);
-        msg = kasem.Main.get_from_server();
+        server.Main.send_toServer(msg);
+        msg = server.Main.get_from_server();
         ArrayList<Orders> orders = (ArrayList<Orders>) msg.getObject();
         System.out.println("FUCK YOU DB" + orders);
         for(int i=0;i<orders.size();i++)
