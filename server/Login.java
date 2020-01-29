@@ -127,12 +127,12 @@ public class Login implements Initializable {
         	msg = server.Main.get_from_server();
         	int id = (int)msg.getObject();
         	// change test to client id then ask db for the client with that id
-            if(id>0) {
-             msg = new Massage(id,Commands.GETCLIENT);
-            	server.Main.send_toServer(msg);
-            	msg = server.Main.get_from_server();
-            	Client _client = (Client)msg.getObject();
-            	Main.set_client(_client);
+        //    if(id>0) {
+            // msg = new Massage(id,Commands.GETCLIENT);
+            //	server.Main.send_toServer(msg);
+            //	msg = server.Main.get_from_server();
+            // _client = (Client)msg.getObject();
+            //	Main.set_client(_client);
                 for_password.setTextFill(Color.web("black"));
                 for_password.setText("Welcome to Lilac <3 ^_^ .!");
                //  AnchorPane newanchor = FXMLLoader.load(getClass().getResource("server.fxml"));
@@ -154,7 +154,7 @@ public class Login implements Initializable {
                 {
                     for_password.setText("Incorrect Password!!");
 
-                }}}
+                }}
         return;
     }
 

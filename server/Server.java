@@ -35,8 +35,7 @@ public class Server extends AbstractServer {
 		Massage massage = (Massage) msg;
 		String user = massage.getUsername();
 		String pass = massage.getPassword();
-		System.out.println(user);
-		System.out.println(pass);
+		System.out.println(massage.getCommand());
 		if (massage.getCommand() == Commands.LOGIN) {
 			int login = mydb.checkLogin_user(user, pass);
 			int userid = mydb.checkLogin_user(user, pass);
@@ -95,6 +94,7 @@ public class Server extends AbstractServer {
 			break;
 		}
 		case GETIMAGE: {
+			System.out.println("send imm");
 			Item item1 = (Item) massage.getObject();
 			byte[] imm = mydb.get_imageDBasByte((Integer.parseInt(item1.getId())));
 			try {

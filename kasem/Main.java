@@ -14,7 +14,7 @@ import client.LClient;
 import common.Massage;
 
 public class Main extends Application {
-	static LClient client;
+	private static LClient client;
 
     static private  Stage stage= null;
     @Override

@@ -27,7 +27,7 @@ import common.Massage;
 
 public class ItemController {
 
-    private ItemGUI item;
+    private Item1 item;
    @FXML
    TextField name;
    @FXML
