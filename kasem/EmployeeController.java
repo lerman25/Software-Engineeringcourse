@@ -90,8 +90,6 @@ public class EmployeeController implements Initializable{
         msg.setCommand(Commands.GETORDERS);
         data=FXCollections.observableArrayList();
         kasem.Main.send_toServer(msg);
-        for(int i=0;i<1000000;i++)
-        System.out.println("");
         msg = kasem.Main.get_from_server();
         ArrayList<Orders> orders = (ArrayList<Orders>) msg.getObject();
         System.out.println("FUCK YOU DB" + orders);
