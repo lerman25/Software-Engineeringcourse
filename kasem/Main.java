@@ -11,12 +11,10 @@ import java.awt.*;
 import java.io.IOException;
 
 import client.LClient;
-import common.Client;
 import common.Massage;
 
 public class Main extends Application {
 	static LClient client;
-	private static Client lclient;
 
     static private  Stage stage= null;
     @Override
@@ -64,7 +62,6 @@ public class Main extends Application {
    	 return client.getReturnMassage();
 
     }
-    
        public static void main(String[] args) {
        	client = new LClient("127.0.0.1",5555);
        	try {
