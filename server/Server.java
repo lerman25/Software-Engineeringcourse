@@ -81,7 +81,7 @@ public class Server extends AbstractServer {
 		}
 		case GETCATALOG: {
 			try {
-				Massage m = new Massage(mydb.get_flowers(), Commands.ADD);
+				Massage m = new Massage(mydb.get_flowers(), Commands.GETCATALOG);
 				client.sendToClient(m);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -96,7 +96,7 @@ public class Server extends AbstractServer {
 		}
 		case GETIMAGE: {
 			Item item1 = (Item) massage.getObject();
-			BufferedImage imm = mydb.get_imageDB(Integer.parseInt(item1.getId()));
+			byte[] imm = mydb.get_imageDBasByte((Integer.parseInt(item1.getId())));
 			try {
 				client.sendToClient(new Massage(imm, Commands.GETIMAGE));
 			} catch (IOException e) {

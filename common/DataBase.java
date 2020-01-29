@@ -71,8 +71,9 @@ public class DataBase {
 				String Kind = rs.getString("Kind");
 				String Color = rs.getString("Color");
 				String Size = (rs.getString("Size"));
-				String id = (rs.getString("ID"));
-				Item newitem = new Item(Name, Price, Kind, Color, Size, id);
+				int id = (rs.getInt("ID"));
+				System.out.println(id);
+				Item newitem = new Item(Name, Price, Kind, Color, Size, String.valueOf(id));
 				catalog.add(newitem);
 			}
 
@@ -605,7 +606,30 @@ public class DataBase {
 		return null;
 
 	}
+	public byte[] get_imageDBasByte(int itemID) {
+		Statement stmt;
+		try {
+			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
+			PreparedStatement prep_stmt = conn.prepareStatement("SELECT Image FROM Item where id = (?)");
+			prep_stmt.setInt(1, itemID);
+			ResultSet rs = get_TableResultSet("Item");
+			while (rs.next()) {
+				String id = (rs.getString("ID"));
+				if (id.equals(String.valueOf(itemID)))
+					break;
+			}
+			Blob immAsBlob = (Blob) rs.getBlob("Image");
+			byte[] immAsBytes = immAsBlob.getBytes(1, (int) immAsBlob.length());
+			return immAsBytes;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+
+	}
 	private ResultSet get_TableResultSet(String table) throws SQLException {
 		Statement stmt;
 		stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);

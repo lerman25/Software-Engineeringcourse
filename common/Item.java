@@ -31,7 +31,7 @@ public class Item implements Serializable {
 		setKind(_Kind);
 		setColor(_Color);
 		setSize(_Size);
-		setId(id);
+		setId(_id);
 	}
 	public Item(Item _item)
 	{

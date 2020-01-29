@@ -1,5 +1,6 @@
 package server;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,9 +9,21 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
+import common.Commands;
+import common.Item;
+import common.Massage;
 
 public class ItemController {
 
@@ -25,23 +38,43 @@ public class ItemController {
 
 
 
-//    public void setItem(Item item) {
-//
-//        this.item = item ;
-//
-//        if (item == null) {
-//            name.setText(null);
-//            price.setText(null);
-//            my_image.setImage(null);
-//        } else {
-//            name.setText(item.getName());
-//            price.setText(item.getPrice());
-//            Image wayo = new Image(item.getUrl());
-//            my_image.setImage(wayo);
-//
-//
-//        }
-//    }
+    public void setItem(Item item) {
+
+
+        if (item == null) {
+            name.setText(null);
+            price.setText(null);
+            my_image.setImage(null);
+        } else {
+            name.setText(item.getName());
+            price.setText(Double.toString(item.getPrice()));
+            Massage m = new Massage(item,Commands.GETIMAGE);
+            server.Main.send_toServer(m);
+            m = server.Main.get_from_server();
+
+			byte[] immAsBytes = (byte[])m.getObject();
+			InputStream in = new ByteArrayInputStream(immAsBytes);
+			BufferedImage imgFromDb;
+			try {
+				imgFromDb = ImageIO.read(in);
+				BufferedImage resized = new BufferedImage(50, 50, imgFromDb.getType());
+				Graphics2D g = resized.createGraphics();
+				g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+				    RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+				g.drawImage(imgFromDb, 0, 0,50, 50, 0, 0, imgFromDb.getWidth(),
+						imgFromDb.getHeight(), null);
+				g.dispose();
+	            Image image = SwingFXUtils.toFXImage(imgFromDb, null);
+	            my_image.setImage(image);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
+
+        }
+    }
 //    @Override
 //    public void initialize(URL location, ResourceBundle resources) {
 //

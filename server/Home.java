@@ -45,8 +45,6 @@ public class Home implements Initializable {
         Massage msg = new Massage();
         msg.setCommand(Commands.GETCATALOG);
         server.Main.send_toServer(msg);
-        for(int i=0;i<100000;i++)
-        System.out.print("");
         msg = server.Main.get_from_server();
         ArrayList<Item> items = (ArrayList<Item>) msg.getObject();
         //
@@ -54,13 +52,14 @@ public class Home implements Initializable {
         try {
         	for(int i=0;i<2;i++)
         	{
-        		for(int j=0;j<3;j++)
+        		for(int j=1;j<4;j++)
         		{
                     FXMLLoader loader =  new FXMLLoader(getClass().getResource("Item.fxml"));
-                    catalog.add(loader.load(),i,j);
+                    catalog.add(loader.load(),j,i);
                     ItemController controller= loader.getController();
                     //setItem arraylist<count> |count  1 to 6 or 0 to 5
-                    controller.setItem("flower!","66","server/index.jpg");
+                    Item item = items.get(i+i*j);
+                    controller.setItem(item);
         		}
         	}
 

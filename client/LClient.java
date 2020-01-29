@@ -12,14 +12,22 @@ public class LClient extends AbstractClient {
 	}
 
 	@Override
-	protected void handleMessageFromServer(Object msg) {
+	protected synchronized void handleMessageFromServer(Object msg) {
 		// TODO Auto-generated method stub
 		System.out.println("hey");
 		setReturnMassage((Massage)msg);
+		returnMassage.notifyAll();
 	}
 
-	public Massage getReturnMassage() {
-		return returnMassage;
+	public synchronized Massage  getReturnMassage() {
+		Massage newmsg = returnMassage;
+		returnMassage=null;
+		return newmsg;
+		
+	}
+	public boolean isnull()
+	{
+		return returnMassage==null;
 	}
 
 	public void setReturnMassage(Massage returnMassage) {

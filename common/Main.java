@@ -60,9 +60,22 @@ public class Main {
 		*/
 		DataBase myDB = DataBase.getInstance();
 		myDB.table_delete("Item");
-		Item lilac =new Item("lilac",10,"lilac","purple","big");
-		myDB.add_to_DB(lilac);
-		try {
+		for(int i=0;i<12;i++)
+		{
+			Item lilac =new Item("lilac"+String.valueOf(i),10*i,"lilac"+String.valueOf(i),"purple","big");
+			myDB.add_to_DB(lilac);
+			try {
+				BufferedImage imm = ImageIO.read(new File("C:\\Users\\user\\Pictures\\imageResize.jpg"));
+				myDB.add_image_to_item(i+1, imm);
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
+		}
+	/*	try {
 			BufferedImage imm = ImageIO.read(new File("C:\\Users\\user\\Pictures\\a.jpg"));
 
 
@@ -106,7 +119,7 @@ public class Main {
 	
 		Massage msg = client.getReturnMassage();
 		System.out.println("ALL");
-	
+	*/
 		
 		
 		
