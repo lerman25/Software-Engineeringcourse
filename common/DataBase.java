@@ -124,17 +124,16 @@ public class DataBase {
 
 			while (rs.next()) {
 				int id = rs.getInt("ID");
-				Person person = get_person(id);
+				int clientid= rs.getInt("ClientID");
+				Date time = rs.getDate("Time");
 				Date orderdate = rs.getDate("OrderDate");
 				Date deliverytime = rs.getDate("DeliveryTime");
 				int shipment = rs.getInt("Shipment_Method");
 				String address = rs.getString("Address");
 				int receiverPone = rs.getInt("ReciverPhone");
 				String recivername = rs.getString("ReciverName");
-				Date time = rs.getDate("Time");
-				orders.add(new Orders(person.getId(),time,orderdate,shipment,address,receiverPone
-						,recivername,deliverytime));
-
+               Orders order = new Orders(clientid,time,orderdate,shipment,address,receiverPone,recivername,deliverytime);
+               orders.add(order);
 			}
 		} catch (SQLException se) {
 			se.printStackTrace();

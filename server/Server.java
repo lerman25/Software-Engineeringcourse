@@ -21,6 +21,7 @@ public class Server extends AbstractServer {
 
 	protected void clientConnected(ConnectionToClient client) {
 		connectedClients.add(client);
+		System.out.println("client connected");
 	}
 
 	synchronized protected void clientDisconnected(ConnectionToClient client) {
@@ -30,6 +31,7 @@ public class Server extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		// TODO Auto-generated method stub
+		System.out.println("Massage handling");
 		Massage massage = (Massage) msg;
 		String user = massage.getUsername();
 		String pass = massage.getPassword();
@@ -120,6 +122,7 @@ public class Server extends AbstractServer {
 		}
 		case GETORDERS: {
 			try {
+				System.out.println("hey");
 				client.sendToClient(new Massage(mydb.get_orders(), Commands.GETORDERS));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

@@ -1,9 +1,5 @@
 package kasem;
 
-import common.Commands;
-import common.DataBase;
-import common.Massage;
-import common.Orders;
 import common.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,9 +29,11 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class EmployeeController implements Initializable{
@@ -67,37 +65,51 @@ public class EmployeeController implements Initializable{
     TableColumn<Orders,String> deliveryCost;
     @FXML
     TableColumn<Orders,String> totalCost;
+    @FXML
+    Tab renderOrders;
+    @FXML
+    TableView<Employee> tableEmployee;
+    @FXML
+    TableColumn<Employee,String> EmployeeName;
+    @FXML
+    TableColumn<Employee,String> EmployeeRank;
+    @FXML
+    Button renderEmployees;
+
 
     private ObservableList<Orders> data;
+    private  ObservableList<Employee> data1;
+    DataBase DbConnection;
     @Override
     public void initialize(URL location,ResourceBundle resource){
-
-        System.out.println();
 //      username.setText("Kasim Gadban");
-        renderOrders();
     }
-
-    private void renderOrders(){
-  /*      System.out.println("render orders to table from DB");
-        data = FXCollections.observableArrayList();
+    @FXML
+     void renderOrders(){
     	Massage msg = new Massage();
-    	msg.setCommand(Commands.GETEMPLOYEES);
-    	msg =kasem.Main.get_from_server();
-    	ArrayList<Orders> orders = (ArrayList<Orders>) msg.getObject();
-*/
-        orderID.setCellValueFactory(new PropertyValueFactory<>("OID"));
-        clientID.setCellValueFactory(new PropertyValueFactory<>("CID"));
-        orderDate.setCellValueFactory(new PropertyValueFactory<>("Date"));
-        clientAdress.setCellValueFactory(new PropertyValueFactory<>("Adress"));
-        clientPhone.setCellValueFactory(new PropertyValueFactory<>("Phone"));
-        clientName.setCellValueFactory(new PropertyValueFactory<>("Name"));
-        deliveryTime.setCellValueFactory(new PropertyValueFactory<>("delivery time"));
-        deliveryCost.setCellValueFactory(new PropertyValueFactory<>("delivery cost"));
-        totalCost.setCellValueFactory(new PropertyValueFactory<>("Total cost"));
+        msg.setCommand(Commands.GETORDERS);
+        data=FXCollections.observableArrayList();
+        kasem.Main.send_toServer(msg);
+        for(int i=0;i<1000000;i++)
+        System.out.println("");
+        msg = kasem.Main.get_from_server();
+        ArrayList<Orders> orders = (ArrayList<Orders>) msg.getObject();
+        System.out.println("FUCK YOU DB" + orders);
+        for(int i=0;i<orders.size();i++)
+        data.add(orders.get(i));
+        //        orderID.setCellValueFactory(new PropertyValueFactory<>("orderID"));
+        clientID.setCellValueFactory(new PropertyValueFactory<>("clientID"));
+        orderDate.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
+        clientAdress.setCellValueFactory(new PropertyValueFactory<>("clientAdress"));
+        clientPhone.setCellValueFactory(new PropertyValueFactory<>("clientPhone"));
+        clientName.setCellValueFactory(new PropertyValueFactory<>("clientName"));
+        deliveryTime.setCellValueFactory(new PropertyValueFactory<>("delivery deliveryTime"));
+        deliveryCost.setCellValueFactory(new PropertyValueFactory<>("deliveryCost"));
+        totalCost.setCellValueFactory(new PropertyValueFactory<>("totalCost"));
 
-      /*  tableOrders.setItems(null);
+        tableOrders.setItems(null);
         tableOrders.setItems(data);
-        System.out.println(data);*/
+
     }
     @FXML
         void  LogOut(ActionEvent event) throws IOException{
@@ -122,7 +134,30 @@ public class EmployeeController implements Initializable{
         primaryStage.setScene(new Scene(root, width, height));
         primaryStage.show();
     }
+    @FXML
+    void renderEmployees(){
+     /*   try{
+            System.out.println("render Employees to table from DB");
+            DbConnection = DataBase.getInstance();
+            data1 = FXCollections.observableArrayList();
+            ResultSet rs = DbConnection.get_TableResultSet("Employee");
+            while(rs.next()){
+        System.out.println (rs.getInt (2) +" ----- "+ rs.getString (3) +" ----- "+ rs.getString (4) +"- --- "+ rs.getString (5));
+                data1.add(
+                        new Employee(rs.getInt(1),rs.getString(0),rs.getString(3),
+                        rs.getInt(4),rs.getString(5),rs.getInt(6),
+                        rs.getString(7),rs.getInt(8),rs.getString(9),
+                        rs.getString(10),rs.getString(12),rs.getString(13)));
+            }
+        } catch (SQLException ex){
+            System.err.println("ERROR" + ex);
+        }*/
+        EmployeeName.setCellValueFactory(new PropertyValueFactory<>("EmployeeName"));
+        EmployeeRank.setCellValueFactory(new PropertyValueFactory<>("EmployeeRank"));
 
+        tableEmployee.setItems(null);
+        tableEmployee.setItems(data1);
+    }
     @FXML
     public void goBack(javafx.event.ActionEvent actionEvent) throws IOException {
         Stage primaryStage = Main.getStage();

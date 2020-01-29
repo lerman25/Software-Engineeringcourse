@@ -14,6 +14,7 @@ public class LClient extends AbstractClient {
 	@Override
 	protected void handleMessageFromServer(Object msg) {
 		// TODO Auto-generated method stub
+		System.out.println("hey");
 		setReturnMassage((Massage)msg);
 	}
 
