@@ -59,7 +59,7 @@ public class Main {
 		}
 		*/
 		DataBase myDB = DataBase.getInstance();
-		myDB.table_delete("Item");
+		/*myDB.table_delete("Item");
 		for(int i=0;i<12;i++)
 		{
 			Item lilac =new Item("lilac"+String.valueOf(i),10*i,"lilac"+String.valueOf(i),"purple","big");
@@ -74,7 +74,9 @@ public class Main {
 			}
 
 
-		}
+		}*/
+		myDB.add_to_DB(new Client("omer","lerman",3,"gmail",054,"5422",22,"male","haifa","omeromer","test"));
+
 	/*	try {
 			BufferedImage imm = ImageIO.read(new File("C:\\Users\\user\\Pictures\\a.jpg"));
 

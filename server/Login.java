@@ -128,10 +128,11 @@ public class Login implements Initializable {
         	int id = (int)msg.getObject();
         	// change test to client id then ask db for the client with that id
             if(id>0) {
-            	 msg = new Massage(id,Commands.GETCLIENT);
+             msg = new Massage(id,Commands.GETCLIENT);
             	server.Main.send_toServer(msg);
             	msg = server.Main.get_from_server();
-            	Main.set_client((Client)msg.getObject());
+            	Client _client = (Client)msg.getObject();
+            	Main.set_client(_client);
                 for_password.setTextFill(Color.web("black"));
                 for_password.setText("Welcome to Lilac <3 ^_^ .!");
                //  AnchorPane newanchor = FXMLLoader.load(getClass().getResource("server.fxml"));

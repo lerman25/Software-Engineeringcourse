@@ -211,7 +211,7 @@ public class DataBase {
 				if (id == _id) {
 					String firstname = rs.getString("FirstName");
 					String lastname = rs.getString("LastName");
-					String mail = rs.getString("Mail");
+					String mail = rs.getString("EMail");
 					int phone = rs.getInt("PhoneNumber");
 					String credit = rs.getString("CreditCard");
 					int age = rs.getInt("Age");
@@ -263,6 +263,7 @@ public class DataBase {
 					String user = rs.getString("Username");
 					String password = rs.getString("Password");
 					client=new Client(user,password,get_person(_id));
+					System.out.println("CLient");
 				}
 			}
 			} catch (SQLException e) {

@@ -122,7 +122,6 @@ public class Server extends AbstractServer {
 		}
 		case GETORDERS: {
 			try {
-				System.out.println("hey");
 				client.sendToClient(new Massage(mydb.get_orders(), Commands.GETORDERS));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -142,11 +141,13 @@ public class Server extends AbstractServer {
 		case GETCLIENT:
 		{
 			try {
-				client.sendToClient(new Massage(mydb.get_client(massage.getId()), Commands.GETCLIENT));
+				System.out.println("GETCLIENT");
+				client.sendToClient(new Massage(mydb.get_client((int)massage.getObject()), Commands.GETCLIENT));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			break;
 		}
 		case LOGINUSERNAME: {
 			int test = mydb.checkLogin_user(massage.getUsername());
@@ -169,6 +170,7 @@ public class Server extends AbstractServer {
 				}
 
 			}
+			break;
 		}
 		}
 
