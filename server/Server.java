@@ -118,6 +118,15 @@ public class Server extends AbstractServer {
 			}
 			break;
 		}
+		case GETORDERS: {
+			try {
+				client.sendToClient(new Massage(mydb.get_orders(), Commands.GETORDERS));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
 		case LOGINUSERNAME: {
 			int test = mydb.checkLogin_user(massage.getUsername());
 			if (test > 0) {

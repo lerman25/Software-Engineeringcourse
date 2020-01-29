@@ -117,7 +117,30 @@ public class DataBase {
 		return catalog;
 
 	}
+	public ArrayList<Orders> get_orders() {
+		ArrayList<Orders> orders = new ArrayList<Orders>();
+		try {
+			ResultSet rs = this.get_TableResultSet("Orders");
 
+			while (rs.next()) {
+				int id = rs.getInt("ID");
+				Person person = get_person(id);
+				Date orderdate = rs.getDate("OrderDate");
+				Date deliverytime = rs.getDate("DeliveryTime");
+				int shipment = rs.getInt("Shipment_Method");
+				String address = rs.getString("Address");
+				int receiverPone = rs.getInt("ReciverPhone");
+				String recivername = rs.getString("ReciverName");
+				Date time = rs.getDate("Time");
+				orders.add(new Orders(person.getId(),time,orderdate,shipment,address,receiverPone
+						,recivername,deliverytime));
+
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return orders;
+	}
 	public ArrayList<Complaint> get_complaints() {
 
 		ArrayList<Complaint> complaints = new ArrayList<Complaint>();
