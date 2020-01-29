@@ -25,137 +25,132 @@ import common.Commands;
 import common.Massage;
 
 public class Login implements Initializable {
-    @FXML
-    AnchorPane anchorer;
-    @FXML
-    TextField username;
-    @FXML
-    PasswordField password;
-    @FXML
-    Button next;
-    @FXML
-    Button skip;
-    @FXML
-    Button login;
-    @FXML
-    Button signup;
-    @FXML
-    Label for_username;
-    @FXML
-    Label for_password;
+	@FXML
+	AnchorPane anchorer;
+	@FXML
+	TextField username;
+	@FXML
+	PasswordField password;
+	@FXML
+	Button next;
+	@FXML
+	Button skip;
+	@FXML
+	Button login;
+	@FXML
+	Button signup;
+	@FXML
+	Label for_username;
+	@FXML
+	Label for_password;
 
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		int width = gd.getDisplayMode().getWidth();
+		int height = gd.getDisplayMode().getHeight();
+		anchorer.setPrefHeight(height);
+		anchorer.setMinHeight(height);
+		anchorer.setMaxHeight(height);
+		anchorer.setPrefWidth(width);
+		anchorer.setMinWidth(width);
+		anchorer.setMaxWidth(width);
+		password.setVisible(false);
+		login.setVisible(false);
 
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int width = gd.getDisplayMode().getWidth();
-        int height = gd.getDisplayMode().getHeight();
-        anchorer.setPrefHeight(height);
-        anchorer.setMinHeight(height);
-        anchorer.setMaxHeight(height);
-        anchorer.setPrefWidth(width);
-        anchorer.setMinWidth(width);
-        anchorer.setMaxWidth(width);
-        password.setVisible(false);
-        login.setVisible(false);
+		/*
+		 * username.setOnKeyPressed(e -> { if (e.getCode() == KeyCode.ENTER) { next(e);
+		 * } });
+		 */
+		for_username.setText("please enter your Username:");
+		username.textProperty().addListener((observable, oldValue, newValue) -> {
+			next.setDisable(false);
+		});
 
-       /* username.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.ENTER) {
-               next(e);
-            }
-        });*/
-        for_username.setText("please enter your Username:");
-        username
-                .textProperty()
-                .addListener(
-                        (observable, oldValue, newValue) -> {
-                            next.setDisable(false);
-                        });
+	}
 
-    }
-    public void  next(ActionEvent event){
-        boolean nouser= FormValidation.textFieldNotEmpty(username,for_username,"Username is required!!");
-        if(nouser){
-        	Massage msg = new Massage();
-        	msg.setCommand(Commands.LOGINUSERNAME);
-        	msg.setUsername(username.getText());
-        	server.Main.send_toServer(msg);
-        	msg = server.Main.get_from_server();
-        	boolean test = (boolean)msg.getObject();
-            if(test) {
-                password.setVisible(true);
-                login.setVisible(true);
-                next.setVisible(false);
-                for_password.setText("Enter your Password");
-                for_username.setVisible(false);
-            }else{
-                if(!(username.getText().isEmpty()))
-                {
-                    for_username.setText("Username dosen't Exist!");
-                }
-            }
-            }
-        return;
-    }
-    public void  skip(ActionEvent event) throws IOException {
-        Stage primaryStage =Main.getStage();
-        Parent root = FXMLLoader.load(getClass().getResource("base.fxml"));
-        // primaryStage.setTitle("Hello World");
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int width = gd.getDisplayMode().getWidth();
-        int height = gd.getDisplayMode().getHeight();
-        primaryStage.setScene(new Scene(root, width, height));
-    }
-      public void signup(ActionEvent event) throws IOException {
+	public void next(ActionEvent event) {
+		boolean nouser = FormValidation.textFieldNotEmpty(username, for_username, "Username is required!!");
+		if (nouser) {
+			Massage msg = new Massage();
+			msg.setCommand(Commands.LOGINUSERNAME);
+			msg.setUsername(username.getText());
+			server.Main.send_toServer(msg);
+			msg = server.Main.get_from_server();
+			boolean test = (boolean) msg.getObject();
+			if (test) {
+				password.setVisible(true);
+				login.setVisible(true);
+				next.setVisible(false);
+				for_password.setText("Enter your Password");
+				for_username.setVisible(false);
+			} else {
+				if (!(username.getText().isEmpty())) {
+					for_username.setText("Username dosen't Exist!");
+				}
+			}
+		}
+		return;
+	}
 
-          Stage primaryStage =Main.getStage();
-          Parent root = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
-          // primaryStage.setTitle("Hello World");
-          GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-          int width = gd.getDisplayMode().getWidth();
-          int height = gd.getDisplayMode().getHeight();
-          primaryStage.setScene(new Scene(root, width, height));
+	public void skip(ActionEvent event) throws IOException {
+		Stage primaryStage = Main.getStage();
+		Parent root = FXMLLoader.load(getClass().getResource("base.fxml"));
+		// primaryStage.setTitle("Hello World");
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		int width = gd.getDisplayMode().getWidth();
+		int height = gd.getDisplayMode().getHeight();
+		primaryStage.setScene(new Scene(root, width, height));
+	}
 
-      }
+	public void signup(ActionEvent event) throws IOException {
 
-    public void  login(ActionEvent event) throws IOException {
-        boolean nouser= FormValidation.textFieldNotEmpty(password,for_password,"Password is required!!");
-        if(nouser){
-        	Massage msg = new Massage(Commands.LOGIN,username.getText(),password.getText());
-        	server.Main.send_toServer(msg);
-        	msg = server.Main.get_from_server();
-        	int id = (int)msg.getObject();
-        	// change test to client id then ask db for the client with that id
-        //    if(id>0) {
-            // msg = new Massage(id,Commands.GETCLIENT);
-            //	server.Main.send_toServer(msg);
-            //	msg = server.Main.get_from_server();
-            // _client = (Client)msg.getObject();
-            //	Main.set_client(_client);
-                for_password.setTextFill(Color.web("black"));
-                for_password.setText("Welcome to Lilac <3 ^_^ .!");
-               //  AnchorPane newanchor = FXMLLoader.load(getClass().getResource("server.fxml"));
-              //   anchorer.getChildren().setAll(newanchor);
-                // primaryStage.setTitle("Hello World");
-                Stage primaryStage =Main.getStage();
-                Parent root = FXMLLoader.load(getClass().getResource("base.fxml"));
-                // primaryStage.setTitle("Hello World");
-                GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-                int width = gd.getDisplayMode().getWidth();
-                int height = gd.getDisplayMode().getHeight();
-                primaryStage.setScene(new Scene(root, width, height));
+		Stage primaryStage = Main.getStage();
+		Parent root = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
+		// primaryStage.setTitle("Hello World");
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		int width = gd.getDisplayMode().getWidth();
+		int height = gd.getDisplayMode().getHeight();
+		primaryStage.setScene(new Scene(root, width, height));
 
+	}
 
+	public void login(ActionEvent event) throws IOException {
+		boolean nouser = FormValidation.textFieldNotEmpty(password, for_password, "Password is required!!");
+		if (nouser) {
+			Massage msg = new Massage(Commands.LOGIN, username.getText(), password.getText());
+			server.Main.send_toServer(msg);
+			msg = server.Main.get_from_server();
+			int id = (int) msg.getObject();
+			if (id > 0) {
+				msg = new Massage(id, Commands.GETCLIENT);
+				server.Main.send_toServer(msg);
+				msg = server.Main.get_from_server();
+				Client _client = (Client) msg.getObject();
+				Main.set_client(_client);
+				for_password.setTextFill(Color.web("black"));
+				for_password.setText("Welcome to Lilac <3 ^_^ .!");
+				// AnchorPane newanchor =
+				// FXMLLoader.load(getClass().getResource("server.fxml"));
+				// anchorer.getChildren().setAll(newanchor);
+				// primaryStage.setTitle("Hello World");
+				Stage primaryStage = Main.getStage();
+				Parent root = FXMLLoader.load(getClass().getResource("base.fxml"));
+				// primaryStage.setTitle("Hello World");
+				GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+				int width = gd.getDisplayMode().getWidth();
+				int height = gd.getDisplayMode().getHeight();
+				primaryStage.setScene(new Scene(root, width, height));
 
+			} else {
+				if (!(password.getText().isEmpty())) {
+					for_password.setText("Incorrect Password!!");
 
-            }else{
-                if(!(password.getText().isEmpty()))
-                {
-                    for_password.setText("Incorrect Password!!");
+				}
+			}
+			return;
+		}
 
-                }}
-        return;
-    }
-
+	}
 }

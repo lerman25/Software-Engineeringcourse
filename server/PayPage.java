@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import common.Client;
+
 public class PayPage  implements Initializable {
     @FXML
     TextField name1;
@@ -27,12 +29,20 @@ public class PayPage  implements Initializable {
     Button payFinal;
     @FXML
     Button backToHome;
-
+    Client client ;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	client = server.Main.get_client();
+    	if(client !=null)
+    	{
+    	name1.setText(client.getFirstName()+" "+client.getLastName());
+    	creditCard.setText(client.getCredit_card());
+    	}
+    	else
+    		System.out.println("Client is null");
         }
     public void buyB(MouseEvent event) throws IOException {
-
+    	
         AlertBox.display("Payment","SUCCESS!");
     }
     public void backHome(MouseEvent event) throws IOException {
