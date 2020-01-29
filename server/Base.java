@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 
@@ -21,9 +22,12 @@ public class Base  implements Initializable {
     @FXML
     Button login;
     @FXML
+    Button signup;
+    @FXML
     TabPane pane;
     @FXML
     Tab home;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -38,5 +42,13 @@ public class Base  implements Initializable {
         int height = gd.getDisplayMode().getHeight();
         primaryStage.setScene(new Scene(root, width, height));
     }
-
+    public void signup(ActionEvent event) throws IOException {
+        Stage primaryStage =Main.getStage();
+        Parent root = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
+        // primaryStage.setTitle("Hello World");
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        int width = gd.getDisplayMode().getWidth();
+        int height = gd.getDisplayMode().getHeight();
+        primaryStage.setScene(new Scene(root, width, height));
+    }
 }

@@ -48,7 +48,7 @@ public class Main extends Application {
    		e.printStackTrace();
    	}
     }
-    static Massage get_from_server()
+    public static Massage get_from_server()
     {
    	 return client.getReturnMassage();
     }

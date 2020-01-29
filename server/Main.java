@@ -14,6 +14,7 @@ import common.Massage;
 
 public class Main extends Application {
 	static LClient client;
+
     static private  Stage stage= null;
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -30,6 +31,7 @@ public class Main extends Application {
  static public Stage getStage(){
         return stage;
     }
+
  static public void send_toServer(Massage m)
  {
 	 try {
