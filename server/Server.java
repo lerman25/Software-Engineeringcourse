@@ -39,11 +39,11 @@ public class Server extends AbstractServer {
 		System.out.println(pass);
 		if (massage.getCommand() == Commands.LOGIN) {
 			int login = mydb.checkLogin_user(user, pass);
-			System.out.println(mydb.checkLogin_user(user, pass));
+			int userid = mydb.checkLogin_user(user, pass);
 			if (login > 0) {
 				client.setInfo("username", user);
 				try {
-					client.sendToClient(new Massage(true, Commands.LOGIN));
+					client.sendToClient(new Massage(userid, Commands.LOGIN));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -51,7 +51,7 @@ public class Server extends AbstractServer {
 
 			}
 			try {
-				client.sendToClient(new Massage(false, Commands.LOGIN));
+				client.sendToClient(new Massage(-1, Commands.LOGIN));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -129,6 +129,24 @@ public class Server extends AbstractServer {
 				e.printStackTrace();
 			}
 			break;
+		}
+		case GETPERSON:
+		{
+			try {
+				client.sendToClient(new Massage(mydb.get_person(massage.getId()), Commands.GETPERSON));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		case GETCLIENT:
+		{
+			try {
+				client.sendToClient(new Massage(mydb.get_client(massage.getId()), Commands.GETCLIENT));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		case LOGINUSERNAME: {
 			int test = mydb.checkLogin_user(massage.getUsername());

@@ -249,6 +249,28 @@ public class DataBase {
 		}
 		return employees;
 	}
+	public Client get_client(int id) {
+		Client client=null;
+
+			ResultSet rs;
+			try {
+				rs = this.get_TableResultSet("Client");
+			
+			while (rs.next()) {
+				int _id = rs.getInt("ID");
+				if(_id==id)
+				{
+					String user = rs.getString("Username");
+					String password = rs.getString("Password");
+					client=new Client(user,password,get_person(_id));
+				}
+			}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		return client;
+	}
 
 	public int checkLogin_user(String username, String password) {
 		ResultSet rs;

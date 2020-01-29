@@ -6,6 +6,11 @@ public class Client extends Person {
 		super(_firstname, _lastname, _id, _mail, _phone, _credit, _age, _gender, _address, _username, _password);
 		// TODO Auto-generated constructor stub
 	}
+	public Client( String _username, String _password, Person p) {
+		super(p);
+		// TODO Auto-generated constructor stub
+	}
+
 
 	public String getUsername() {
 		return super.getUsername();

@@ -11,10 +11,12 @@ import java.awt.*;
 import java.io.IOException;
 
 import client.LClient;
+import common.Client;
 import common.Massage;
 
 public class Main extends Application {
 	static LClient client;
+	private static Client lclient;
 
     static private  Stage stage= null;
     @Override
@@ -48,10 +50,21 @@ public class Main extends Application {
    		e.printStackTrace();
    	}
     }
-    public static Massage get_from_server()
-    {
+    static  Massage get_from_server()
+    {		
+   	 while(client.isnull())
+   	 {
+   		 try {
+   			Thread.sleep(300);
+   		} catch (InterruptedException e) {
+   			// TODO Auto-generated catch block
+   			e.printStackTrace();
+   		}
+   	 }
    	 return client.getReturnMassage();
+
     }
+    
        public static void main(String[] args) {
        	client = new LClient("127.0.0.1",5555);
        	try {

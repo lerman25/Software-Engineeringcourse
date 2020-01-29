@@ -11,11 +11,12 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import client.LClient;
+import common.Client;
 import common.Massage;
 
 public class Main extends Application {
 	static LClient client;
-
+	private static Client _client;
     static private  Stage stage= null;
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -59,6 +60,7 @@ public class Main extends Application {
 
  }
     public static void main(String[] args) {
+    	set_client(null);
     	client = new LClient("127.0.0.1",5555);
     	try {
 			client.openConnection();
@@ -68,4 +70,10 @@ public class Main extends Application {
 		}
         launch(args);
     }
+	public static Client get_client() {
+		return _client;
+	}
+	public static void set_client(Client _client) {
+		Main._client = _client;
+	}
 }
