@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -34,6 +35,8 @@ public class Item1 implements Initializable {
     private TextField price;
     @FXML
     private ImageView backHome;
+    @FXML
+    private Button buyBtton ;
     @FXML
     private StackPane anchory;
     private Item item;
@@ -65,5 +68,13 @@ public class Item1 implements Initializable {
         int height = gd.getDisplayMode().getHeight();
         primaryStage.setScene(new Scene(root, width, height));
     }
-
+    public void buyB(MouseEvent event) throws IOException {
+        Stage primaryStage =Main.getStage();
+        Parent root = FXMLLoader.load(getClass().getResource("PayPage.fxml"));
+        // primaryStage.setTitle("Hello World");
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        int width = gd.getDisplayMode().getWidth();
+        int height = gd.getDisplayMode().getHeight();
+        primaryStage.setScene(new Scene(root, width, height));
+    }
 }

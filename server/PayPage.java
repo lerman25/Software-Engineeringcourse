@@ -6,9 +6,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 
@@ -17,35 +18,26 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Base  implements Initializable {
+public class PayPage  implements Initializable {
     @FXML
-    Button login;
+    TextField name1;
     @FXML
-    Button signup;
+    TextField creditCard;
     @FXML
-    TabPane pane;
+    Button payFinal;
     @FXML
-    Tab home;
-    @FXML
-    Tab employee;
+    Button backToHome;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        }
+    public void buyB(MouseEvent event) throws IOException {
 
-
+        AlertBox.display("Payment","SUCCESS!");
     }
-    public void login(ActionEvent event) throws IOException {
+    public void backHome(MouseEvent event) throws IOException {
         Stage primaryStage =Main.getStage();
-        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        // primaryStage.setTitle("Hello World");
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int width = gd.getDisplayMode().getWidth();
-        int height = gd.getDisplayMode().getHeight();
-        primaryStage.setScene(new Scene(root, width, height));
-    }
-    public void signup(ActionEvent event) throws IOException {
-        Stage primaryStage =Main.getStage();
-        Parent root = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("base.fxml"));
         // primaryStage.setTitle("Hello World");
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int width = gd.getDisplayMode().getWidth();

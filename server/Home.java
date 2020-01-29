@@ -58,9 +58,14 @@ public class Home implements Initializable {
                     catalog.add(loader.load(),j,i);
                     ItemController controller= loader.getController();
                     //setItem arraylist<count> |count  1 to 6 or 0 to 5
-                    Item item = items.get(i+i*j);
-                    if(item!=null)
-                    controller.setItem(item);
+                    if((i+i*j)<items.size())
+                    {
+                        Item item = items.get(i+i*j);
+                        controller.setItem(item);
+
+
+                    }
+
         		}
         	}
 

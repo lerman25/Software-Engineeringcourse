@@ -3,11 +3,15 @@ package server;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -27,7 +31,7 @@ import common.Massage;
 
 public class ItemController {
 
-    private Item1 item;
+    private Item _item;
    @FXML
    TextField name;
    @FXML
@@ -40,7 +44,7 @@ public class ItemController {
 
     public void setItem(Item item) {
 
-
+    	_item=item;
         if (item == null) {
             name.setText(null);
             price.setText(null);
@@ -90,7 +94,32 @@ public void setItem(String name1,String price1,String image1 ) {
     @FXML
     public void setMy_image(MouseEvent event) {
 
-        AlertBox.display("Alert!","Do you want to add this item to cart ?");
-       return;
+
+         Stage primaryStage =Main.getStage();
+         FXMLLoader loader = new FXMLLoader();
+         loader.setLocation(Main.class.getResource("item1.fxml"));
+         StackPane mainLayout;
+		try {
+			mainLayout = loader.load();
+	        Item1 cvc = loader.getController(); // This did the "trick"
+
+	         cvc.setItem(_item); // Passing the client-object to the ClientViewController
+
+	         Scene scene = new Scene(mainLayout, 1900, 1080);
+	         primaryStage.setScene(scene);
+	         primaryStage.setResizable(true);
+	         primaryStage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+ 
+
+
+         //AlertBox.display("Alert!","Do you want to add this item to cart ?");
+
+
+        return;
     }
 }
