@@ -128,7 +128,7 @@ public class Login implements Initializable {
             if(test) {
                 for_password.setTextFill(Color.web("black"));
                 for_password.setText("Welcome to Lilac <3 ^_^ .!");
-               //  AnchorPane newanchor = FXMLLoader.load(getClass().getResource("sample.fxml"));
+               //  AnchorPane newanchor = FXMLLoader.load(getClass().getResource("server.fxml"));
               //   anchorer.getChildren().setAll(newanchor);
                 // primaryStage.setTitle("Hello World");
                 Stage primaryStage =Main.getStage();

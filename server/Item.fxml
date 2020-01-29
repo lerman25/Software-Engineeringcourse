@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="275.0" maxWidth="630.0" minHeight="275.0" minWidth="630.0" prefHeight="280.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ItemController">
+<AnchorPane maxHeight="275.0" maxWidth="630.0" minHeight="275.0" minWidth="630.0" prefHeight="280.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.ItemController">
    <children>
       <ImageView fx:id="my_image" fitHeight="231.0" fitWidth="267.0" layoutX="30.0" layoutY="13.0" onMouseClicked="#setMy_image" onMouseDragged="#setMy_image" pickOnBounds="true" preserveRatio="true" />
       <TextField fx:id="name" layoutX="309.0" layoutY="63.0" prefHeight="98.0" prefWidth="307.0" style="-fx-background-color: transparent;">

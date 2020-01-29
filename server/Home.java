@@ -43,21 +43,31 @@ public class Home implements Initializable {
         previous.setVisible(false);
         //get all items to fill the list of the gridpane
         Massage msg = new Massage();
-        msg.setCommand(Commands.GETORDERS);
-        kasem.Main.send_toServer(msg);
-        msg = kasem.Main.get_from_server();
-        ArrayList<Item> orders = (ArrayList<Item>) msg.getObject();
+        msg.setCommand(Commands.GETCATALOG);
+        server.Main.send_toServer(msg);
+        for(int i=0;i<100000;i++)
+        System.out.print("");
+        msg = server.Main.get_from_server();
+        ArrayList<Item> items = (ArrayList<Item>) msg.getObject();
         //
+        int size = items.size()>12?12:items.size();
         try {
-          //for grid from 0,0 to 2,1
-            FXMLLoader loader =  new FXMLLoader(getClass().getResource("Item.fxml"));
-            catalog.add(loader.load(),2,0);
-            ItemController controller= loader.getController();
-            //setItem arraylist<count> |count  1 to 6 or 0 to 5
-            controller.setItem("flower!","66","sample/index.jpg");
+        	for(int i=0;i<2;i++)
+        	{
+        		for(int j=0;j<3;j++)
+        		{
+                    FXMLLoader loader =  new FXMLLoader(getClass().getResource("Item.fxml"));
+                    catalog.add(loader.load(),i,j);
+                    ItemController controller= loader.getController();
+                    //setItem arraylist<count> |count  1 to 6 or 0 to 5
+                    controller.setItem("flower!","66","server/index.jpg");
+        		}
+        	}
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+       
   //  public void nextpage
         }
     }
