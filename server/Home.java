@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ListView;
@@ -49,6 +50,7 @@ public class Home implements Initializable {
         ArrayList<Item> items = (ArrayList<Item>) msg.getObject();
         //
         int size = items.size()>12?12:items.size();
+       catalog.setCursor(Cursor.WAIT);
         try {
         	for(int i=0;i<2;i++)
         	{
@@ -72,6 +74,8 @@ public class Home implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        catalog.setCursor(Cursor.DEFAULT);
+
        
   //  public void nextpage
         }

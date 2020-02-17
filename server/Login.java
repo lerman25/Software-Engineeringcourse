@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -73,12 +74,15 @@ public class Login implements Initializable {
 	public void next(ActionEvent event) {
 		boolean nouser = FormValidation.textFieldNotEmpty(username, for_username, "Username is required!!");
 		if (nouser) {
+			anchorer.setCursor(Cursor.WAIT);
 			Massage msg = new Massage();
 			msg.setCommand(Commands.LOGINUSERNAME);
 			msg.setUsername(username.getText());
 			server.Main.send_toServer(msg);
 			msg = server.Main.get_from_server();
 			boolean test = (boolean) msg.getObject();
+			anchorer.setCursor(Cursor.DEFAULT);
+
 			if (test) {
 				password.setVisible(true);
 				login.setVisible(true);
@@ -119,10 +123,13 @@ public class Login implements Initializable {
 	public void login(ActionEvent event) throws IOException {
 		boolean nouser = FormValidation.textFieldNotEmpty(password, for_password, "Password is required!!");
 		if (nouser) {
+			System.out.println("wait curser");
+			anchorer.setCursor(Cursor.WAIT);
 			Massage msg = new Massage(Commands.LOGIN, username.getText(), password.getText());
 			server.Main.send_toServer(msg);
 			msg = server.Main.get_from_server();
 			int id = (int) msg.getObject();
+
 			if (id > 0) {
 				msg = new Massage(id, Commands.GETCLIENT);
 				server.Main.send_toServer(msg);
@@ -142,6 +149,7 @@ public class Login implements Initializable {
 				int width = gd.getDisplayMode().getWidth();
 				int height = gd.getDisplayMode().getHeight();
 				primaryStage.setScene(new Scene(root, width, height));
+
 
 			} else {
 				if (!(password.getText().isEmpty())) {

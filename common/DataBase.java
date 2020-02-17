@@ -59,7 +59,7 @@ public class DataBase {
 	}
 	public int getLastID(String object)
 	{
-		int maxID=-1;
+		int maxID=0;
 		try {
 			ResultSet rs = this.get_TableResultSet(object);
 			while(rs.next())

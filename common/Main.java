@@ -59,9 +59,9 @@ public class Main {
 		}
 		*/
 		DataBase myDB = DataBase.getInstance();
-		myDB.table_delete("Client");
-		myDB.table_delete("Person");
-		myDB.table_delete("Employee");
+		//myDB.table_delete("Client");
+	//	//myDB.table_delete("Person");
+		//myDB.table_delete("Employee");
 
 		/*for(int i=0;i<3;i++)
 		{
