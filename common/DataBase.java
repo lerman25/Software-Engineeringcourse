@@ -405,7 +405,6 @@ public class DataBase {
 				stmt1.setString(2, client.getPassword());
 				stmt1.setInt(3, client.getId());
 				stmt1.executeUpdate();
-				stmt1.executeUpdate();
 
 				break;
 			}

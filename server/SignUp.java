@@ -65,7 +65,7 @@ public class SignUp implements Initializable {
 
             }
             else{
-				String _firstname = firstName.getText();
+				String _firstname =firstName.getText();
 				String _lastname = lastName.getText();
 				String _mail = eMail.getText();
 				int _phone = 0; // to add
@@ -73,7 +73,7 @@ public class SignUp implements Initializable {
 				int _age = 0; // add
 				String _gender = "NULL gender"; //add
 				String _address = "NULL address" ;//add
-				String _username = userName.getText();
+				String _username = "c_"+userName.getText();
 				String _password = password.getText();
 				Massage msg = new Massage("Person",Commands.GETLASTID);
 				server.Main.send_toServer(msg);

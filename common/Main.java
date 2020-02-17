@@ -59,7 +59,10 @@ public class Main {
 		}
 		*/
 		DataBase myDB = DataBase.getInstance();
-		System.out.println(myDB.getLastID("ItemInOrder"));
+		myDB.table_delete("Client");
+		myDB.table_delete("Person");
+		myDB.table_delete("Employee");
+
 		/*for(int i=0;i<3;i++)
 		{
 			Item lilac =new Item("lilac"+String.valueOf(i),10*i,"lilac"+String.valueOf(i),"purple","big");
