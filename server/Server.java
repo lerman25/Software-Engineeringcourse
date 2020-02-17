@@ -172,6 +172,17 @@ public class Server extends AbstractServer {
 			}
 			break;
 		}
+		case GETLASTID:
+		{
+			String object =(String) massage.getObject();
+			int id = mydb.getLastID(object);
+			try {
+				client.sendToClient(new Massage(id,Commands.GETLASTID));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		}
 
 	}

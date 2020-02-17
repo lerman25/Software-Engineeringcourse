@@ -43,6 +43,7 @@ public class Main extends Application {
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
+		
 	}
  }
  static  Massage get_from_server()

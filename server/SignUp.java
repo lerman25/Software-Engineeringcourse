@@ -17,6 +17,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import common.Client;
+import common.Commands;
+import common.Massage;
+
 public class SignUp implements Initializable {
     @FXML
     TextField userName;
@@ -61,13 +65,26 @@ public class SignUp implements Initializable {
 
             }
             else{
-                //
-                //   make a new object of type Client and add it to the data-base.
-                //
-                //
-
+				String _firstname = firstName.getText();
+				String _lastname = lastName.getText();
+				String _mail = eMail.getText();
+				int _phone = 0; // to add
+				String _credit = "-1"; // add
+				int _age = 0; // add
+				String _gender = "NULL gender"; //add
+				String _address = "NULL address" ;//add
+				String _username = userName.getText();
+				String _password = password.getText();
+				Massage msg = new Massage("Person",Commands.GETLASTID);
+				server.Main.send_toServer(msg);
+				msg = server.Main.get_from_server();
+				int id = (int) msg.getObject();
+				Client client = new Client(_firstname, _lastname, id+1, _mail, _phone, _credit, _age, _gender, _address, _username, _password);
+				msg = new Massage(client,Commands.ADD);
+				server.Main.send_toServer(msg);
+				System.out.println("added");
                 Stage primaryStage =Main.getStage();
-                Parent root = FXMLLoader.load(getClass().getResource("base.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
                 // primaryStage.setTitle("Hello World");
                 GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
                 int width = gd.getDisplayMode().getWidth();

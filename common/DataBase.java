@@ -31,7 +31,6 @@ public class DataBase {
 	static private final String DB = "SmFGAHPAE1";
 //	static private final String DB_URL = "https://remotemysql.com/phpmyadmin/" + DB + "?useSSL=false";
 	static private final String DB_URL = "jdbc:mysql://remotemysql.com/" + DB + "?useSSL=false";
-
 	static private final String USER = "SmFGAHPAE1";
 	static private final String PASS = "PrfUzkZFEX";
 	static private Connection conn;
@@ -58,7 +57,23 @@ public class DataBase {
 		}
 		return _instance;
 	}
-
+	public int getLastID(String object)
+	{
+		int maxID=-1;
+		try {
+			ResultSet rs = this.get_TableResultSet(object);
+			while(rs.next())
+			{
+				int id = (rs.getInt("ID"));
+				if(maxID<id)
+					maxID=id;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return maxID;
+	}
 	public ArrayList<Item> get_flowers() {
 
 		ArrayList<Item> catalog = new ArrayList<Item>();
