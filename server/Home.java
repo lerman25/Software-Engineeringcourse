@@ -50,6 +50,7 @@ public class Home implements Initializable {
         ArrayList<Item> items = (ArrayList<Item>) msg.getObject();
         //
         int size = items.size()>12?12:items.size();
+        Main.getStage().getScene().setCursor(Cursor.WAIT);
        catalog.setCursor(Cursor.WAIT);
         try {
         	for(int i=0;i<2;i++)

@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,7 +18,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import common.Person;
+
 public class Base  implements Initializable {
+	
+	   private int id=0;
+
     @FXML
     Button login;
     @FXML
@@ -28,11 +34,9 @@ public class Base  implements Initializable {
     Tab home;
     @FXML
     Tab employee;
-
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
     }
     public void login(ActionEvent event) throws IOException {
         Stage primaryStage =Main.getStage();
@@ -51,5 +55,19 @@ public class Base  implements Initializable {
         int width = gd.getDisplayMode().getWidth();
         int height = gd.getDisplayMode().getHeight();
         primaryStage.setScene(new Scene(root, width, height));
+    }
+    private void user_vis()
+    {
+		login.setVisible(false);
+		signup.setVisible(false);
+		
+    }
+    public void setId(int _id)
+    {
+    	id=_id;
+    	if(id>0)
+    	{
+    		user_vis();
+    	}
     }
 }

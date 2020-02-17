@@ -121,10 +121,18 @@ public class Login implements Initializable {
 	}
 
 	public void login(ActionEvent event) throws IOException {
+		anchorer.setCursor(Cursor.WAIT);
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		boolean nouser = FormValidation.textFieldNotEmpty(password, for_password, "Password is required!!");
 		if (nouser) {
 			System.out.println("wait curser");
-			anchorer.setCursor(Cursor.WAIT);
+			
 			Massage msg = new Massage(Commands.LOGIN, username.getText(), password.getText());
 			server.Main.send_toServer(msg);
 			msg = server.Main.get_from_server();
@@ -142,14 +150,21 @@ public class Login implements Initializable {
 				// FXMLLoader.load(getClass().getResource("server.fxml"));
 				// anchorer.getChildren().setAll(newanchor);
 				// primaryStage.setTitle("Hello World");
+
 				Stage primaryStage = Main.getStage();
-				Parent root = FXMLLoader.load(getClass().getResource("base.fxml"));
+				  FXMLLoader loader = new FXMLLoader();
+		          loader.setLocation(Main.class.getResource("base.fxml"));
+		          Parent root =loader.load();
+		          Base cvc = loader.getController();
+	  	        cvc.setId(id);
 				// primaryStage.setTitle("Hello World");
 				GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 				int width = gd.getDisplayMode().getWidth();
 				int height = gd.getDisplayMode().getHeight();
-				primaryStage.setScene(new Scene(root, width, height));
-
+				Stage newstage = new Stage();
+				newstage.setScene(new Scene(root, width, height));
+				newstage.show();
+				primaryStage.close();
 
 			} else {
 				if (!(password.getText().isEmpty())) {
