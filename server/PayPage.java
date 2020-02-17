@@ -12,16 +12,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-
+import common.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import common.Client;
+import common.Item;
 
 public class PayPage  implements Initializable {
-    @FXML
+	 private Item item;
+	@FXML
     TextField name1;
     @FXML
     TextField creditCard;
@@ -42,7 +47,16 @@ public class PayPage  implements Initializable {
     		System.out.println("Client is null");
         }
     public void buyB(MouseEvent event) throws IOException {
-    	
+    	ArrayList<Item> items = new ArrayList<Item>();
+    	System.out.println(item.getName());
+    	items.add(item);
+    	ItemInOrder _item = new ItemInOrder(items,0,client.getId());
+    	java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+    	Orders order = new Orders(client.getId(), date, date, 1,client.getAddress(), client.getPhone_number(), client.getFirstName()+" "+client.getLastName(),date);
+    	_item.setOrderID(order.getID());
+    	order.setItemList(_item);
+
+    	Main.send_toServer(new Massage(order,Commands.ADD));
         AlertBox.display("Payment","SUCCESS!");
     }
     public void backHome(MouseEvent event) throws IOException {
@@ -54,4 +68,10 @@ public class PayPage  implements Initializable {
         int height = gd.getDisplayMode().getHeight();
         primaryStage.setScene(new Scene(root, width, height));
     }
+	public void setItem(Item _item) {
+		// TODO Auto-generated method stub
+		  this.item = _item;
+	      
+		
+	}
 }

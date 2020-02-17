@@ -429,6 +429,7 @@ public class DataBase {
 				break;
 			}
 			case "Orders": {
+				System.out.println("order");
 				Orders order = (Orders) object;
 				PreparedStatement stmt1 = conn.prepareStatement(
 						"INSERT INTO Orders(`ID`, `ClientID`, `Time`, `OrderDate`, `Shipment_Method`, `Address`, `ReciverPhone`, `ReciverName`, `DeliveryTime`, `DeliveryCost`, `TotalCost`) VALUES(?, ?, ?,?,?,?,?,?,?,?,?)");

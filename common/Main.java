@@ -59,8 +59,8 @@ public class Main {
 		}
 		*/
 		DataBase myDB = DataBase.getInstance();
-		myDB.table_delete("Item");
-		for(int i=0;i<3;i++)
+		myDB.table_delete("Orders");
+		/*for(int i=0;i<3;i++)
 		{
 			Item lilac =new Item("lilac"+String.valueOf(i),10*i,"lilac"+String.valueOf(i),"purple","big");
 			myDB.add_to_DB(lilac);
@@ -74,7 +74,7 @@ public class Main {
 			}
 
 
-		}
+		}*/
 
 	/*	try {
 			BufferedImage imm = ImageIO.read(new File("C:\\Users\\user\\Pictures\\a.jpg"));
