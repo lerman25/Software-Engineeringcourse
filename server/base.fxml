@@ -65,6 +65,7 @@
 				</Pane>
 				<HBox prefHeight="100.0" prefWidth="200.0" stylesheets="@pane.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 				<HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+				
 			</children>
 		</GridPane>
       <TabPane prefHeight="409.0" prefWidth="1246.0" stylesheets="@pane.css" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">

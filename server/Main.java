@@ -28,7 +28,18 @@ public class Main extends Application {
         int height = gd.getDisplayMode().getHeight();
 
         stage.setScene(new Scene(root, width, height));
+       stage.setOnCloseRequest(event -> {
+            System.out.println("Stage is closing");
+            try {
+				client.closeConnection();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            // Save file
+        });
         stage.show();
+
     }
  static public Stage getStage(){
         return stage;
@@ -38,7 +49,10 @@ public class Main extends Application {
  {
 	 try {
 		 if(!client.isConnected())
+		 {
+			 System.out.println("Opening connection");
 			 client.openConnection();
+		 }
 		client.sendToServer(m);
 	} catch (IOException e) {
 		// TODO Auto-generated catch block

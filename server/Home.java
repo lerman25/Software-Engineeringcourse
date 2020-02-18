@@ -49,9 +49,8 @@ public class Home implements Initializable {
         msg = server.Main.get_from_server();
         ArrayList<Item> items = (ArrayList<Item>) msg.getObject();
         //
-        int size = items.size()>12?12:items.size();
         Main.getStage().getScene().setCursor(Cursor.WAIT);
-       catalog.setCursor(Cursor.WAIT);
+        int size = items.size()>12?12:items.size();
         try {
         	for(int i=0;i<2;i++)
         	{
@@ -72,10 +71,10 @@ public class Home implements Initializable {
         		}
         	}
 
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        catalog.setCursor(Cursor.DEFAULT);
 
        
   //  public void nextpage

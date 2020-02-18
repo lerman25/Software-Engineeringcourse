@@ -34,7 +34,8 @@ public class Base  implements Initializable {
     Tab home;
     @FXML
     Tab employee;
-    
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
@@ -56,6 +57,10 @@ public class Base  implements Initializable {
         int height = gd.getDisplayMode().getHeight();
         primaryStage.setScene(new Scene(root, width, height));
     }
+    @FXML
+    void personal(ActionEvent event) {
+
+    }
     private void user_vis()
     {
 		login.setVisible(false);
@@ -65,7 +70,7 @@ public class Base  implements Initializable {
     public void setId(int _id)
     {
     	id=_id;
-    	if(id>0)
+    	if(id>0)							
     	{
     		user_vis();
     	}

@@ -87,7 +87,6 @@ public class DataBase {
 				String Color = rs.getString("Color");
 				String Size = (rs.getString("Size"));
 				int id = (rs.getInt("ID"));
-				System.out.println(id);
 				Item newitem = new Item(Name, Price, Kind, Color, Size, String.valueOf(id));
 				catalog.add(newitem);
 			}
@@ -278,7 +277,6 @@ public class DataBase {
 					String user = rs.getString("Username");
 					String password = rs.getString("Password");
 					client=new Client(user,password,get_person(_id));
-					System.out.println("CLient");
 				}
 			}
 			} catch (SQLException e) {
@@ -300,13 +298,11 @@ public class DataBase {
 					if (_password.equals(password)) {
 						return rs.getInt("ID");
 					} else {
-						System.out.println("Wrong Password");
 						return 0;
 					}
 				}
 
 			}
-			System.out.println("No Such Username");
 			return -1;
 		} catch (SQLException e) {
 			System.out.println("DB ERROR");
@@ -330,7 +326,6 @@ public class DataBase {
 				}
 
 			}
-			System.out.println("No Such Username");
 			return -1;
 		} catch (SQLException e) {
 			System.out.println("DB ERROR");
@@ -443,7 +438,6 @@ public class DataBase {
 				break;
 			}
 			case "Orders": {
-				System.out.println("order");
 				Orders order = (Orders) object;
 				PreparedStatement stmt1 = conn.prepareStatement(
 						"INSERT INTO Orders(`ID`, `ClientID`, `Time`, `OrderDate`, `Shipment_Method`, `Address`, `ReciverPhone`, `ReciverName`, `DeliveryTime`, `DeliveryCost`, `TotalCost`) VALUES(?, ?, ?,?,?,?,?,?,?,?,?)");

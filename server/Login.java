@@ -74,7 +74,6 @@ public class Login implements Initializable {
 	public void next(ActionEvent event) {
 		boolean nouser = FormValidation.textFieldNotEmpty(username, for_username, "Username is required!!");
 		if (nouser) {
-			anchorer.setCursor(Cursor.WAIT);
 			Massage msg = new Massage();
 			msg.setCommand(Commands.LOGINUSERNAME);
 			msg.setUsername(username.getText());
@@ -132,40 +131,50 @@ public class Login implements Initializable {
 		boolean nouser = FormValidation.textFieldNotEmpty(password, for_password, "Password is required!!");
 		if (nouser) {
 			System.out.println("wait curser");
-			
+
 			Massage msg = new Massage(Commands.LOGIN, username.getText(), password.getText());
 			server.Main.send_toServer(msg);
 			msg = server.Main.get_from_server();
 			int id = (int) msg.getObject();
 
 			if (id > 0) {
-				msg = new Massage(id, Commands.GETCLIENT);
+				msg = new Massage(username.getText(), Commands.CONNECTED);
 				server.Main.send_toServer(msg);
 				msg = server.Main.get_from_server();
-				Client _client = (Client) msg.getObject();
-				Main.set_client(_client);
-				for_password.setTextFill(Color.web("black"));
-				for_password.setText("Welcome to Lilac <3 ^_^ .!");
-				// AnchorPane newanchor =
-				// FXMLLoader.load(getClass().getResource("server.fxml"));
-				// anchorer.getChildren().setAll(newanchor);
-				// primaryStage.setTitle("Hello World");
+				boolean connected = (boolean) msg.getObject();
+				if (connected) {
+					for_password.setText("User : " + username.getText() + " Already Connected!");
+					password.setVisible(false);
+					login.setVisible(false);
+					next.setVisible(true);
+				} else {
+					msg = new Massage(id, Commands.GETCLIENT);
+					server.Main.send_toServer(msg);
+					msg = server.Main.get_from_server();
+					Client _client = (Client) msg.getObject();
+					Main.set_client(_client);
+					for_password.setTextFill(Color.web("black"));
+					for_password.setText("Welcome to Lilac <3 ^_^ .!");
+					// AnchorPane newanchor =
+					// FXMLLoader.load(getClass().getResource("server.fxml"));
+					// anchorer.getChildren().setAll(newanchor);
+					// primaryStage.setTitle("Hello World");
 
-				Stage primaryStage = Main.getStage();
-				  FXMLLoader loader = new FXMLLoader();
-		          loader.setLocation(Main.class.getResource("base.fxml"));
-		          Parent root =loader.load();
-		          Base cvc = loader.getController();
-	  	        cvc.setId(id);
-				// primaryStage.setTitle("Hello World");
-				GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-				int width = gd.getDisplayMode().getWidth();
-				int height = gd.getDisplayMode().getHeight();
-				Stage newstage = new Stage();
-				newstage.setScene(new Scene(root, width, height));
-				newstage.show();
-				primaryStage.close();
-
+					Stage primaryStage = Main.getStage();
+					FXMLLoader loader = new FXMLLoader();
+					loader.setLocation(Main.class.getResource("base.fxml"));
+					Parent root = loader.load();
+					Base cvc = loader.getController();
+					cvc.setId(id);
+					// primaryStage.setTitle("Hello World");
+					GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+					int width = gd.getDisplayMode().getWidth();
+					int height = gd.getDisplayMode().getHeight();
+					Stage newstage = new Stage();
+					newstage.setScene(new Scene(root, width, height));
+					newstage.show();
+					primaryStage.close();
+				}
 			} else {
 				if (!(password.getText().isEmpty())) {
 					for_password.setText("Incorrect Password!!");

@@ -25,17 +25,18 @@ public class Server extends AbstractServer {
 	}
 
 	synchronized protected void clientDisconnected(ConnectionToClient client) {
+		System.out.println("Client : "+client.getName()+" Disconnected");
 		connectedClients.remove(client);
 	}
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		// TODO Auto-generated method stub
-		System.out.println("Massage handling");
 		Massage massage = (Massage) msg;
+		System.out.println("Massage handling from client: "+client.getName()+" Massage: "+massage.getCommand().toString());
+
 		String user = massage.getUsername();
 		String pass = massage.getPassword();
-		System.out.println(massage.getCommand());
 		if (massage.getCommand() == Commands.LOGIN) {
 			int login = mydb.checkLogin_user(user, pass);
 			int userid = mydb.checkLogin_user(user, pass);
@@ -94,7 +95,6 @@ public class Server extends AbstractServer {
 			break;
 		}
 		case GETIMAGE: {
-			System.out.println("send imm");
 			Item item1 = (Item) massage.getObject();
 			byte[] imm = mydb.get_imageDBasByte((Integer.parseInt(item1.getId())));
 			try {
@@ -141,7 +141,6 @@ public class Server extends AbstractServer {
 		case GETCLIENT:
 		{
 			try {
-				System.out.println("GETCLIENT");
 				client.sendToClient(new Massage(mydb.get_client((int)massage.getObject()), Commands.GETCLIENT));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -182,6 +181,44 @@ public class Server extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			break;
+		}
+		case CONNECTED:
+		{
+			boolean flag = false;
+			String username = (String)massage.getObject();
+			for(int i=0; i<connectedClients.size();i++)
+			{
+				if(connectedClients.get(i).getName().equals(username))
+				{
+					if(connectedClients.get(i).isAlive()==true)
+					{
+					try {
+						client.sendToClient(new Massage(true,Commands.CONNECTED));
+						flag=true;
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					}
+				}
+				else
+				{
+					connectedClients.remove(i);
+				}
+			}
+			if(!flag)
+			{
+				client.setName(username);
+				try {
+					client.sendToClient(new Massage(false,Commands.CONNECTED));
+					System.out.println("User "+username+" Connected");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			break;
 		}
 		}
 
