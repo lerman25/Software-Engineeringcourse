@@ -1,4 +1,5 @@
 package client;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import common.*;
@@ -14,9 +15,21 @@ public class LClient extends AbstractClient {
 	@Override
 	protected synchronized void handleMessageFromServer(Object msg) {
 		// TODO Auto-generated method stub
-		System.out.println("hey");
-		setReturnMassage((Massage)msg);
-		returnMassage.notifyAll();
+		Massage massage = (Massage)msg;
+		if(massage.getCommand().equals(Commands.PING))
+		{
+			try {
+				this.sendToServer(new Massage(true,Commands.PONG));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else
+		{
+			setReturnMassage(massage);
+			returnMassage.notifyAll();
+		}
 	}
 
 	public synchronized Massage  getReturnMassage() {

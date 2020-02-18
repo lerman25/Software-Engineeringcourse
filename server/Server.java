@@ -12,6 +12,7 @@ import ocsf.server.ConnectionToClient;
 public class Server extends AbstractServer {
 	private DataBase mydb;
 	private ArrayList<ConnectionToClient> connectedClients;
+	private boolean clientTest = false;
 
 	public Server(int port) {
 		super(port);
@@ -25,7 +26,7 @@ public class Server extends AbstractServer {
 	}
 
 	synchronized protected void clientDisconnected(ConnectionToClient client) {
-		System.out.println("Client : "+client.getName()+" Disconnected");
+		System.out.println("Client : " + client.getName() + " Disconnected");
 		connectedClients.remove(client);
 	}
 
@@ -33,7 +34,8 @@ public class Server extends AbstractServer {
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		// TODO Auto-generated method stub
 		Massage massage = (Massage) msg;
-		System.out.println("Massage handling from client: "+client.getName()+" Massage: "+massage.getCommand().toString());
+		System.out.println(
+				"Massage handling from client: " + client.getName() + " Massage: " + massage.getCommand().toString());
 
 		String user = massage.getUsername();
 		String pass = massage.getPassword();
@@ -129,8 +131,7 @@ public class Server extends AbstractServer {
 			}
 			break;
 		}
-		case GETPERSON:
-		{
+		case GETPERSON: {
 			try {
 				client.sendToClient(new Massage(mydb.get_person(massage.getId()), Commands.GETPERSON));
 			} catch (IOException e) {
@@ -138,10 +139,9 @@ public class Server extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		case GETCLIENT:
-		{
+		case GETCLIENT: {
 			try {
-				client.sendToClient(new Massage(mydb.get_client((int)massage.getObject()), Commands.GETCLIENT));
+				client.sendToClient(new Massage(mydb.get_client((int) massage.getObject()), Commands.GETCLIENT));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -152,17 +152,15 @@ public class Server extends AbstractServer {
 			int test = mydb.checkLogin_user(massage.getUsername());
 			if (test > 0) {
 				try {
-					client.sendToClient(new Massage(true,Commands.LOGINUSERNAME));
+					client.sendToClient(new Massage(true, Commands.LOGINUSERNAME));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-			}
-			else
-			{
+
+			} else {
 				try {
-					client.sendToClient(new Massage(false,Commands.LOGINUSERNAME));
+					client.sendToClient(new Massage(false, Commands.LOGINUSERNAME));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -171,54 +169,52 @@ public class Server extends AbstractServer {
 			}
 			break;
 		}
-		case GETLASTID:
-		{
-			String object =(String) massage.getObject();
+		case GETLASTID: {
+			String object = (String) massage.getObject();
 			int id = mydb.getLastID(object);
 			try {
-				client.sendToClient(new Massage(id,Commands.GETLASTID));
+				client.sendToClient(new Massage(id, Commands.GETLASTID));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
 		}
-		case CONNECTED:
-		{
+		case CONNECTED: {
 			boolean flag = false;
-			String username = (String)massage.getObject();
-			for(int i=0; i<connectedClients.size();i++)
-			{
-				if(connectedClients.get(i).getName().equals(username))
-				{
-					if(connectedClients.get(i).isAlive()==true)
-					{
+			String username = (String) massage.getObject();
+
+			for (int i = 0; i < connectedClients.size(); i++) {
+				if (connectedClients.get(i).getName().equals(username)) {
+
 					try {
-						client.sendToClient(new Massage(true,Commands.CONNECTED));
-						flag=true;
+						client.sendToClient(new Massage(true, Commands.CONNECTED));
+						flag = true;
+						clientTest = false;
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					}
-				}
-				else
-				{
+				} else {
 					connectedClients.remove(i);
+
 				}
+
 			}
-			if(!flag)
-			{
+			if (!flag) {
 				client.setName(username);
 				try {
-					client.sendToClient(new Massage(false,Commands.CONNECTED));
-					System.out.println("User "+username+" Connected");
+					client.sendToClient(new Massage(false, Commands.CONNECTED));
+					System.out.println("User " + username + " Connected");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 			break;
+		}
+		case PONG: {
+			clientTest = true;
 		}
 		}
 

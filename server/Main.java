@@ -48,7 +48,7 @@ public class Main extends Application {
  static public void send_toServer(Massage m)
  {
 	 try {
-		 if(!client.isConnected())
+	 if(!client.isConnected())
 		 {
 			 System.out.println("Opening connection");
 			 client.openConnection();
