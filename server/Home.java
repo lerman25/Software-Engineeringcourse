@@ -63,7 +63,7 @@ public class Home implements Initializable {
                     if((i+i*j)<items.size())
                     {
                         Item item = items.get(i+i*j);
-                        controller.setItem(item);
+                      //  controller.setItem(item);
 
 
                     }

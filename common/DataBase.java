@@ -39,6 +39,7 @@ public class DataBase {
 	}
 
 	public static DataBase getInstance() {
+		boolean printflag = true;
 		if (_instance == null) {
 			_instance = new DataBase();
 			try {
@@ -52,8 +53,11 @@ public class DataBase {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				printflag=false;
 			}
-			System.out.println("<<<DATABASE>> CONNECTED TO DB");
+			if(printflag) System.out.println("<<<DATABASE>> CONNECTED TO DB");
+			else System.out.println("<<<DATABASE>> ERROR WHILE CONNECTING");
+			
 		}
 		return _instance;
 	}
