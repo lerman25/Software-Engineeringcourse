@@ -29,7 +29,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         stage.setTitle("Lilac");
 
-       stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.jpg")));
+       stage.getIcons().add(new Image(getClass().getResourceAsStream("icon.jpg")));
 
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int width = gd.getDisplayMode().getWidth();
