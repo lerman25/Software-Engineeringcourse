@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="640" maxWidth="640" minHeight="640" minWidth="640" prefHeight="640" prefWidth="640" stylesheets="@pane.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.Base">
+<GridPane maxHeight="1080.0" maxWidth="1920.0" minHeight="1080.0" minWidth="1920.0" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@pane.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.Base">
 	<columnConstraints>
 		<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
 	</columnConstraints>
@@ -65,6 +65,24 @@
 				</Pane>
 				<HBox prefHeight="100.0" prefWidth="200.0" stylesheets="@pane.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 				<HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <HBox prefHeight="100.0" prefWidth="200.0" />
+            <HBox prefHeight="34.0" prefWidth="347.0">
+               <children>
+                  <Text fx:id="userLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="116.13671875">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="personal" mnemonicParsing="false" prefHeight="34.0" prefWidth="139.0" text="Personal Info">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="120.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
 				
 			</children>
 		</GridPane>
@@ -85,6 +103,5 @@
             <Insets />
          </GridPane.margin>
       </TabPane>
-      <HBox maxHeight="30.0" prefHeight="30.0" prefWidth="1246.0" style="-fx-background-color: white;" GridPane.rowIndex="2" />
 	</children>
 </GridPane>

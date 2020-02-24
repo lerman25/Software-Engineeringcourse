@@ -61,28 +61,28 @@
 								</Button>
 							</children>
 						</HBox>
-                  <HBox layoutX="336.0" layoutY="-1.0" prefHeight="34.0" prefWidth="347.0">
-                     <children>
-                        <Label fx:id="userLabel" prefHeight="34.0" prefWidth="172.0" text="Label">
-                           <font>
-                              <Font name="Arial Unicode MS" size="22.0" />
-                           </font>
-                        </Label>
-                        <Button fx:id="personal" mnemonicParsing="false" prefHeight="34.0" prefWidth="139.0" text="Personal Info">
-                           <HBox.margin>
-                              <Insets left="120.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font name="System Bold Italic" size="12.0" />
-                           </font>
-                        </Button>
-                     </children>
-                  </HBox>
 					</children>
 				</Pane>
 				<HBox prefHeight="100.0" prefWidth="200.0" stylesheets="@pane.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 				<HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <HBox prefHeight="100.0" prefWidth="200.0" />
+            <HBox prefHeight="34.0" prefWidth="347.0">
+               <children>
+                  <Text fx:id="userLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="214.13671875">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="personal" mnemonicParsing="false" prefHeight="34.0" prefWidth="139.0" text="Personal Info">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="120.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
 				
 			</children>
 		</GridPane>

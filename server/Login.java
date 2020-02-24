@@ -47,7 +47,7 @@ public class Login implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		int width = gd.getDisplayMode().getWidth();
 		int height = gd.getDisplayMode().getHeight();
@@ -99,7 +99,11 @@ public class Login implements Initializable {
 
 	public void skip(ActionEvent event) throws IOException {
 		Stage primaryStage = Main.getStage();
-		Parent root = FXMLLoader.load(getClass().getResource("base.fxml"));
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("base.fxml"));
+		Parent root = loader.load();
+		Base cvc = loader.getController();
+		cvc.setId(0);
 		// primaryStage.setTitle("Hello World");
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		int width = gd.getDisplayMode().getWidth();

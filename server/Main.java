@@ -4,11 +4,16 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import client.LClient;
 import common.Client;
@@ -23,6 +28,9 @@ public class Main extends Application {
       stage =primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         stage.setTitle("Lilac");
+
+       stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.jpg")));
+
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int width = gd.getDisplayMode().getWidth();
         int height = gd.getDisplayMode().getHeight();

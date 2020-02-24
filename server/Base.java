@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -17,6 +18,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import common.Client;
+import common.Commands;
+import common.Massage;
 import common.Person;
 
 public class Base implements Initializable {
@@ -24,7 +28,11 @@ public class Base implements Initializable {
 	private int id = 0;
 
 
+    @FXML
+    private Text userLabel;
 
+    @FXML
+    private Button personal;
 	@FXML
 	Button login;
 	@FXML
@@ -68,13 +76,28 @@ public class Base implements Initializable {
 	private void user_vis() {
 		login.setVisible(false);
 		signup.setVisible(false);
+		Main.send_toServer(new Massage(id,Commands.GETCLIENT));
+		Massage msg = Main.get_from_server();
+		Client c = (Client) msg.getObject();
+		userLabel.setText("Welcom "+c.getUsername());
+
+	}
+	private void guest_vis() {
+		personal.setVisible(false);
+		userLabel.setVisible(false);
 
 	}
 
 	public void setId(int _id) {
 		id = _id;
+		System.out.println(id);
 		if (id > 0) {
 			user_vis();
 		}
+		else
+		{
+			guest_vis();
+		}
+
 	}
 }

@@ -19,6 +19,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -56,11 +58,25 @@ public class ItemController {
             server.Main.send_toServer(m);
             m = server.Main.get_from_server();
 
-			byte[] immAsBytes = (byte[])m.getObject();
-			InputStream in = new ByteArrayInputStream(immAsBytes);
+		/*	byte[] immAsBytes = (byte[])m.getObject();
+			InputStream in = new ByteArrayInputStream(immAsBytes);*/
+            URL url=null;
+			try {
+				url = new URL("http://images.pexels.com/photos/60597/dahlia-red-blossom-bloom-60597.jpeg");
+			} catch (MalformedURLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	        URL imageUrl;
 			BufferedImage imgFromDb;
 			try {
-				imgFromDb = ImageIO.read(in);
+				imageUrl = new URL("https://images.pexels.com/photos/60597/dahlia-red-blossom-bloom-60597.jpeg");
+	            HttpURLConnection connection = (HttpURLConnection) imageUrl.openConnection();
+	                    connection.setRequestProperty(
+	                            "User-Agent",
+	                            "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:37.0) Gecko/20100101 Firefox/37.0");
+				imgFromDb = ImageIO.read(connection.getInputStream());
+			//	imgFromDb = ImageIO.read(in);
 				BufferedImage resized = new BufferedImage(50, 50, imgFromDb.getType());
 				Graphics2D g = resized.createGraphics();
 				g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
