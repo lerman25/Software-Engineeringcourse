@@ -73,21 +73,19 @@ public class Main extends Application {
 		return stage;
 	}
 
-	public static void loadError() {
-		Stage primaryStage = new Stage();		
-		try {
-			AnchorPane root = (AnchorPane) FXMLLoader.load(Main.class.getResource("/server/ServerError.fxml"));
-
-			// primaryStage.setTitle("Hello World");
-			GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-			int width = gd.getDisplayMode().getWidth();
-			int height = gd.getDisplayMode().getHeight();
-			primaryStage.setScene(new Scene(root, width, height));
-			primaryStage.show();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public static void loadError() {		
+		   Parent root;
+	        try {
+	            root = FXMLLoader.load(Main.class.getClassLoader().getResource("ServerError.fxml"));
+	            Stage stage = new Stage();
+	            stage.setTitle("My New Stage Title");
+	            stage.setScene(new Scene(root, 450, 450));
+	            stage.show();
+	            // Hide this current window (if this is what you want)
+	        }
+	        catch (IOException e) {
+	            e.printStackTrace();
+	        }
 	}
 
 	static public void send_toServer(Massage m) {
@@ -126,15 +124,20 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
+		boolean launchf=true;
 		set_client(null);
 		client = new LClient("127.0.0.1", 5555);
 		try {
 			client.openConnection();
 		} catch (IOException e) {
+			loadError();
+			launchf=false;
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("problem");
 
 		}
+		if(launchf)
 		launch(args);
 	}
 
