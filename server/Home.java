@@ -62,7 +62,7 @@ public class Home implements Initializable {
                     //setItem arraylist<count> |count  1 to 6 or 0 to 5
                     if((i+i*j)<items.size())
                     {
-                        Item item = items.get(i+i*j);
+                        Item item = items.get(i+i*j); //this needs to be fixed!!!!!
                        controller.setItem(item);
 
 

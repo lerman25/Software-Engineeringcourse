@@ -1,11 +1,17 @@
 package server;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,86 +23,125 @@ import javax.swing.ImageIcon;
 
 import client.LClient;
 import common.Client;
+import common.Commands;
 import common.Massage;
 
 public class Main extends Application {
 	static LClient client;
-	private static Client _client;
-    static private  Stage stage= null;
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-      stage =primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        stage.setTitle("Lilac");
+	private static Client _client=null;
+	static private Stage stage = null;
+    @FXML // fx:id="text"
+    private Text text; // Value injected by FXMLLoader
 
-       stage.getIcons().add(new Image(getClass().getResourceAsStream("icon.jpg")));
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		stage = primaryStage;
+		Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+		stage.setTitle("Lilac");
 
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int width = gd.getDisplayMode().getWidth();
-        int height = gd.getDisplayMode().getHeight();
+		stage.getIcons().add(new Image(getClass().getResourceAsStream("icon.jpg")));
 
-        stage.setScene(new Scene(root, width, height));
-       stage.setOnCloseRequest(event -> {
-            System.out.println("Stage is closing");
-            try {
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		int width = gd.getDisplayMode().getWidth();
+		int height = gd.getDisplayMode().getHeight();
+		stage.setScene(new Scene(root, width, height));
+		stage.setOnCloseRequest(event -> {
+			System.out.println("exiting");
+			System.out.println("Stage is closing");
+			if(_client!=null)
+			{
+				send_toServer(new Massage(_client.getUsername(),Commands.LOGOUT));
+			}
+			try {
+				Thread.sleep(300);
 				client.closeConnection();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            // Save file
-        });
-        stage.show();
+			// Save file
+ catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		stage.show();
 
-    }
- static public Stage getStage(){
-        return stage;
-    }
-
- static public void send_toServer(Massage m)
- {
-	 try {
-	 if(!client.isConnected())
-		 {
-			 System.out.println("Opening connection");
-			 client.openConnection();
-		 }
-		client.sendToServer(m);
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		
 	}
- }
- static  Massage get_from_server()
- {		
-	 while(client.isnull())
-	 {
-		 try {
-			Thread.sleep(300);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	 }
 
-	 return client.getReturnMassage();
+	static public Stage getStage() {
+		return stage;
+	}
 
- }
-    public static void main(String[] args) {
-    	set_client(null);
-    	client = new LClient("127.0.0.1",5555);
-    	try {
-			client.openConnection();
+	public static void loadError() {
+		Stage primaryStage = new Stage();		
+		try {
+			AnchorPane root = (AnchorPane) FXMLLoader.load(Main.class.getResource("/server/ServerError.fxml"));
+
+			// primaryStage.setTitle("Hello World");
+			GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+			int width = gd.getDisplayMode().getWidth();
+			int height = gd.getDisplayMode().getHeight();
+			primaryStage.setScene(new Scene(root, width, height));
+			primaryStage.show();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        launch(args);
-    }
+	}
+
+	static public void send_toServer(Massage m) {
+		if (client.isServerFlag() == false) {
+			loadError();
+		} else {
+			try {
+				if (!client.isConnected()) {
+					System.out.println("Opening connection");
+					client.openConnection();
+				}
+				client.sendToServer(m);
+			} catch (IOException e) {
+				System.out.println("he");
+				loadError();
+
+			// TODO Auto-generated catch block
+				e.printStackTrace();
+
+			}
+		}
+	}
+
+	static Massage get_from_server() {
+		while (client.isnull()) {
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return client.getReturnMassage();
+
+	}
+
+	public static void main(String[] args) {
+		set_client(null);
+		client = new LClient("127.0.0.1", 5555);
+		try {
+			client.openConnection();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
+		launch(args);
+	}
+
 	public static Client get_client() {
 		return _client;
 	}
+
 	public static void set_client(Client _client) {
 		Main._client = _client;
 	}

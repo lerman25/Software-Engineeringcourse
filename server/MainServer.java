@@ -8,10 +8,13 @@ import common.Commands;
 import common.Massage;
 import common.Person;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 public class MainServer extends Application {
 	
 	static Server myServer;
@@ -25,6 +28,21 @@ public class MainServer extends Application {
 		Scene scene = new Scene(pane,300,275);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Server");
+		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		    @Override
+		    public void handle(WindowEvent t) {
+		    	System.out.println("Server Shutting Down");
+		    	myServer.sendToAllClients(new Massage(true,Commands.SHUTDOWN));
+		    	try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		        Platform.exit();
+		        System.exit(0);
+		    }
+		});
 		primaryStage.show();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

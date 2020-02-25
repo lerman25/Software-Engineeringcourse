@@ -124,13 +124,6 @@ public class Login implements Initializable {
 	}
 
 	public void login(ActionEvent event) throws IOException {
-		anchorer.setCursor(Cursor.WAIT);
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		boolean nouser = FormValidation.textFieldNotEmpty(password, for_password, "Password is required!!");
 		if (nouser) {
@@ -174,10 +167,7 @@ public class Login implements Initializable {
 					GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 					int width = gd.getDisplayMode().getWidth();
 					int height = gd.getDisplayMode().getHeight();
-					Stage newstage = new Stage();
-					newstage.setScene(new Scene(root, width, height));
-					newstage.show();
-					primaryStage.close();
+					primaryStage.setScene(new Scene(root, width, height));
 				}
 			} else {
 				if (!(password.getText().isEmpty())) {

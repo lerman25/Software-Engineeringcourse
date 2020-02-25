@@ -7,6 +7,7 @@ import ocsf.client.AbstractClient;
 
 public class LClient extends AbstractClient {
 	private Massage returnMassage = null;
+	private boolean serverFlag = true;
 	public LClient(String host, int port) {
 		super(host, port);
 		// TODO Auto-generated constructor stub
@@ -16,14 +17,11 @@ public class LClient extends AbstractClient {
 	protected synchronized void handleMessageFromServer(Object msg) {
 		// TODO Auto-generated method stub
 		Massage massage = (Massage)msg;
-		if(massage.getCommand().equals(Commands.PING))
+
+		if(massage.getCommand().equals(Commands.SHUTDOWN))
 		{
-			try {
-				this.sendToServer(new Massage(true,Commands.PONG));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			System.out.println("Server Not Working");
+			serverFlag=false;
 		}
 		else
 		{
@@ -45,6 +43,10 @@ public class LClient extends AbstractClient {
 
 	public void setReturnMassage(Massage returnMassage) {
 		this.returnMassage = returnMassage;
+	}
+
+	public boolean isServerFlag() {
+		return serverFlag;
 	}
 
 

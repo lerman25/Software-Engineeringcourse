@@ -190,15 +190,11 @@ public class Server extends AbstractServer {
 					try {
 						client.sendToClient(new Massage(true, Commands.CONNECTED));
 						flag = true;
-						clientTest = false;
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				} else {
-					connectedClients.remove(i);
-
-				}
+				} 
 
 			}
 			if (!flag) {
@@ -215,6 +211,18 @@ public class Server extends AbstractServer {
 		}
 		case PONG: {
 			clientTest = true;
+			break;
+		}
+		case LOGOUT:
+		{
+			String username = (String) massage.getObject();
+			for (int i = 0; i < connectedClients.size(); i++) {
+				if (connectedClients.get(i).getName().equals(username)) {
+					connectedClients.remove(i);
+				}
+
+			}
+			System.out.println(username+" Logged Out");
 		}
 		}
 
