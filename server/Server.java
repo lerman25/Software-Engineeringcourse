@@ -16,17 +16,38 @@ public class Server extends AbstractServer {
 
 	public Server(int port) {
 		super(port);
+		System.out.println("Server Loading...");
 		connectedClients = new ArrayList<ConnectionToClient>();
 		// TODO Auto-generated constructor stub
 	}
+	protected void sendToAllClients(Massage msg)
+	{
+		System.out.println("HEYYYYY "+connectedClients.size());
 
+		for(int i = 0; i<connectedClients.size();i++)
+		{
+			System.out.println(connectedClients.get(i).getId());
+			if(connectedClients.get(i).isAlive())
+				try {
+					connectedClients.get(i).sendToClient(msg);
+					Thread.sleep(300);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+	}
 	protected void clientConnected(ConnectionToClient client) {
 		connectedClients.add(client);
-		System.out.println("client connected");
+		System.out.println(connectedClients.size());
+		System.out.println("client connected" + client.getId());
 	}
 
 	synchronized protected void clientDisconnected(ConnectionToClient client) {
-		System.out.println("Client : " + client.getName() + " Disconnected");
+		System.out.println("Client : " + client.getId() + " Disconnected");
 		connectedClients.remove(client);
 	}
 

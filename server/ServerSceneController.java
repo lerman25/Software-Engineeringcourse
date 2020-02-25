@@ -27,7 +27,6 @@ public class ServerSceneController {
 
     @FXML
     void initialize() {
-    	server=new Server(5555);
         assert stop != null : "fx:id=\"stop\" was not injected: check your FXML file 'ServerScene.fxml'.";
         assert start != null : "fx:id=\"start\" was not injected: check your FXML file 'ServerScene.fxml'.";
         start.setOnAction(new EventHandler<ActionEvent>() {
@@ -36,10 +35,10 @@ public class ServerSceneController {
 			public void handle(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				try {
-					server.listen();
-				} catch (IOException e) {
+					MainServer.myServer.listen();
+				} catch (IOException e1) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e1.printStackTrace();
 				}
 			}
 			
@@ -50,11 +49,12 @@ public class ServerSceneController {
 			public void handle(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				try {
-					server.close();
+					MainServer.myServer.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				};
+
 			}
 		});
 

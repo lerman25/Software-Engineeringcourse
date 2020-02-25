@@ -21,6 +21,8 @@ import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import com.sun.scenario.effect.impl.prism.PrImage;
+
 import client.LClient;
 import common.Client;
 import common.Commands;
@@ -30,13 +32,27 @@ public class Main extends Application {
 	static LClient client;
 	private static Client _client=null;
 	static private Stage stage = null;
+	private static String resource = "Login.fxml";
+	static Parent errorRoot = null;
     @FXML // fx:id="text"
     private Text text; // Value injected by FXMLLoader
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		try {
+			client.openConnection();
+		} catch (IOException e) {
+			resource = "ServerErrorWindow.fxml";
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("problem");
+
+		}
+
 		stage = primaryStage;
-		Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource(resource));
+		errorRoot= FXMLLoader.load(getClass().getResource("ServerErrorWindow.fxml"));
+
 		stage.setTitle("Lilac");
 
 		stage.getIcons().add(new Image(getClass().getResourceAsStream("icon.jpg")));
@@ -73,19 +89,22 @@ public class Main extends Application {
 		return stage;
 	}
 
-	public static void loadError() {		
-		   Parent root;
-	        try {
-	            root = FXMLLoader.load(Main.class.getClassLoader().getResource("ServerError.fxml"));
-	            Stage stage = new Stage();
-	            stage.setTitle("My New Stage Title");
-	            stage.setScene(new Scene(root, 450, 450));
-	            stage.show();
-	            // Hide this current window (if this is what you want)
-	        }
-	        catch (IOException e) {
-	            e.printStackTrace();
-	        }
+	public static void loadError() {	
+			stage.close();
+	        Stage stage1 = new Stage();
+			stage1.setTitle("Server Error - Program Closing...");
+			stage1.setScene(new Scene(errorRoot, 450, 450));
+			stage1.show();
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        Platform.exit();
+	        System.exit(0);		
+	        // Hide this current window (if this is what you want)
+	        //need to replace this with event handler maybe..
 	}
 
 	static public void send_toServer(Massage m) {
@@ -99,8 +118,6 @@ public class Main extends Application {
 				}
 				client.sendToServer(m);
 			} catch (IOException e) {
-				System.out.println("he");
-				loadError();
 
 			// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -127,17 +144,6 @@ public class Main extends Application {
 		boolean launchf=true;
 		set_client(null);
 		client = new LClient("127.0.0.1", 5555);
-		try {
-			client.openConnection();
-		} catch (IOException e) {
-			loadError();
-			launchf=false;
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("problem");
-
-		}
-		if(launchf)
 		launch(args);
 	}
 
