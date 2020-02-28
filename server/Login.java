@@ -157,17 +157,18 @@ public class Login implements Initializable {
 					// anchorer.getChildren().setAll(newanchor);
 					// primaryStage.setTitle("Hello World");
 
-					Stage primaryStage = Main.getStage();
+					Stage primaryStage = new Stage();
 					FXMLLoader loader = new FXMLLoader();
-					loader.setLocation(Main.class.getResource("base.fxml"));
+					loader.setLocation(getClass().getResource("ClientOrders.fxml"));
 					Parent root = loader.load();
-					Base cvc = loader.getController();
-					cvc.setId(id);
+					ClientOrderC cvc = loader.getController();
+					//cvc.refreshTable();
 					// primaryStage.setTitle("Hello World");
 					GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 					int width = gd.getDisplayMode().getWidth();
 					int height = gd.getDisplayMode().getHeight();
-					primaryStage.setScene(new Scene(root, width, height));
+					primaryStage.setScene(new Scene(root, 400, 400));
+					primaryStage.show();
 				}
 			} else {
 				if (!(password.getText().isEmpty())) {

@@ -91,7 +91,6 @@ public class EmployeeController implements Initializable{
         server.Main.send_toServer(msg);
         msg = server.Main.get_from_server();
         ArrayList<Orders> orders = (ArrayList<Orders>) msg.getObject();
-        System.out.println("FUCK YOU DB" + orders);
         for(int i=0;i<orders.size();i++)
         data.add(orders.get(i));
         //        orderID.setCellValueFactory(new PropertyValueFactory<>("orderID"));

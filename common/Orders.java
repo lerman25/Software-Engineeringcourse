@@ -14,6 +14,8 @@ public class Orders implements Serializable {
 	private Date DeliveryTime;
 	private ItemInOrder itemList;
 	private static int DeliveryCost=10;
+	private int totalCost;
+	private int status;
 	private static int counter = 0;
 
 	public Orders(Orders _order) {
@@ -27,6 +29,9 @@ public class Orders implements Serializable {
 		ReciverName = _order.getReciverName();
 		DeliveryTime = _order.getDeliveryTime();
 		itemList = _order.getItemList();
+		totalCost = _order.totalCost;
+		status = _order.status;
+
 	}
 
 	public Orders(int _clientID, Date _time, Date _orderDate, int _shipment, String _address, int _receiverPhone,
@@ -40,7 +45,40 @@ public class Orders implements Serializable {
 		ReciverPhone = _receiverPhone;
 		ReciverName = _reciverName;
 		DeliveryTime = _deliveryTime;
+		totalCost=0;
+		status= 0;
 	}
+	public Orders(int _clientID, Date _time, Date _orderDate, int _shipment, String _address, int _receiverPhone,
+			String _reciverName, Date _deliveryTime,int _totalCost) {
+		ID = ++counter;
+		ClientID = _clientID;
+		Time = _time;
+		OrderDate = _orderDate;
+		Shipment_Method = _shipment;
+		Address = _address;
+		ReciverPhone = _receiverPhone;
+		ReciverName = _reciverName;
+		DeliveryTime = _deliveryTime;
+		totalCost=_totalCost;
+		status= 0;
+
+	}
+	public Orders(int _clientID, Date _time, Date _orderDate, int _shipment, String _address, int _receiverPhone,
+			String _reciverName, Date _deliveryTime,int _totalCost,int _status) {
+		ID = ++counter;
+		ClientID = _clientID;
+		Time = _time;
+		OrderDate = _orderDate;
+		Shipment_Method = _shipment;
+		Address = _address;
+		ReciverPhone = _receiverPhone;
+		ReciverName = _reciverName;
+		DeliveryTime = _deliveryTime;
+		totalCost=_totalCost;
+		status=_status;
+
+	}
+
 
 	public int getClientID() {
 		return ClientID;
@@ -134,5 +172,21 @@ public class Orders implements Serializable {
 
 	public static void setDeliveryCost(int deliveryCost) {
 		DeliveryCost = deliveryCost;
+	}
+
+	public int getTotalCost() {
+		return totalCost;
+	}
+
+	public void setTotalCost(int totalCost) {
+		this.totalCost = totalCost;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }

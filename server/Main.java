@@ -16,6 +16,7 @@ import javafx.stage.WindowEvent;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
@@ -27,6 +28,7 @@ import client.LClient;
 import common.Client;
 import common.Commands;
 import common.Massage;
+import common.Orders;
 
 public class Main extends Application {
 	static LClient client;
@@ -50,7 +52,15 @@ public class Main extends Application {
 		}
 
 		stage = primaryStage;
-		Parent root = FXMLLoader.load(getClass().getResource(resource));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource(resource));
+		Parent root = loader.load();
+		/*ClientOrderC cvc = loader.getController();
+		client.sendToServer(new Massage ( 1, Commands.CLIENTORDERS));
+		Massage msg = this.get_from_server();
+		ArrayList<Orders> o =(ArrayList<Orders>) msg.getObject();
+		cvc.setOrders(o);
+		cvc.refreshTable();*/
 		errorRoot= FXMLLoader.load(getClass().getResource("ServerErrorWindow.fxml"));
 
 		stage.setTitle("Lilac");

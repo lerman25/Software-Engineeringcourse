@@ -46,6 +46,7 @@ public class Base implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
 	}
 
 	public void login(ActionEvent event) throws IOException {
@@ -85,8 +86,7 @@ public class Base implements Initializable {
 	private void guest_vis() {
 		personal.setVisible(false);
 		userLabel.setVisible(false);
-
-	}
+		}
 
 	public void setId(int _id) {
 		id = _id;

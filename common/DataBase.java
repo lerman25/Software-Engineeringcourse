@@ -151,7 +151,10 @@ public class DataBase {
 				String address = rs.getString("Address");
 				int receiverPone = rs.getInt("ReciverPhone");
 				String recivername = rs.getString("ReciverName");
-               Orders order = new Orders(clientid,time,orderdate,shipment,address,receiverPone,recivername,deliverytime);
+				int totalCost = rs.getInt("TotalCost");
+				int status = rs.getInt("Status");
+               Orders order = new Orders(clientid,time,orderdate,shipment,address,receiverPone,recivername,deliverytime,totalCost,status);
+               System.out.println("from DB order id "+order.getID());
                orders.add(order);
 			}
 		} catch (SQLException se) {

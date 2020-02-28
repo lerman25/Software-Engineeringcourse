@@ -22,11 +22,8 @@ public class Server extends AbstractServer {
 	}
 	protected void sendToAllClients(Massage msg)
 	{
-		System.out.println("HEYYYYY "+connectedClients.size());
-
 		for(int i = 0; i<connectedClients.size();i++)
 		{
-			System.out.println(connectedClients.get(i).getId());
 			if(connectedClients.get(i).isAlive())
 				try {
 					connectedClients.get(i).sendToClient(msg);
@@ -43,7 +40,7 @@ public class Server extends AbstractServer {
 	protected void clientConnected(ConnectionToClient client) {
 		connectedClients.add(client);
 		System.out.println(connectedClients.size());
-		System.out.println("client connected" + client.getId());
+		System.out.println("client connected - ID : " +  client.getId());
 	}
 
 	synchronized protected void clientDisconnected(ConnectionToClient client) {
@@ -244,6 +241,27 @@ public class Server extends AbstractServer {
 
 			}
 			System.out.println(username+" Logged Out");
+		}
+		case CLIENTORDERS:
+		{
+			int id = (int)massage.getObject();
+			ArrayList<Orders> orders = mydb.get_orders();
+			ArrayList<Orders> clientO = new ArrayList<Orders>();
+			for(int i = 0 ; i < orders.size();i++)
+			{
+				if(orders.get(i).getClientID()==id)
+				{
+					System.out.println("ADDDDD");
+					clientO.add(orders.get(i));
+				}
+			}
+			try {
+				client.sendToClient(new Massage(clientO, Commands.CLIENTORDERS));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
 		}
 		}
 
