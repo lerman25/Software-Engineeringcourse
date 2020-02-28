@@ -101,6 +101,31 @@ public class DataBase {
 		return catalog;
 
 	}
+	public Item get_flower(int iid) {
+
+		try {
+			ResultSet rs = this.get_TableResultSet("Item");
+
+			while (rs.next()) {
+				int id = (rs.getInt("ID"));
+				if(iid==id)
+				{
+					String Name = rs.getString("Name");
+					double Price = rs.getInt("Price");
+					String Kind = rs.getString("Kind");
+					String Color = rs.getString("Color");
+					String Size = (rs.getString("Size"));
+					Item newitem = new Item(Name, Price, Kind, Color, Size, String.valueOf(id));
+					return newitem;
+				}
+			}
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return null;
+
+	}
 	
 
 	public ArrayList<Item> get_flowers(String criteria, String wanted) {
@@ -134,6 +159,41 @@ public class DataBase {
 			se.printStackTrace();
 		}
 		return catalog;
+
+	}
+	public ItemInOrder getItemsInOrder(int id)
+	{
+		ItemInOrder iio = new ItemInOrder(id,-1);
+		try {
+			ResultSet rs = this.get_TableResultSet("ItemInOrder");
+			while(rs.next())
+			{
+				int orderID=rs.getInt("OrderID");
+				if(orderID==id)
+				{
+					int clientID=rs.getInt("ClientID");
+					iio.setClientID(clientID);
+					int iioID = rs.getInt("ID");
+					int itemID = rs.getInt("ItemID");
+					int amount = rs.getInt("Amount");
+					Item item = get_flower(iioID);
+					if(item==null)
+					{
+						System.out.println("ERROR DB");
+						return null;
+					}
+					for(int i = 0 ; i<amount;i++)
+					{
+						iio.addToList(item);
+					}
+					
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return iio;
 
 	}
 	public ArrayList<Orders> get_orders() {

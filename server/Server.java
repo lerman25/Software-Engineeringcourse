@@ -242,7 +242,7 @@ public class Server extends AbstractServer {
 			}
 			System.out.println(username+" Logged Out");
 		}
-		case CLIENTORDERS:
+		case CLIENTORDERS: // this function is not effcient , but okay for project.
 		{
 			int id = (int)massage.getObject();
 			ArrayList<Orders> orders = mydb.get_orders();
@@ -262,6 +262,17 @@ public class Server extends AbstractServer {
 				e.printStackTrace();
 			}
 			break;
+		}
+		case GETITEMSORDER:
+		{
+			int id = (int)massage.getObject();
+			try {
+				client.sendToClient(new Massage(mydb.getItemsInOrder(id),Commands.GETITEMSORDER));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		}
 
