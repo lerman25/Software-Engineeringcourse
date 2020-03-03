@@ -214,6 +214,7 @@ public class DataBase {
 				int totalCost = rs.getInt("TotalCost");
 				int status = rs.getInt("Status");
                Orders order = new Orders(clientid,time,orderdate,shipment,address,receiverPone,recivername,deliverytime,totalCost,status);
+               order.setID(id);
                System.out.println("from DB order id "+order.getID());
                orders.add(order);
 			}

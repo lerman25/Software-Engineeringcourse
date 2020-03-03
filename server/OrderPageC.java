@@ -78,7 +78,7 @@ public class OrderPageC implements Initializable {
 	{
 		date.setText(order.getTime().toString());
 		address.setText(order.getAddress());
-		shipment.setText("TBD");
+		shipment.setText("TBD"); // maybe enum?
 		deliveryTime.setText(order.getDeliveryTime().toString());
 		orderID.setText(Integer.toString(order.getID()));
 		phone.setText(Integer.toString(order.getReciverPhone()));

@@ -66,7 +66,7 @@ public class ClientOrderC implements Initializable {
 						cvc.setOrder(rowData);
 						cvc.loadOrder();
 						primaryStage.setTitle("Order ID - "+rowData.getID());
-						primaryStage.setScene(new Scene(root, 500, 500));
+						primaryStage.setScene(new Scene(root, 600, 600));
 						primaryStage.show();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -88,7 +88,7 @@ public class ClientOrderC implements Initializable {
 	public ObservableList<Orders> get_list()
 	{
 		System.out.println("getlist");
-		Main.send_toServer(new Massage (1, Commands.CLIENTORDERS));
+		Main.send_toServer(new Massage (Main.get_client().getId(), Commands.CLIENTORDERS));
 		Massage msg = Main.get_from_server();
 		ArrayList<Orders> o =(ArrayList<Orders>) msg.getObject();
 		ObservableList<Orders> order_list = FXCollections.observableArrayList();

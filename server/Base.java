@@ -71,6 +71,20 @@ public class Base implements Initializable {
 
 	@FXML
 	void personal(ActionEvent event) {
+		System.out.println("omer");
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("ClientOrders.fxml"));
+		try {
+			Parent root = loader.load();
+			ClientOrderC cvc = loader.getController();
+			primaryStage.setScene(new Scene(root, 400, 400));
+			primaryStage.show();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
