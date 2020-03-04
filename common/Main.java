@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 
 
 import client.LClient;
+import server.Permissions;
 import server.Server;
 
 public class Main {
@@ -59,7 +60,12 @@ public class Main {
 		}
 		*/
 		DataBase myDB = DataBase.getInstance();
-		//myDB.table_delete("Client");
+		Person p1 = new Person("omer","lerman",2,"gmail",11,"22",11,"male","haifa","admin","admin");
+		ShopManager sm = new ShopManager(p1, 1);
+		Person p2 = new Person("omer","lerman",1,"gmail",11,"22",11,"male","haifa","client","client");
+		Client c = new Client(p2.getUsername(),p2.getPassword(), p2);
+		myDB.update_in_DB(sm);
+		
 	//	//myDB.table_delete("Person");
 		//myDB.table_delete("Employee");
 

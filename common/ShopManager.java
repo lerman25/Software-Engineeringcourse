@@ -1,11 +1,15 @@
 package common;
 
+import server.Permissions;
+
 public class ShopManager extends Person {
 	private int BranchID;
 
 	public ShopManager(Person p, int _branch) {
 		super(p);
 		BranchID = _branch;
+		super.setPermission(Permissions.SHOPMANAGER);
+
 		// TODO Auto-generated constructor stub
 	}
 
@@ -14,6 +18,8 @@ public class ShopManager extends Person {
 		super(_firstname, _lastname, _id, _mail, _phone, _credit, _age, _gender, _address, _username, _password);
 		// TODO Auto-generated constructor stub
 		BranchID = _branch;
+		super.setPermission(Permissions.SHOPMANAGER);
+
 
 	}
 

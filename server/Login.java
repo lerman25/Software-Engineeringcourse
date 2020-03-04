@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 import common.Client;
 import common.Commands;
 import common.Massage;
+import common.Person;
 
 public class Login implements Initializable {
 	@FXML
@@ -47,7 +48,7 @@ public class Login implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		int width = gd.getDisplayMode().getWidth();
 		int height = gd.getDisplayMode().getHeight();
@@ -103,7 +104,7 @@ public class Login implements Initializable {
 		loader.setLocation(Main.class.getResource("base.fxml"));
 		Parent root = loader.load();
 		Base cvc = loader.getController();
-		cvc.setId(0);
+		cvc.loadView();
 		// primaryStage.setTitle("Hello World");
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		int width = gd.getDisplayMode().getWidth();
@@ -145,25 +146,26 @@ public class Login implements Initializable {
 					login.setVisible(false);
 					next.setVisible(true);
 				} else {
-					msg = new Massage(id, Commands.GETCLIENT);
+					msg = new Massage(id, Commands.GETPERSON);
 					server.Main.send_toServer(msg);
 					msg = server.Main.get_from_server();
-					Client _client = (Client) msg.getObject();
-					Main.set_client(_client);
+					Person _client = (Person) msg.getObject();
+					Main.setPerson(_client);
+					Main.setPermission(_client.getPermission());
 					for_password.setTextFill(Color.web("black"));
 					for_password.setText("Welcome to Lilac <3 ^_^ .!");
 					// AnchorPane newanchor =
 					// FXMLLoader.load(getClass().getResource("server.fxml"));
 					// anchorer.getChildren().setAll(newanchor);
 					// primaryStage.setTitle("Hello World");
-
 					Stage primaryStage = Main.getStage();
 					FXMLLoader loader = new FXMLLoader();
 					loader.setLocation(getClass().getResource("base.fxml"));
 					Parent root = loader.load();
 					Base cvc = loader.getController();
-					cvc.setId(id);
-					//cvc.refreshTable();
+					cvc.loadView();
+
+					// cvc.refreshTable();
 					// primaryStage.setTitle("Hello World");
 					GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 					int width = gd.getDisplayMode().getWidth();

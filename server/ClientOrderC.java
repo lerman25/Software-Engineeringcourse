@@ -88,7 +88,7 @@ public class ClientOrderC implements Initializable {
 	public ObservableList<Orders> get_list()
 	{
 		System.out.println("getlist");
-		Main.send_toServer(new Massage (Main.get_client().getId(), Commands.CLIENTORDERS));
+		Main.send_toServer(new Massage (Main.getPerson().getId(), Commands.CLIENTORDERS));
 		Massage msg = Main.get_from_server();
 		ArrayList<Orders> o =(ArrayList<Orders>) msg.getObject();
 		ObservableList<Orders> order_list = FXCollections.observableArrayList();

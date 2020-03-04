@@ -111,7 +111,7 @@ public void setItem(String name1,String price1,String image1 ) {
     public void setMy_image(MouseEvent event) {
 
 
-         Stage primaryStage =Main.getStage();
+         Stage primaryStage =new Stage();
          FXMLLoader loader = new FXMLLoader();
          loader.setLocation(Main.class.getResource("item1.fxml"));
          StackPane mainLayout;
@@ -121,7 +121,7 @@ public void setItem(String name1,String price1,String image1 ) {
 
 	         cvc.setItem(_item); // Passing the client-object to the ClientViewController
 
-	         Scene scene = new Scene(mainLayout, 1900, 1080);
+	         Scene scene = new Scene(mainLayout, 400, 400);
 	         primaryStage.setScene(scene);
 	         primaryStage.setResizable(true);
 	         primaryStage.show();

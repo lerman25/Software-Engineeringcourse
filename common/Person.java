@@ -2,6 +2,8 @@ package common;
 
 import java.io.Serializable;
 
+import server.Permissions;
+
 public  class Person implements Serializable{
 	private String firstName;
 	private String lastName;
@@ -14,6 +16,7 @@ public  class Person implements Serializable{
 	private String address;
 	private String username;
 	private String password;
+	private Permissions permission;
 	static int counter=0;
 	public Person(String _firstname,String _lastname, int _id,String _mail,int _phone,String _credit,int _age,String _gender,String _address,String _username,String _password)
 	{
@@ -28,6 +31,7 @@ public  class Person implements Serializable{
 		address=_address;
 		username=_username;
 		password=_password;
+		 permission=Permissions.CLIENT;
 	}
 	public Person(String _firstname,String _lastname,String _mail,int _phone,String _credit,int _age,String _gender,String _address,String _username,String _password)
 	{
@@ -42,6 +46,7 @@ public  class Person implements Serializable{
 		address=_address;
 		username=_username;
 		password=_password;
+		 permission=Permissions.CLIENT;
 	}
 	public Person(Person p)
 	{
@@ -56,6 +61,7 @@ public  class Person implements Serializable{
 		address=p.getAddress();
 		username=p.getUsername();
 		password=p.getPassword();
+		 permission=p.getPermission();
 	}
 	public int getId() {
 		return id;
@@ -132,6 +138,12 @@ public  class Person implements Serializable{
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public Permissions getPermission() {
+		return permission;
+	}
+	public void setPermission(Permissions permission) {
+		this.permission = permission;
 	}
 
 }

@@ -1,5 +1,7 @@
 package common;
 
+import server.Permissions;
+
 public class Employee extends Person {
 
 	private int branchID;
@@ -9,6 +11,8 @@ public class Employee extends Person {
 		super(p);
 		// TODO Auto-generated constructor stub
 		branchID = _branchID;
+		super.setPermission(Permissions.EMPLOYEE);
+
 	}
 
 	public Employee(int _branchID, String _firstname, String _lastname, int _id, String _mail, int _phone,
@@ -16,6 +20,7 @@ public class Employee extends Person {
 		super(_firstname, _lastname, _id, _mail, _phone, _credit, _age, _gender, _address, _username, _password);
 		// TODO Auto-generated constructor stub
 		branchID = _branchID;
+		super.setPermission(Permissions.EMPLOYEE);
 
 	}
 

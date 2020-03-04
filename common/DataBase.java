@@ -13,6 +13,8 @@ import javax.imageio.ImageIO;
 
 import com.mysql.cj.jdbc.Blob;
 
+import server.Permissions;
+
 import java.awt.image.BufferedImage;
 import java.io.*;
 //
@@ -303,6 +305,9 @@ public class DataBase {
 					String password = rs.getString("Password");
 					person = new Person(firstname, lastname, _id, mail, phone, credit, age, gender, address, username,
 							password);
+					Permissions p = Permissions.valueOf(rs.getString("Permission"));
+					System.out.println(p);
+					person.setPermission(p);
 				}
 			}
 		} catch (SQLException e) {
@@ -445,7 +450,7 @@ public class DataBase {
 			case "Person": {
 				Person person = (Person) object;
 				PreparedStatement stmt1 = conn.prepareStatement(
-						"INSERT INTO Person(FirstName,LastName,ID,Email,PhoneNumber,CreditCard,Age,Gender,Address,Username,Password) VALUES (?, ?, ?,?,?,?,?,?,?,?,?)");
+						"INSERT INTO Person(FirstName,LastName,ID,Email,PhoneNumber,CreditCard,Age,Gender,Address,Username,Password,Permission) VALUES (?, ?, ?,?,?,?,?,?,?,?,?,?)");
 				stmt1.setString(1, person.getFirstName());
 				stmt1.setString(2, person.getLastName());
 				stmt1.setInt(3, person.getId());
@@ -457,6 +462,7 @@ public class DataBase {
 				stmt1.setString(9, person.getAddress());
 				stmt1.setString(10, person.getUsername());
 				stmt1.setString(11, person.getPassword());
+				stmt1.setString(12, person.getPermission().toString());
 				stmt1.executeUpdate();
 				break;
 			}

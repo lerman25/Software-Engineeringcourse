@@ -77,7 +77,7 @@ public class Item1 implements Initializable {
 //        int width = gd.getDisplayMode().getWidth();
 //        int height = gd.getDisplayMode().getHeight();
 //        primaryStage.setScene(new Scene(root, width, height));
-    	  Stage primaryStage =Main.getStage();
+    	  Stage primaryStage =new Stage();
           FXMLLoader loader = new FXMLLoader();
           loader.setLocation(Main.class.getResource("PayPage.fxml"));
           AnchorPane mainLayout;

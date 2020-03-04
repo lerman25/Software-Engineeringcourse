@@ -41,8 +41,10 @@ public class Base implements Initializable {
 	TabPane pane;
 	@FXML
 	Tab home;
-	@FXML
-	Tab employee;
+
+
+    @FXML
+    private Button manager;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -58,7 +60,22 @@ public class Base implements Initializable {
 		int height = gd.getDisplayMode().getHeight();
 		primaryStage.setScene(new Scene(root, width, height));
 	}
+    @FXML
+    void manager(ActionEvent event) {
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("EmployeeView.fxml"));
+		try {
+			Parent root = loader.load();
+			primaryStage.setScene(new Scene(root, 400, 400));
+			primaryStage.show();
 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+    }
 	public void signup(ActionEvent event) throws IOException {
 		Stage primaryStage = Main.getStage();
 		Parent root = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
@@ -88,30 +105,30 @@ public class Base implements Initializable {
 
 	}
 
-	private void user_vis() {
-		login.setVisible(false);
-		signup.setVisible(false);
-		Main.send_toServer(new Massage(id,Commands.GETCLIENT));
-		Massage msg = Main.get_from_server();
-		Client c = (Client) msg.getObject();
-		userLabel.setText("Welcom "+c.getUsername());
-
-	}
-	private void guest_vis() {
-		personal.setVisible(false);
-		userLabel.setVisible(false);
-		}
-
-	public void setId(int _id) {
-		id = _id;
-		System.out.println(id);
-		if (id > 0) {
-			user_vis();
+	public void loadView() {
+		Permissions p = Main.getPermission();
+		if(p==Permissions.GUEST)
+		{
+			personal.setVisible(false);
+			userLabel.setVisible(false);
+			manager.setVisible(false);
 		}
 		else
 		{
-			guest_vis();
+			personal.setVisible(true);
+			userLabel.setVisible(true);
+			login.setVisible(false);
+			signup.setVisible(false);
+			manager.setVisible(false);
+
+			userLabel.setText("Welcom "+Main.getPerson().getUsername());
+			if(p==Permissions.EMPLOYEE);
+				// ADD EMPLOyee things...
+			if(p==Permissions.SHOPMANAGER)
+				manager.setVisible(true);
+
 		}
+			
 
 	}
 }

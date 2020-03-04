@@ -29,10 +29,12 @@ import common.Client;
 import common.Commands;
 import common.Massage;
 import common.Orders;
+import common.Person;
 
 public class Main extends Application {
 	static LClient client;
-	private static Client _client=null;
+	private static Permissions permission = Permissions.GUEST;
+	private static Person person=null;
 	static private Stage stage = null;
 	private static String resource = "Login.fxml";
 	static Parent errorRoot = null;
@@ -74,9 +76,9 @@ public class Main extends Application {
 		stage.setOnCloseRequest(event -> {
 			System.out.println("exiting");
 			System.out.println("Stage is closing");
-			if(_client!=null)
+			if(person!=null)
 			{
-				send_toServer(new Massage(_client.getUsername(),Commands.LOGOUT));
+				send_toServer(new Massage(person.getUsername(),Commands.LOGOUT));
 			}
 			try {
 				Thread.sleep(300);
@@ -152,16 +154,28 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		boolean launchf=true;
-		set_client(null);
+		setPerson(null);
 		client = new LClient("127.0.0.1", 5555);
 		launch(args);
 	}
 
-	public static Client get_client() {
-		return _client;
+
+
+
+
+	public static Person getPerson() {
+		return person;
 	}
 
-	public static void set_client(Client _client) {
-		Main._client = _client;
+	public static void setPerson(Person person) {
+		Main.person = person;
+	}
+
+	public static Permissions getPermission() {
+		return permission;
+	}
+
+	public static void setPermission(Permissions permission) {
+		Main.permission = permission;
 	}
 }

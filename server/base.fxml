@@ -83,6 +83,7 @@
                   </Button>
                </children>
             </HBox>
+            <Button fx:id="manager" mnemonicParsing="false" onAction="#manager" text="Manager Options" GridPane.rowIndex="2" />
 				
 			</children>
 		</GridPane>
@@ -91,11 +92,6 @@
           <Tab text="Home">
              <content>
    			  <fx:include source="Home.fxml" />
-             </content>
-          </Tab>
-          <Tab text="Employee">
-             <content>
-   			  <fx:include source="EmployeeView.fxml" />
              </content>
           </Tab>
         </tabs>

@@ -68,7 +68,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0" />
             <HBox prefHeight="34.0" prefWidth="347.0">
                <children>
-                  <Text fx:id="userLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="214.13671875">
+                  <Text fx:id="userLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="116.13671875">
                      <font>
                         <Font name="System Bold Italic" size="18.0" />
                      </font>
@@ -83,6 +83,7 @@
                   </Button>
                </children>
             </HBox>
+            <Button fx:id="manager" mnemonicParsing="false" onAction="#manager" text="Manager Options" GridPane.rowIndex="2" />
 				
 			</children>
 		</GridPane>
@@ -91,11 +92,6 @@
           <Tab text="Home">
              <content>
    			  <fx:include source="Home.fxml" />
-             </content>
-          </Tab>
-          <Tab text="Employee">
-             <content>
-   			  <fx:include source="EmployeeView.fxml" />
              </content>
           </Tab>
         </tabs>

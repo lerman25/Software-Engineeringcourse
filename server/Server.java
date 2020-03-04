@@ -151,11 +151,12 @@ public class Server extends AbstractServer {
 		}
 		case GETPERSON: {
 			try {
-				client.sendToClient(new Massage(mydb.get_person(massage.getId()), Commands.GETPERSON));
+				client.sendToClient(new Massage(mydb.get_person((int) massage.getObject()), Commands.GETPERSON));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			break;
 		}
 		case GETCLIENT: {
 			try {

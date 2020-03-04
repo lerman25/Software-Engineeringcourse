@@ -34,10 +34,10 @@ public class PayPage  implements Initializable {
     Button payFinal;
     @FXML
     Button backToHome;
-    Client client ;
+    Person client ;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    	client = server.Main.get_client();
+    	client = server.Main.getPerson();
     	if(client !=null)
     	{
     	name1.setText(client.getFirstName()+" "+client.getLastName());
