@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="confirm" prefHeight="435.0" prefWidth="435.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.DiscountPage">
+   <children>
+      <Label fx:id="label" layoutX="152.0" layoutY="21.0" text="Select items for discount" />
+      <TableView fx:id="items" layoutX="142.0" layoutY="57.0" prefHeight="200.0" prefWidth="152.0">
+        <columns>
+          <TableColumn fx:id="item" prefWidth="75.0" text="Item" />
+          <TableColumn fx:id="price" prefWidth="75.0" text="Price" />
+        </columns>
+      </TableView>
+      <Button fx:id="confirm" layoutX="188.0" layoutY="325.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
+      <TextField fx:id="percent" layoutX="189.0" layoutY="278.0" prefHeight="25.0" prefWidth="59.0" text="0" />
+      <Label layoutX="48.0" layoutY="282.0" text="Discount in percentage" />
+   </children>
+</AnchorPane>

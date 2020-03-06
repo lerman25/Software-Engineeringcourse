@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -90,6 +91,9 @@ public class OrderPageC implements Initializable {
 		price.setCellValueFactory(new PropertyValueFactory<>("Price"));
 		itemList.setItems(null);
 		itemList.setItems(get_list());
+		itemList.getSelectionModel().setSelectionMode(
+			    SelectionMode.MULTIPLE
+			);
 
 
 
