@@ -13,6 +13,7 @@ public class Server extends AbstractServer {
 	private DataBase mydb;
 	private ArrayList<ConnectionToClient> connectedClients;
 	private boolean clientTest = false;
+	private boolean dbFlag = true;
 
 	public Server(int port) {
 		super(port);
@@ -54,7 +55,15 @@ public class Server extends AbstractServer {
 		Massage massage = (Massage) msg;
 		System.out.println(
 				"Massage handling from client: " + client.getName() + " Massage: " + massage.getCommand().toString());
-
+		if(dbFlag==false)
+			try {
+				client.sendToClient(new Massage(true, Commands.DBERROR));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		else
+		{
 		String user = massage.getUsername();
 		String pass = massage.getPassword();
 		if (massage.getCommand() == Commands.LOGIN) {
@@ -276,7 +285,7 @@ public class Server extends AbstractServer {
 			
 		}
 		}
-
+		}
 	}
 
 	public DataBase getDataBase() {
@@ -285,6 +294,10 @@ public class Server extends AbstractServer {
 
 	protected void serverStarted() {
 		mydb = DataBase.getInstance();
+		if(mydb.workFlag == false)
+		{
+			dbFlag = false;
+		}
 	}
 
 	protected void serverStopped() {

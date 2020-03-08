@@ -36,7 +36,7 @@ public class Main extends Application {
 	private static Permissions permission = Permissions.GUEST;
 	private static Person person=null;
 	static private Stage stage = null;
-	private static String resource = "GreetingCard.fxml";
+	private static String resource = "Login.fxml";
 	static Parent errorRoot = null;
     @FXML // fx:id="text"
     private Text text; // Value injected by FXMLLoader
@@ -147,8 +147,28 @@ public class Main extends Application {
 				e.printStackTrace();
 			}
 		}
-
-		return client.getReturnMassage();
+		Massage rmsg = client.getReturnMassage();
+//		if(rmsg.getCommand()==Commands.DBERROR)
+//		{
+//			try {
+//				errorRoot= FXMLLoader.load(Main.class.getResource("ServerErrorWindow.fxml"));
+//				/*ClientOrderC cvc = loader.getController();
+//				client.sendToServer(new Massage ( 1, Commands.CLIENTORDERS));
+//				Massage msg = this.get_from_server();
+//				ArrayList<Orders> o =(ArrayList<Orders>) msg.getObject();
+//				cvc.setOrders(o);
+//				cvc.refreshTable();*/
+//
+//				GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+//				int width = gd.getDisplayMode().getWidth();
+//				int height = gd.getDisplayMode().getHeight();
+//				stage.setScene(new Scene(errorRoot, width, height));
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} 
+//		}
+		return rmsg;
 
 	}
 

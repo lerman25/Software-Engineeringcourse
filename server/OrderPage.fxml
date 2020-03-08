@@ -35,5 +35,6 @@
             <TableColumn fx:id="price" prefWidth="75.0" text="Price" />
         </columns>
       </TableView>
+      <Button fx:id="cancel" layoutX="291.0" layoutY="182.0" mnemonicParsing="false" onAction="#cancel" text="Ask to cancel" />
    </children>
 </AnchorPane>

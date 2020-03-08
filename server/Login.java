@@ -104,6 +104,15 @@ public class Login implements Initializable {
 		loader.setLocation(Main.class.getResource("base.fxml"));
 		Parent root = loader.load();
 		Base cvc = loader.getController();
+//test for DBERROR
+		Massage msg = new Massage(Commands.LOGIN, username.getText(), password.getText());
+		server.Main.send_toServer(msg);
+		msg = server.Main.get_from_server();
+		if(msg.getCommand()==Commands.DBERROR)
+		{	
+			Main.setPermission(Permissions.ADMIN);
+			Main.setPerson(new Person("","",1,"",0,"", 0,"","","", null));
+		}
 		cvc.loadView();
 		// primaryStage.setTitle("Hello World");
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -133,8 +142,10 @@ public class Login implements Initializable {
 			Massage msg = new Massage(Commands.LOGIN, username.getText(), password.getText());
 			server.Main.send_toServer(msg);
 			msg = server.Main.get_from_server();
+			if(msg.getCommand()!=Commands.DBERROR)
+			{	
 			int id = (int) msg.getObject();
-
+			
 			if (id > 0) {
 				msg = new Massage(username.getText(), Commands.CONNECTED);
 				server.Main.send_toServer(msg);
@@ -179,6 +190,7 @@ public class Login implements Initializable {
 				}
 			}
 			return;
+		}
 		}
 
 	}

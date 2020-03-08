@@ -90,7 +90,9 @@ public class EmployeeController implements Initializable{
         data=FXCollections.observableArrayList();
         server.Main.send_toServer(msg);
         msg = server.Main.get_from_server();
-        ArrayList<Orders> orders = (ArrayList<Orders>) msg.getObject();
+        ArrayList<Orders> orders = new ArrayList<Orders>();
+        if(msg.getCommand()!=Commands.DBERROR)
+         orders= (ArrayList<Orders>) msg.getObject();
         for(int i=0;i<orders.size();i++)
         data.add(orders.get(i));
         //        orderID.setCellValueFactory(new PropertyValueFactory<>("orderID"));

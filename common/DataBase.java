@@ -36,6 +36,7 @@ public class DataBase {
 	static private final String USER = "SmFGAHPAE1";
 	static private final String PASS = "PrfUzkZFEX";
 	static private Connection conn;
+	public static boolean workFlag = true;
 
 	private DataBase() {
 	}
@@ -56,6 +57,7 @@ public class DataBase {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				printflag=false;
+				workFlag = false;
 			}
 			if(printflag) System.out.println("<<<DATABASE>> CONNECTED TO DB");
 			else System.out.println("<<<DATABASE>> ERROR WHILE CONNECTING");

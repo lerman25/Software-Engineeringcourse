@@ -57,7 +57,7 @@ public class ItemController {
             Massage m = new Massage(item,Commands.GETIMAGE);
             server.Main.send_toServer(m);
             m = server.Main.get_from_server();
-
+            //if(m.getCommand()!=Commands.DBERROR);
 		/*	byte[] immAsBytes = (byte[])m.getObject();
 			InputStream in = new ByteArrayInputStream(immAsBytes);*/
             URL url=null;

@@ -121,11 +121,21 @@ public class Base implements Initializable {
 			signup.setVisible(false);
 			manager.setVisible(false);
 
-			userLabel.setText("Welcom "+Main.getPerson().getUsername());
 			if(p==Permissions.EMPLOYEE);
 				// ADD EMPLOyee things...
 			if(p==Permissions.SHOPMANAGER)
 				manager.setVisible(true);
+			if(p==Permissions.ADMIN)
+			{
+				login.setVisible(true);
+				signup.setVisible(true);
+				manager.setVisible(true);
+			}
+			else
+			{
+				userLabel.setText("Welcom "+Main.getPerson().getUsername());
+
+			}
 
 		}
 			

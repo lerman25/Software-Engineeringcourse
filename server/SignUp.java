@@ -78,6 +78,8 @@ public class SignUp implements Initializable {
 				Massage msg = new Massage("Person",Commands.GETLASTID);
 				server.Main.send_toServer(msg);
 				msg = server.Main.get_from_server();
+				if(msg.getCommand()!=Commands.DBERROR)
+				{
 				int id = (int) msg.getObject();
 				Client client = new Client(_firstname, _lastname, id+1, _mail, _phone, _credit, _age, _gender, _address, _username, _password);
 				msg = new Massage(client,Commands.ADD);
@@ -90,7 +92,7 @@ public class SignUp implements Initializable {
                 int width = gd.getDisplayMode().getWidth();
                 int height = gd.getDisplayMode().getHeight();
                 primaryStage.setScene(new Scene(root, width, height));
-
+				}
             }
 
         }

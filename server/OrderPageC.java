@@ -1,6 +1,7 @@
 package server;
 
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -14,7 +15,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -22,6 +26,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 public class OrderPageC implements Initializable {
 	private Orders order;
 
@@ -67,7 +72,28 @@ public class OrderPageC implements Initializable {
 	    private TableColumn<Item, Double> price;
 
 	    @FXML
+	    private Button cancel;
+
+
+	    @FXML
+	    void cancel(ActionEvent event) {
+	    	//start cancellation process.
+	    }
+	    @FXML
 	    void complain(ActionEvent event) {
+	    	//need to think what parameters to send
+	    	Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("Complain.fxml"));
+			try {
+				Parent root = loader.load();
+				primaryStage.setScene(new Scene(root, 400, 400));
+				primaryStage.show();
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 	    }
 
@@ -104,7 +130,9 @@ public class OrderPageC implements Initializable {
 	{
 		Main.send_toServer(new Massage(order.getID(),Commands.GETITEMSORDER));
 		Massage msg = server.Main.get_from_server();
-		ItemInOrder iio = (ItemInOrder)msg.getObject();
+		ItemInOrder iio = new ItemInOrder(-1, -1);
+		if(msg.getCommand()!=Commands.DBERROR)
+		 iio = (ItemInOrder)msg.getObject();
 		ArrayList<Item> o =iio.getItemList();
 		ObservableList<Item> item_list = FXCollections.observableArrayList();
 		for(int i=0; i<o.size();i++)

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="500.0" prefWidth="473.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="server.ComplaintC">
+   <children>
+      <TextArea fx:id="writeBox" layoutX="42.0" layoutY="44.0" prefHeight="200.0" prefWidth="353.0" promptText="Write you complaint here" />
+      <Label fx:id="writeLabel" layoutX="141.0" layoutY="14.0" text="Write you complaint in the box below" />
+      <Button fx:id="addButton" layoutX="152.0" layoutY="281.0" mnemonicParsing="false" onAction="#add" text="Add complaint to order" />
+   </children>
+</AnchorPane>

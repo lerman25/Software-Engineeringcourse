@@ -90,7 +90,9 @@ public class ClientOrderC implements Initializable {
 		System.out.println("getlist");
 		Main.send_toServer(new Massage (Main.getPerson().getId(), Commands.CLIENTORDERS));
 		Massage msg = Main.get_from_server();
-		ArrayList<Orders> o =(ArrayList<Orders>) msg.getObject();
+		ArrayList<Orders> o = new ArrayList<Orders>();
+		if(msg.getCommand()!=Commands.DBERROR)
+		 o =(ArrayList<Orders>) msg.getObject();
 		ObservableList<Orders> order_list = FXCollections.observableArrayList();
 		for(int i=0; i<o.size();i++)
 		{

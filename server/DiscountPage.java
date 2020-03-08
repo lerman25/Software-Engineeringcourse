@@ -67,7 +67,9 @@ public class DiscountPage {
 		msg.setCommand(Commands.GETCATALOG);
 		server.Main.send_toServer(msg);
 		msg = server.Main.get_from_server();
-		ArrayList<Item> itemList = (ArrayList<Item>) msg.getObject();
+		ArrayList<Item> itemList = new ArrayList<Item>();
+		if(msg.getCommand()!=Commands.DBERROR)
+		 itemList= (ArrayList<Item>) msg.getObject();
 		ObservableList<Item> item_list = FXCollections.observableArrayList();
 		for (int i = 0; i < itemList.size(); i++) {
 			item_list.add(itemList.get(i));
