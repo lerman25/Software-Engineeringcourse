@@ -17,7 +17,7 @@ public class Orders implements Serializable {
 	private int totalCost;
 	private int status;
 	private static int counter = 0;
-
+	private String greeting = null;
 	public Orders(Orders _order) {
 		ID = _order.getID();
 		ClientID = _order.getClientID();
@@ -188,5 +188,13 @@ public class Orders implements Serializable {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public String getGreeting() {
+		return greeting;
+	}
+
+	public void setGreeting(String greeting) {
+		this.greeting = greeting;
 	}
 }

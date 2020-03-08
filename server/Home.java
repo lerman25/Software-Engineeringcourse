@@ -44,10 +44,11 @@ public class Home implements Initializable {
         previous.setVisible(false);
         //get all items to fill the list of the gridpane
         Massage msg = new Massage();
-        msg.setCommand(Commands.GETCATALOG);
-        server.Main.send_toServer(msg);
-        msg = server.Main.get_from_server();
-        ArrayList<Item> items = (ArrayList<Item>) msg.getObject();
+    //    msg.setCommand(Commands.GETCATALOG);
+     //   server.Main.send_toServer(msg);
+     //   msg = server.Main.get_from_server();
+      //  ArrayList<Item> items = (ArrayList<Item>) msg.getObject();
+        ArrayList<Item> items = new ArrayList<Item>();
         //
         Main.getStage().getScene().setCursor(Cursor.WAIT);
         int size = items.size()>12?12:items.size();

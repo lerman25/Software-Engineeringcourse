@@ -36,7 +36,7 @@ public class Main extends Application {
 	private static Permissions permission = Permissions.GUEST;
 	private static Person person=null;
 	static private Stage stage = null;
-	private static String resource = "Login.fxml";
+	private static String resource = "GreetingCard.fxml";
 	static Parent errorRoot = null;
     @FXML // fx:id="text"
     private Text text; // Value injected by FXMLLoader
