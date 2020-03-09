@@ -87,9 +87,11 @@ public class OrderPageC implements Initializable {
 			loader.setLocation(getClass().getResource("Complain.fxml"));
 			try {
 				Parent root = loader.load();
-				primaryStage.setScene(new Scene(root, 400, 400));
+				ComplaintC cvc = loader.getController(); 
+				cvc.setOrder(order);
+				primaryStage.setTitle("Complain - Order ID - "+order.getID());
+				primaryStage.setScene(new Scene(root, 600, 600));
 				primaryStage.show();
-
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

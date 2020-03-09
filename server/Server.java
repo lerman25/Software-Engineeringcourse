@@ -282,7 +282,14 @@ public class Server extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			break;
 			
+		}
+		case COMPLAIN:
+		{
+			Complaint complaint =(Complaint) massage.getObject();
+			mydb.add_to_DB(complaint);
+			break;
 		}
 		}
 		}

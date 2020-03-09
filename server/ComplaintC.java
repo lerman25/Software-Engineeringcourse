@@ -1,5 +1,12 @@
 package server;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import common.Commands;
+import common.Complaint;
+import common.Massage;
+import common.Orders;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,7 +24,7 @@ public class ComplaintC {
     @FXML
     private TextArea writeBox;
 
-    
+    private Orders order;
     
     @FXML
     void add(ActionEvent event) {
@@ -27,11 +34,22 @@ public class ComplaintC {
     	}
     	else
     	{
-    		//send to server writeBox.getText();
-    		// OR add to order or send back to PayPage or something like that
+    		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+
+    		Complaint complaint = new Complaint(date,writeBox.getText(),order.getClientID() ,1, order.getID(), 1);
+    		Main.send_toServer(new Massage (complaint, Commands.COMPLAIN));
+    	      AlertBox.display("Complaint","SUCCESS!");
     	}
 
     }
+
+	public Orders getOrder() {
+		return order;
+	}
+
+	public void setOrder(Orders orderID) {
+		this.order = orderID;
+	}
     
     
 }

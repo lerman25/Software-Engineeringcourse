@@ -33,8 +33,12 @@ public class DataBase {
 	static private final String DB = "SmFGAHPAE1";
 //	static private final String DB_URL = "https://remotemysql.com/phpmyadmin/" + DB + "?useSSL=false";
 	static private final String DB_URL = "jdbc:mysql://remotemysql.com/" + DB + "?useSSL=false";
+	static private final String LOCAL_DB_URL = "jdbc:MySql://localhost:3306/lilac?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+
 	static private final String USER = "SmFGAHPAE1";
 	static private final String PASS = "PrfUzkZFEX";
+	static private final String LOCAL_USER = "root";
+	static private final String LOCAL_PASS = "gunr1111";
 	static private Connection conn;
 	public static boolean workFlag = true;
 
@@ -52,7 +56,7 @@ public class DataBase {
 				e.printStackTrace();
 			}
 			try {
-				conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				conn = DriverManager.getConnection(LOCAL_DB_URL, LOCAL_USER, LOCAL_PASS);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

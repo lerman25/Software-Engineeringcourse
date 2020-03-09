@@ -64,7 +64,7 @@ public class Main {
 		ShopManager sm = new ShopManager(p1, 1);
 		Person p2 = new Person("omer","lerman",1,"gmail",11,"22",11,"male","haifa","client","client");
 		Client c = new Client(p2.getUsername(),p2.getPassword(), p2);
-		myDB.update_in_DB(sm);
+		myDB.add_to_DB(c);
 		
 	//	//myDB.table_delete("Person");
 		//myDB.table_delete("Employee");
