@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 
 import com.mysql.cj.jdbc.Blob;
 
+import server.OStatus;
 import server.Permissions;
 
 import java.awt.image.BufferedImage;
@@ -221,7 +222,7 @@ public class DataBase {
 				String recivername = rs.getString("ReciverName");
 				int totalCost = rs.getInt("TotalCost");
 				int status = rs.getInt("Status");
-               Orders order = new Orders(clientid,time,orderdate,shipment,address,receiverPone,recivername,deliverytime,totalCost,status);
+               Orders order = new Orders(clientid,time,orderdate,shipment,address,receiverPone,recivername,deliverytime,totalCost,OStatus.values()[status]);
                order.setID(id);
                System.out.println("from DB order id "+order.getID());
                orders.add(order);
@@ -542,7 +543,7 @@ public class DataBase {
 			case "Orders": {
 				Orders order = (Orders) object;
 				PreparedStatement stmt1 = conn.prepareStatement(
-						"INSERT INTO Orders(`ID`, `ClientID`, `Time`, `OrderDate`, `Shipment_Method`, `Address`, `ReciverPhone`, `ReciverName`, `DeliveryTime`, `DeliveryCost`, `TotalCost`) VALUES(?, ?, ?,?,?,?,?,?,?,?,?)");
+						"INSERT INTO Orders(`ID`, `ClientID`, `Time`, `OrderDate`, `Shipment_Method`, `Address`, `ReciverPhone`, `ReciverName`, `DeliveryTime`, `DeliveryCost`, `TotalCost`,`Status`) VALUES(?, ?, ?,?,?,?,?,?,?,?,?,?)");
 				stmt1.setInt(1, order.getID());
 				stmt1.setInt(2, order.getClientID());
 				stmt1.setDate(3, order.getTime());
@@ -554,6 +555,7 @@ public class DataBase {
 				stmt1.setDate(9, order.getDeliveryTime());
 				stmt1.setInt(10, order.getDeliveryCost());
 				stmt1.setInt(11, order.getItemList().getSumOfitems() + order.getDeliveryCost());
+				stmt1.setInt(12,order.getStatus().ordinal());
 				System.out.println(add_to_DB(order.getItemList()));
 				stmt1.executeUpdate();
 				break;

@@ -52,7 +52,8 @@ public class PayPage  implements Initializable {
     	items.add(item);
     	ItemInOrder _item = new ItemInOrder(items,0,client.getId());
     	java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-    	Orders order = new Orders(client.getId(), date, date, 1,client.getAddress(), client.getPhone_number(), client.getFirstName()+" "+client.getLastName(),date);
+    	Orders order = new Orders(client.getId(), date, date,1,client.getAddress(), client.getPhone_number(), client.getFirstName()+" "+client.getLastName(),date);
+    	order.setStatus(OStatus.ACCEPTED);
     	_item.setOrderID(order.getID());
     	order.setItemList(_item);
     	Main.send_toServer(new Massage(order,Commands.ADD));

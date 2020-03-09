@@ -114,7 +114,7 @@ public class OrderPageC implements Initializable {
 		reciver.setText(order.getReciverName());
 		deliveryCost.setText(Integer.toString(order.getDeliveryCost()));
 		totalCost.setText(Integer.toString(order.getTotalCost()));
-		status.setText(Integer.toString(order.getStatus()));
+		status.setText(order.getStatus().name());
 		itemName.setCellValueFactory(new PropertyValueFactory<>("Name"));
 		price.setCellValueFactory(new PropertyValueFactory<>("Price"));
 		itemList.setItems(null);
