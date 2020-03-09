@@ -253,7 +253,29 @@ public class DataBase {
 		return complaints;
 
 	}
+	public ArrayList<Complaint> get_complaints(int id) {
 
+		ArrayList<Complaint> complaints = new ArrayList<Complaint>();
+		try {
+			ResultSet rs = this.get_TableResultSet("Complaint");
+
+			while (rs.next()) {
+				Date date = rs.getDate("Date");
+				String text = rs.getString("TextField");
+				int clientID = rs.getInt("ClientID");
+				int Status = rs.getInt("Status");
+				int OrderID = (rs.getInt("OrderID"));
+				int cid = (rs.getInt("ID"));
+				Complaint complaint = new Complaint(date, text, clientID, Status, OrderID, cid);
+				if(complaint.getClientID()==id)
+				complaints.add(complaint);
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return complaints;
+
+	}
 	public ArrayList<Complaint> get_complaints(String criteria, String wanted) {
 
 		ArrayList<Complaint> complaints = new ArrayList<Complaint>();
@@ -562,6 +584,7 @@ public class DataBase {
 
 			}
 			case "Complaint": {
+				int id = getLastID("Complaint"); //auto id setting
 				Complaint complaint = (Complaint) object;
 				PreparedStatement stmt1 = conn.prepareStatement(
 						"INSERT INTO Complaint(`Date`, `TextField`, `ClientID`, `Status`, `OrderID`, `ID`) VALUES (?, ?, ?,?,?,?)");
@@ -570,7 +593,7 @@ public class DataBase {
 				stmt1.setInt(3, complaint.getClientID());
 				stmt1.setInt(4, complaint.getStatus());
 				stmt1.setInt(5, complaint.getOrderID());
-				stmt1.setInt(6, complaint.getID());
+				stmt1.setInt(6, id);
 				stmt1.executeUpdate();
 				break;
 

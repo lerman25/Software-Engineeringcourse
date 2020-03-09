@@ -16,6 +16,7 @@ public class Server extends AbstractServer {
 	private boolean dbFlag = true;
 
 	public Server(int port) {
+
 		super(port);
 		System.out.println("Server Loading...");
 		connectedClients = new ArrayList<ConnectionToClient>();
@@ -289,6 +290,19 @@ public class Server extends AbstractServer {
 		{
 			Complaint complaint =(Complaint) massage.getObject();
 			mydb.add_to_DB(complaint);
+			break;
+		}
+		case GETCOMPLAINTS:
+		{
+			try {
+				if(massage.getId()<=0) // this is for all complaints
+				client.sendToClient(new Massage(mydb.get_complaints(),Commands.GETCOMPLAINTS));
+				else // for specific client id
+					client.sendToClient(new Massage(mydb.get_complaints(massage.getId()),Commands.GETCOMPLAINTS));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
 		}
 		}

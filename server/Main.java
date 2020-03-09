@@ -36,7 +36,7 @@ public class Main extends Application {
 	private static Permissions permission = Permissions.GUEST;
 	private static Person person=null;
 	static private Stage stage = null;
-	private static String resource = "Login.fxml";
+	private static String resource = "DiscountPage.fxml";
 	static Parent errorRoot = null;
     @FXML // fx:id="text"
     private Text text; // Value injected by FXMLLoader
@@ -57,12 +57,12 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource(resource));
 		Parent root = loader.load();
-		/*ClientOrderC cvc = loader.getController();
-		client.sendToServer(new Massage ( 1, Commands.CLIENTORDERS));
-		Massage msg = this.get_from_server();
-		ArrayList<Orders> o =(ArrayList<Orders>) msg.getObject();
-		cvc.setOrders(o);
-		cvc.refreshTable();*/
+		DiscountPage cvc = loader.getController();
+//		client.sendToServer(new Massage ( 1, Commands.CLIENTORDERS));
+//		Massage msg = this.get_from_server();
+//		ArrayList<Orders> o =(ArrayList<Orders>) msg.getObject();
+//		cvc.setOrders(o);
+		cvc.loadTable();
 		errorRoot= FXMLLoader.load(getClass().getResource("ServerErrorWindow.fxml"));
 
 		stage.setTitle("Lilac");

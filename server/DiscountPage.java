@@ -6,8 +6,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -37,20 +39,23 @@ public class DiscountPage {
 	@FXML
 	void confirm(ActionEvent event) {
 		if ((percent.getText().length() > 0) && percent.getText().toString().matches("\\d+")) {
-			label.setText("Please choose an integer percent");
 			if (Integer.parseInt(percent.getText()) > 0) {
-
-			} else {
-				label.setText("Please choose an integer bigger then 0");
-			}
-		} else {
 			if (items.getSelectionModel().getSelectedItems().size() < 1) {
 				label.setText("Please select items");
 			} else {
 				ObservableList<Item> selected = items.getSelectionModel().getSelectedItems();
 				setDiscount(selected,Integer.parseInt(percent.getText()));
 			}
+			} else {
+				label.setText("Please choose an integer bigger then 0");
+			}
 		}
+		else
+		{
+			label.setText("Please choose an integer percent");
+
+			}
+
 	}
 
 	public void loadTable() {
@@ -59,6 +64,7 @@ public class DiscountPage {
 		price.setCellValueFactory(new PropertyValueFactory<>("Price"));
 		items.setItems(null);
 		items.setItems(get_list());
+		items.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 	}
 
@@ -68,8 +74,8 @@ public class DiscountPage {
 		server.Main.send_toServer(msg);
 		msg = server.Main.get_from_server();
 		ArrayList<Item> itemList = new ArrayList<Item>();
-		if(msg.getCommand()!=Commands.DBERROR)
-		 itemList= (ArrayList<Item>) msg.getObject();
+		if (msg.getCommand() != Commands.DBERROR)
+			itemList = (ArrayList<Item>) msg.getObject();
 		ObservableList<Item> item_list = FXCollections.observableArrayList();
 		for (int i = 0; i < itemList.size(); i++) {
 			item_list.add(itemList.get(i));
@@ -78,7 +84,7 @@ public class DiscountPage {
 
 	}
 
-	public void setDiscount(ObservableList<Item> selected,int percentage) {
+	public void setDiscount(ObservableList<Item> selected, int percentage) {
 
 	}
 }

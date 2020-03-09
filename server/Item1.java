@@ -3,9 +3,15 @@ package server;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 
+import common.Commands;
 import common.Item;
+import common.ItemInOrder;
+import common.Massage;
+import common.Orders;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -39,6 +45,8 @@ public class Item1 implements Initializable {
     @FXML
     private Button buyBtton ;
     @FXML
+    private Button addCartBtton ;
+    @FXML
     private StackPane anchory;
     private Item item;
 
@@ -55,6 +63,7 @@ public class Item1 implements Initializable {
 
 
     }
+    
            @Override
         public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -77,7 +86,7 @@ public class Item1 implements Initializable {
 //        int width = gd.getDisplayMode().getWidth();
 //        int height = gd.getDisplayMode().getHeight();
 //        primaryStage.setScene(new Scene(root, width, height));
-    	  Stage primaryStage =new Stage();
+    	  Stage primaryStage =Main.getStage();
           FXMLLoader loader = new FXMLLoader();
           loader.setLocation(Main.class.getResource("PayPage.fxml"));
           AnchorPane mainLayout;
@@ -96,5 +105,27 @@ public class Item1 implements Initializable {
   			e.printStackTrace();
   		}
 
+    }
+    public void addCart(MouseEvent event) throws IOException {
+    	
+        AlertBox.display("ADDED","Item added to cart!");
+//        Stage primaryStage =Main.getStage();
+//        FXMLLoader loader = new FXMLLoader();
+//        loader.setLocation(Main.class.getResource("Cart.fxml"));
+//        AnchorPane mainLayout;
+//        try {
+//			mainLayout = loader.load();
+//	        PayPage cvc = loader.getController(); // This did the "trick"
+//
+//	         cvc.setItem(this.item); // Passing the client-object to the ClientViewController
+//
+//	         Scene scene = new Scene(mainLayout, 1900, 1080);
+//	         primaryStage.setScene(scene);
+//	         primaryStage.setResizable(true);
+//	         primaryStage.show();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
     }
 }

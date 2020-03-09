@@ -7,10 +7,17 @@ import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.imageio.ImageIO;
-
-
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import common.Mailer;
 import client.LClient;
 import server.Permissions;
 import server.Server;
@@ -59,13 +66,14 @@ public class Main {
 			System.out.println(id);
 		}
 		*/
-		DataBase myDB = DataBase.getInstance();
-		Person p1 = new Person("omer","lerman",2,"gmail",11,"22",11,"male","haifa","admin","admin");
-		ShopManager sm = new ShopManager(p1, 1);
-		Person p2 = new Person("omer","lerman",1,"gmail",11,"22",11,"male","haifa","client","client");
-		Client c = new Client(p2.getUsername(),p2.getPassword(), p2);
-		myDB.add_to_DB(c);
-		
+//		DataBase myDB = DataBase.getInstance();
+//		Person p1 = new Person("omer","lerman",2,"gmail",11,"22",11,"male","haifa","admin","admin");
+//		ShopManager sm = new ShopManager(p1, 1);
+//		Person p2 = new Person("omer","lerman",1,"gmail",11,"22",11,"male","haifa","client","client");
+//		Client c = new Client(p2.getUsername(),p2.getPassword(), p2);
+//		myDB.add_to_DB(c);
+		Mailer mail = new Mailer("lerman25@gmail.com");
+		mail.sendMail("hey omer");
 	//	//myDB.table_delete("Person");
 		//myDB.table_delete("Employee");
 

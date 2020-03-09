@@ -7,11 +7,11 @@
 
 <AnchorPane onMouseClicked="#backHome" onMouseDragged="#backHome" prefHeight="500.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.PayPage">
    <children>
-      <TextField fx:id="name1" layoutX="410.0" layoutY="100.0" prefHeight="34.0" prefWidth="227.0" />
-      <TextField fx:id="creditCard" layoutX="410.0" layoutY="165.0" prefHeight="34.0" prefWidth="227.0" />
+      <TextField fx:id="name1" disable="true" layoutX="410.0" layoutY="100.0" prefHeight="34.0" prefWidth="227.0" />
+      <TextField fx:id="creditCard" disable="true" layoutX="410.0" layoutY="165.0" prefHeight="34.0" prefWidth="227.0" />
       <Label layoutX="324.0" layoutY="109.0" text="name" />
       <Label layoutX="324.0" layoutY="174.0" text="credit card" />
-      <Button fx:id="payFinal" layoutX="498.0" layoutY="238.0" mnemonicParsing="false" onAction="#buyB" onMouseClicked="#buyB" onMouseDragged="#buyB" text="Pay" />
+      <Button fx:id="payFinal" layoutX="498.0" layoutY="238.0" mnemonicParsing="false" onAction="#buyB" onMouseClicked="#buyB" onMouseDragged="#buyB" onMouseEntered="#buyB" text="Pay" />
       <Button fx:id="backToHome" layoutX="464.0" layoutY="294.0" mnemonicParsing="false" onAction="#backHome" onMouseClicked="#backHome" onMouseDragged="#backHome" text="Back to home page" />
    </children>
 </AnchorPane>

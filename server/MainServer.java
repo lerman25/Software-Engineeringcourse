@@ -21,7 +21,16 @@ public class MainServer extends Application {
 	public static Server myServer;
 	@Override
 	public void start(Stage primaryStage) {
+
 		myServer= new Server(5555);
+//		 Runtime.getRuntime().addShutdownHook(new Thread() 
+//		    { 
+//		      public void run() 
+//		      { 
+//		        System.out.println("Shutdown Hook is running !"); 
+//		        myServer.stopListening();
+//		      } 
+//		    }); 
 		URL url = getClass().getResource("ServerScene.fxml");
 		try {
 			AnchorPane pane = FXMLLoader.load(url);

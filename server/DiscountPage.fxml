@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="confirm" prefHeight="435.0" prefWidth="435.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.DiscountPage">
+<AnchorPane fx:id="anchor" prefHeight="435.0" prefWidth="435.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.DiscountPage">
    <children>
       <Label fx:id="label" layoutX="152.0" layoutY="21.0" text="Select items for discount" />
       <TableView fx:id="items" layoutX="142.0" layoutY="57.0" prefHeight="200.0" prefWidth="152.0">
@@ -18,5 +18,6 @@
       <Button fx:id="confirm" layoutX="188.0" layoutY="325.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
       <TextField fx:id="percent" layoutX="189.0" layoutY="278.0" prefHeight="25.0" prefWidth="59.0" text="0" />
       <Label layoutX="48.0" layoutY="282.0" text="Discount in percentage" />
+      <Label layoutX="110.0" layoutY="385.0" text="TIP : Hold CTRL for multiple selection" />
    </children>
 </AnchorPane>

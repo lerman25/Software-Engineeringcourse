@@ -55,7 +55,6 @@ public class PayPage  implements Initializable {
     	Orders order = new Orders(client.getId(), date, date, 1,client.getAddress(), client.getPhone_number(), client.getFirstName()+" "+client.getLastName(),date);
     	_item.setOrderID(order.getID());
     	order.setItemList(_item);
-
     	Main.send_toServer(new Massage(order,Commands.ADD));
         AlertBox.display("Payment","SUCCESS!");
     }

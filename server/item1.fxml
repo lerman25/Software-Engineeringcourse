@@ -14,13 +14,13 @@
    <children>
       <AnchorPane maxHeight="1080.0" maxWidth="1920.0" minHeight="1080.0" minWidth="1920.0" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #fff0f5;">
           <children>
-              <TextField fx:id="name" layoutX="785.0" layoutY="186.0" prefHeight="30.0" prefWidth="207.0" />
-              <ImageView fitHeight="292.0" fitWidth="383.0" layoutX="292.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
-              <TextField fx:id="kind" layoutX="785.0" layoutY="229.0" prefHeight="21.0" prefWidth="207.0" />
-              <TextField fx:id="color" layoutX="785.0" layoutY="266.0" prefHeight="26.0" prefWidth="207.0" />
-              <TextField fx:id="size" layoutX="785.0" layoutY="299.0" prefHeight="26.0" prefWidth="207.0" />
-              <TextField fx:id="price" layoutX="785.0" layoutY="333.0" prefHeight="26.0" prefWidth="207.0" />
-              <Button fx:id="buyBtton" layoutX="417.0" layoutY="376.0" mnemonicParsing="false" onMouseClicked="#buyB" onMouseDragged="#buyB" prefHeight="42.0" prefWidth="163.0" text="Buy" />
+              <TextField fx:id="name" disable="true" layoutX="785.0" layoutY="186.0" prefHeight="30.0" prefWidth="207.0" />
+              <ImageView fitHeight="292.0" fitWidth="383.0" layoutX="299.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
+              <TextField fx:id="kind" disable="true" layoutX="785.0" layoutY="229.0" prefHeight="21.0" prefWidth="207.0" />
+              <TextField fx:id="color" disable="true" layoutX="785.0" layoutY="266.0" prefHeight="26.0" prefWidth="207.0" />
+              <TextField fx:id="size" disable="true" layoutX="785.0" layoutY="308.0" prefHeight="26.0" prefWidth="207.0" />
+              <TextField fx:id="price" disable="true" layoutX="785.0" layoutY="333.0" prefHeight="26.0" prefWidth="207.0" />
+              <Button fx:id="buyBtton" layoutX="432.0" layoutY="359.0" mnemonicParsing="false" onMouseClicked="#buyB" onMouseDragged="#buyB" prefHeight="42.0" prefWidth="163.0" text="Buy Now" />
               <Label layoutX="710.0" layoutY="192.0" text="name" />
               <Label layoutX="711.0" layoutY="233.0" text="kind" />
               <Label layoutX="711.0" layoutY="271.0" text="color" />
@@ -36,6 +36,7 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Text>
+            <Button fx:id="addCartBtton" layoutX="432.0" layoutY="415.0" mnemonicParsing="false" onMouseClicked="#addCart" onMouseDragged="#addCart" prefHeight="48.0" prefWidth="163.0" text="Add To Cart" />
           </children>
       </AnchorPane>
    </children>
