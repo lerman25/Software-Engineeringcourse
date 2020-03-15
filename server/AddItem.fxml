@@ -31,7 +31,7 @@
             <TextField fx:id="name" promptText="Insert name here..." GridPane.columnIndex="1" />
             <TextField fx:id="price" promptText="Insert price here..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="kind" promptText="Insert kind here..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <ColorPicker fx:id="color" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ColorPicker fx:id="color" onAction="#color" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <ChoiceBox fx:id="size" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="insert image render here" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>

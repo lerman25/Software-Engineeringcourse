@@ -646,7 +646,7 @@ public class DataBase {
 		return "FAIL-UNKNOWN";
 
 	}
-
+//redo it !!!!!!!
 	public String delete_from_DB(Object object) {
 		try {
 			String table = object.getClass().getSimpleName();
@@ -671,8 +671,8 @@ public class DataBase {
 			} else {
 				boolean id_flag = false;
 				while (rs.next()) {
-					String id = (rs.getString("ID"));
-					if (id.equals(object.toString())) {
+					int id = (rs.getInt("ID"));
+					if (String.valueOf(id).equals((object.toString()))) {
 						id_flag = true;
 						PreparedStatement st = conn.prepareStatement("DELETE FROM " + table + " WHERE ID = ?");
 						st.setInt(1, Integer.valueOf(object.toString()));

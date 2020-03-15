@@ -141,6 +141,12 @@ public class Server extends AbstractServer {
 		}
 		case UPDATE: {
 			mydb.update_in_DB(massage.getObject());
+			try {
+				client.sendToClient(new Massage(true, Commands.UPDATE));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
 		}
 		case GETIMAGE: {

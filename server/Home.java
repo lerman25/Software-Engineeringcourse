@@ -82,5 +82,43 @@ public class Home implements Initializable {
        
   //  public void nextpage
         }
+    public void reload()
+    {
+    	 Massage msg = new Massage();
+         msg.setCommand(Commands.GETCATALOG);
+         ArrayList<Item> items = new ArrayList<Item>();
+         server.Main.send_toServer(msg);
+         msg = server.Main.get_from_server();
+ 		if(msg.getCommand()!=Commands.DBERROR)
+         items = (ArrayList<Item>) msg.getObject();
+
+         //
+         Main.getStage().getScene().setCursor(Cursor.WAIT);
+         int size = items.size()>12?12:items.size();
+         try {
+         	for(int i=0;i<2;i++)
+         	{
+         		for(int j=1;j<4;j++)
+         		{
+                     FXMLLoader loader =  new FXMLLoader(getClass().getResource("Item.fxml"));
+                     catalog.add(loader.load(),j,i);
+                     ItemController controller= loader.getController();
+                     //setItem arraylist<count> |count  1 to 6 or 0 to 5
+                     if((i+i*j)<items.size())
+                     {
+                         Item item = items.get(i+i*j); //this needs to be fixed!!!!!
+                        controller.setItem(item);
+
+
+                     }
+
+         		}
+         	}
+
+
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+    }
     }
 

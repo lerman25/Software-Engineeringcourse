@@ -68,6 +68,7 @@ public class Base implements Initializable {
 		try {
 			Parent root = loader.load();
 			primaryStage.setScene(new Scene(root, 400, 400));
+
 			primaryStage.show();
 
 		} catch (IOException e) {

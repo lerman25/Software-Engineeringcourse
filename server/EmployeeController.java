@@ -68,6 +68,12 @@ public class EmployeeController implements Initializable{
 
     @FXML
     private Button itemAdd;
+    @FXML
+    private Button delivered;
+
+    @FXML
+    private Button sale;
+
 
     @FXML
     private Button itemRemove;
@@ -88,7 +94,7 @@ public class EmployeeController implements Initializable{
     DataBase DbConnection;
     @Override
     public void initialize(URL location,ResourceBundle resource){
-//      username.setText("Kasim Gadban");
+      username.setText(Main.getPerson().getUsername());
     }
     @FXML
     void renderCatalog() {
@@ -216,5 +222,35 @@ public class EmployeeController implements Initializable{
 
     	}
     }
+    @FXML
+    void delivered(ActionEvent event) {
+    	Orders selected = tableOrders.getSelectionModel().getSelectedItem();
+    	selected.setStatus(OStatus.DELIVERED);
+		Main.send_toServer(new Massage (selected,Commands.UPDATE));
+		Massage msg = Main.get_from_server();
+		if(msg.getCommand()!=Commands.DBERROR) 
+		{
+			// INSERT SUCSESS PROMPT
+		}
+		renderOrders();
 
+    }
+    @FXML
+    void sale(ActionEvent event) {
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("DiscountPage.fxml"));
+		try {
+			Parent root = loader.load();
+			DiscountPage cvc = loader.getController(); 
+			cvc.loadTable();
+			primaryStage.setTitle("Sale - ");
+			primaryStage.setScene(new Scene(root, 600, 600));
+			primaryStage.show();
+    }
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+
+}
 }

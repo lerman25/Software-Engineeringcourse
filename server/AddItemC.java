@@ -43,7 +43,7 @@ public class AddItemC implements Initializable {
     @FXML
     void save(ActionEvent event) {
         Color selected=	color.getValue();
-        // check text fields befor... 
+        // check text fields before... 
         Item newitem = new Item(name.getText(),Integer.parseInt(price.getText()),kind.getText(),selected.toString(),size.getSelectionModel().getSelectedItem());
 		Main.send_toServer(new Massage ("Item",Commands.GETLASTID));
 		Massage msg = Main.get_from_server();
