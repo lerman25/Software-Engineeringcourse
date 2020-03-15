@@ -91,6 +91,12 @@ public class Server extends AbstractServer {
 		switch (massage.getCommand()) {
 		case ADD: {
 			System.out.println(mydb.add_to_DB(massage.getObject()));
+			try {
+				client.sendToClient(new Massage(true, Commands.ADD));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
 
 		}

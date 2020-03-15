@@ -53,7 +53,7 @@ public class ItemController {
             my_image.setImage(null);
         } else {
             name.setText(item.getName());
-            price.setText(Double.toString(item.getPrice()));
+            price.setText(String.valueOf(item.getPrice()));
             Massage m = new Massage(item,Commands.GETIMAGE);
             server.Main.send_toServer(m);
             m = server.Main.get_from_server();
@@ -99,14 +99,14 @@ public class ItemController {
 //    public void initialize(URL location, ResourceBundle resources) {
 //
 //    }
-public void setItem(String name1,String price1,String image1 ) {
-        name.setText(name1);
-        price.setText(price1);
-        Image wayo = new Image(image1);
-        my_image.setImage(wayo);
-
-
-}
+//public void setItem(String name1,String price1,String image1 ) {
+//        name.setText(name1);
+//        price.setText(price1);
+//        Image wayo = new Image(image1);
+//        my_image.setImage(wayo);
+//
+//
+//}
     @FXML
     public void setMy_image(MouseEvent event) {
 

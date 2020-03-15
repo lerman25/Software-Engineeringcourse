@@ -7,15 +7,15 @@ import java.io.Serializable;
 
 public class Item implements Serializable {
 	private String Name;
-	private double Price;
+	private int Price;
 	private String Kind;
 	private String Color;
-	private String Size;
+	private server.Size Size;
 	private String id;
 	private Image image;
 	private static int count = 0;
 
-	public Item(String _name, double _Price, String _Kind, String _Color, String _Size) {
+	public Item(String _name, int _Price, String _Kind, String _Color, server.Size _Size) {
 		// TODO Auto-generated constructor stub
 		setName(_name);
 		setPrice(_Price);
@@ -24,7 +24,7 @@ public class Item implements Serializable {
 		setSize(_Size);
 		setId(Integer.toString(++count));
 	}
-	public Item(String _name, double _Price, String _Kind, String _Color, String _Size,String _id) {
+	public Item(String _name, int _Price, String _Kind, String _Color, server.Size _Size,String _id) {
 		// TODO Auto-generated constructor stub
 		setName(_name);
 		setPrice(_Price);
@@ -58,11 +58,11 @@ public class Item implements Serializable {
 		Name = name;
 	}
 
-	public double getPrice() {
+	public int getPrice() {
 		return Price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		Price = price;
 	}
 
@@ -74,11 +74,11 @@ public class Item implements Serializable {
 		Kind = kind;
 	}
 
-	public String getSize() {
+	public server.Size getSize() {
 		return Size;
 	}
 
-	public void setSize(String size) {
+	public void setSize(server.Size size) {
 		Size = size;
 	}
 

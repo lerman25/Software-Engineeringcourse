@@ -113,19 +113,23 @@ public class DataBase {
 		return maxID;
 	}
 	public ArrayList<Item> get_flowers() {
-
 		ArrayList<Item> catalog = new ArrayList<Item>();
 		try {
 			ResultSet rs = this.get_TableResultSet("Item");
 
 			while (rs.next()) {
 				String Name = rs.getString("Name");
-				double Price = rs.getInt("Price");
+				int Price = rs.getInt("Price");
 				String Kind = rs.getString("Kind");
 				String Color = rs.getString("Color");
-				String Size = (rs.getString("Size"));
 				int id = (rs.getInt("ID"));
-				Item newitem = new Item(Name, Price, Kind, Color, Size, String.valueOf(id));
+				int Size = (rs.getInt("Size"));
+				if(Size>server.Size.values().length-1)
+				{
+					Size = server.Size.values().length-1;
+				}
+				Item newitem = new Item(Name, Price, Kind, Color,server.Size.values()[Size], String.valueOf(id));	
+				System.out.println(newitem.to_String());
 				catalog.add(newitem);
 			}
 
@@ -145,11 +149,11 @@ public class DataBase {
 				if(iid==id)
 				{
 					String Name = rs.getString("Name");
-					double Price = rs.getInt("Price");
+					int Price = rs.getInt("Price");
 					String Kind = rs.getString("Kind");
 					String Color = rs.getString("Color");
-					String Size = (rs.getString("Size"));
-					Item newitem = new Item(Name, Price, Kind, Color, Size, String.valueOf(id));
+					int Size = (rs.getInt("Size"));
+					Item newitem = new Item(Name, Price, Kind, Color,server.Size.values()[Size], String.valueOf(id));
 					return newitem;
 				}
 			}
@@ -170,20 +174,20 @@ public class DataBase {
 
 			while (rs.next()) {
 				String Name = rs.getString("Name");
-				double Price = rs.getInt("Price");
+				int Price = rs.getInt("Price");
 				String Kind = rs.getString("Kind");
 				String Color = rs.getString("Color");
-				String Size = (rs.getString("Size"));
+				int Size = (rs.getInt("Size"));
 				String id = (rs.getString("ID"));
 				if (criteria.equals("Price")) {
 					if (rs.getInt(criteria) == Integer.parseInt(wanted)) {
-						Item newitem = new Item(Name, Price, Kind, Color, Size, id);
+						Item newitem = new Item(Name, Price, Kind, Color, server.Size.values()[Size], id);
 						catalog.add(newitem);
 					}
 
 				} else {
 					if (rs.getString(criteria).equals(wanted)) {
-						Item newitem = new Item(Name, Price, Kind, Color, Size, id);
+						Item newitem = new Item(Name, Price, Kind, Color, server.Size.values()[Size], id);
 						catalog.add(newitem);
 					}
 				}
@@ -486,19 +490,21 @@ public class DataBase {
 			ResultSet rs = this.get_TableResultSet(table);
 
 			boolean id_flag = false;
-
+//
 			switch (table) {
 			case "Item": {
 				Item item = (Item) object;
 				PreparedStatement stmt1 = conn.prepareStatement(
-						"INSERT INTO Item(Name, Price, Kind,Color,Size,ID,Image) VALUES (?, ?, ?,?,?,?,?)");
+						"INSERT INTO Item(Name, Price, Kind,Color,Size,ID,Image,URL) VALUES (?, ?, ?,?,?,?,?,?)");
 				stmt1.setString(1, item.getName());
 				stmt1.setInt(2, (int) item.getPrice());
 				stmt1.setString(3, item.getKind());
 				stmt1.setString(4, item.getColor());
-				stmt1.setInt(5, 11);
+				stmt1.setInt(5, item.getSize().ordinal());
 				stmt1.setInt(6, Integer.valueOf(item.getId()));
 				stmt1.setString(7, "NOTYET");
+				stmt1.setString(8, "NOTYET");
+
 				stmt1.executeUpdate();
 				break;
 			}

@@ -59,7 +59,7 @@ public class Item1 implements Initializable {
         price.setText(Double.toString(this.item.getPrice()));
         kind.setText(this.item.getKind());
         color.setText(this.item.getColor());
-        size.setText(this.item.getSize());
+        size.setText(this.item.getSize().toString());
 
 
     }

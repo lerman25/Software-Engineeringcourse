@@ -106,6 +106,7 @@ public class EmployeeController implements Initializable{
         data=FXCollections.observableArrayList();
         server.Main.send_toServer(msg);
         msg = server.Main.get_from_server();
+
         ArrayList<Orders> orders = new ArrayList<Orders>();
         if(msg.getCommand()!=Commands.DBERROR)
          orders= (ArrayList<Orders>) msg.getObject();
@@ -184,6 +185,19 @@ public class EmployeeController implements Initializable{
 
     @FXML
     void addItem(ActionEvent event) {
+        Stage primaryStage = new Stage();
+        Parent parent;
+		try {
+			parent = FXMLLoader.load(getClass().getResource("AddItem.fxml"));
+	        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+	        int width = 600;
+	        int height = 600;
+	        primaryStage.setScene(new Scene(parent, width, height));
+	        primaryStage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
     }
 

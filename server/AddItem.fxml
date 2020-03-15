@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="465.0" prefWidth="442.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.AddItemC">
+   <children>
+      <GridPane layoutX="21.0" layoutY="14.0" prefHeight="425.0" prefWidth="261.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="50.0" minHeight="0.0" prefHeight="24.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="110.0" minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="140.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="101.0" minHeight="0.0" prefHeight="38.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="161.0" minHeight="0.0" prefHeight="31.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="259.0" minHeight="10.0" prefHeight="259.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item's Name" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item's Price" GridPane.rowIndex="1" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item's Kind" GridPane.rowIndex="2" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item's Color" GridPane.rowIndex="3" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item's Size" GridPane.rowIndex="4" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item's Image" GridPane.rowIndex="5" />
+            <TextField fx:id="name" promptText="Insert name here..." GridPane.columnIndex="1" />
+            <TextField fx:id="price" promptText="Insert price here..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="kind" promptText="Insert kind here..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ColorPicker fx:id="color" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="size" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="insert image render here" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         </children>
+      </GridPane>
+      <Button fx:id="save" layoutX="322.0" layoutY="214.0" mnemonicParsing="false" onAction="#save" text="Save" />
+      <Label fx:id="errorLabel" layoutX="329.0" layoutY="27.0" />
+   </children>
+</AnchorPane>
