@@ -91,14 +91,26 @@ public class Server extends AbstractServer {
 		switch (massage.getCommand()) {
 		case ADD: {
 			System.out.println(mydb.add_to_DB(massage.getObject()));
+			break;
+
 		}
 		case CHECK: {
 			Account account = (Account) massage.getObject();
 			System.out.println(mydb.checkLogin_user(account.getUsername(), account.getPassword()));
+			break;
 
 		}
 		case DELETE: {
 			System.out.println(mydb.delete_from_DB(massage.getObject()));
+			try {
+				client.sendToClient(new Massage(true, Commands.DELETE));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			break;
+
 		}
 		case EXISTS: {
 			int test = mydb.exists_in_DB(massage.getObject());
@@ -108,6 +120,7 @@ public class Server extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			break;
 		}
 		case GETCATALOG: {
 			try {
@@ -314,7 +327,7 @@ public class Server extends AbstractServer {
 	}
 
 	protected void serverStarted() {
-		mydb = DataBase.getInstance();
+		mydb = DataBase.getLocalInstance("remote");
 		if(mydb.workFlag == false)
 		{
 			dbFlag = false;

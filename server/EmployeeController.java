@@ -12,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -66,15 +65,23 @@ public class EmployeeController implements Initializable{
     TableColumn<Orders,String> totalCost;
     @FXML
     Tab renderOrders;
-    @FXML
-    TableView<Employee> tableEmployee;
-    @FXML
-    TableColumn<Employee,String> EmployeeName;
-    @FXML
-    TableColumn<Employee,String> EmployeeRank;
-    @FXML
-    Button renderEmployees;
 
+    @FXML
+    private Button itemAdd;
+
+    @FXML
+    private Button itemRemove;
+    @FXML
+    private TableColumn<Item, Integer> itemPrice;
+    @FXML
+    private TableView<Item> items;
+
+    @FXML
+    private TableColumn<Item, String> item;
+    
+
+    @FXML
+    private Tab catalog;
 
     private ObservableList<Orders> data;
     private  ObservableList<Employee> data1;
@@ -82,6 +89,15 @@ public class EmployeeController implements Initializable{
     @Override
     public void initialize(URL location,ResourceBundle resource){
 //      username.setText("Kasim Gadban");
+    }
+    @FXML
+    void renderCatalog() {
+    	System.out.println("Render Catalog!");
+		item.setCellValueFactory(new PropertyValueFactory<>("Name"));
+		itemPrice.setCellValueFactory(new PropertyValueFactory<>("Price"));
+		items.setItems(null);
+		items.setItems(get_ItemList());
+		items.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
     @FXML
      void renderOrders(){
@@ -97,21 +113,38 @@ public class EmployeeController implements Initializable{
         data.add(orders.get(i));
         //        orderID.setCellValueFactory(new PropertyValueFactory<>("orderID"));
         clientID.setCellValueFactory(new PropertyValueFactory<>("clientID"));
-        orderDate.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
-        clientAdress.setCellValueFactory(new PropertyValueFactory<>("clientAdress"));
-        clientPhone.setCellValueFactory(new PropertyValueFactory<>("clientPhone"));
-        clientName.setCellValueFactory(new PropertyValueFactory<>("clientName"));
-        deliveryTime.setCellValueFactory(new PropertyValueFactory<>("delivery deliveryTime"));
+//        orderDate.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
+//        clientAdress.setCellValueFactory(new PropertyValueFactory<>("clientAdress"));
+//        clientPhone.setCellValueFactory(new PropertyValueFactory<>("clientPhone"));
+//        clientName.setCellValueFactory(new PropertyValueFactory<>("clientName"));
+//        deliveryTime.setCellValueFactory(new PropertyValueFactory<>("delivery deliveryTime"));
         deliveryCost.setCellValueFactory(new PropertyValueFactory<>("deliveryCost"));
         totalCost.setCellValueFactory(new PropertyValueFactory<>("totalCost"));
-
+        System.out.println("hey");
         tableOrders.setItems(null);
         tableOrders.setItems(data);
 
     }
+	public ObservableList<Item> get_ItemList() {
+		Massage msg = new Massage();
+		msg.setCommand(Commands.GETCATALOG);
+		server.Main.send_toServer(msg);
+		msg = server.Main.get_from_server();
+		ArrayList<Item> itemList = new ArrayList<Item>();
+		if (msg.getCommand() != Commands.DBERROR)
+			itemList = (ArrayList<Item>) msg.getObject();
+		ObservableList<Item> item_list = FXCollections.observableArrayList();
+		for (int i = 0; i < itemList.size(); i++) {
+			item_list.add(itemList.get(i));
+		}
+		return item_list;
+
+	}
     @FXML
         void  LogOut(ActionEvent event) throws IOException{
             Stage primaryStage =Main.getStage();
+            primaryStage.close();
+            primaryStage = new Stage();
             URL url = getClass().getResource("Login.fxml");
             Parent root = FXMLLoader.load(url);
             GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -123,38 +156,20 @@ public class EmployeeController implements Initializable{
 
     @FXML
     void openEmployeesList(ActionEvent event) throws IOException {
-        Stage primaryStage =Main.getStage();
-        URL url = getClass().getResource("EmployeeListView.fxml");
-        Parent root = FXMLLoader.load(url);
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int width = gd.getDisplayMode().getWidth();
-        int height = gd.getDisplayMode().getHeight();
-        primaryStage.setScene(new Scene(root, width, height));
-        primaryStage.show();
-    }
-    @FXML
-    void renderEmployees(){
-     /*   try{
-            System.out.println("render Employees to table from DB");
-            DbConnection = DataBase.getInstance();
-            data1 = FXCollections.observableArrayList();
-            ResultSet rs = DbConnection.get_TableResultSet("Employee");
-            while(rs.next()){
-        System.out.println (rs.getInt (2) +" ----- "+ rs.getString (3) +" ----- "+ rs.getString (4) +"- --- "+ rs.getString (5));
-                data1.add(
-                        new Employee(rs.getInt(1),rs.getString(0),rs.getString(3),
-                        rs.getInt(4),rs.getString(5),rs.getInt(6),
-                        rs.getString(7),rs.getInt(8),rs.getString(9),
-                        rs.getString(10),rs.getString(12),rs.getString(13)));
-            }
-        } catch (SQLException ex){
-            System.err.println("ERROR" + ex);
-        }*/
-        EmployeeName.setCellValueFactory(new PropertyValueFactory<>("EmployeeName"));
-        EmployeeRank.setCellValueFactory(new PropertyValueFactory<>("EmployeeRank"));
-
-        tableEmployee.setItems(null);
-        tableEmployee.setItems(data1);
+    	Stage primaryStage =Main.getStage();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("EmployeeListView.fxml"));
+		try {
+			Parent root = loader.load();
+			EmployeeListC cvc = loader.getController(); 
+			cvc.refreshTable();
+			primaryStage.setTitle("Employee List");
+			primaryStage.setScene(new Scene(root, 600, 600));
+			primaryStage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     @FXML
     public void goBack(javafx.event.ActionEvent actionEvent) throws IOException {
@@ -167,5 +182,25 @@ public class EmployeeController implements Initializable{
         primaryStage.show();
     }
 
+    @FXML
+    void addItem(ActionEvent event) {
+
+    }
+
+    @FXML
+    void removeItem(ActionEvent event) {
+    	if(items.getSelectionModel().getSelectedItems().size() > 0)
+    	{
+    		Item selected = items.getSelectionModel().getSelectedItem();
+    		Main.send_toServer(new Massage (selected,Commands.DELETE));
+    		Massage msg = Main.get_from_server();
+    		if(msg.getCommand()!=Commands.DBERROR) 
+    		{
+    			// INSERT SUCSESS PROMPT
+    		}
+			renderCatalog();
+
+    	}
+    }
 
 }

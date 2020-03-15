@@ -42,7 +42,7 @@ public class Mailer
             message.setFrom(new InternetAddress("from@gmail.com"));
             message.setRecipients(
                     Message.RecipientType.TO,
-                    InternetAddress.parse("lerman25@gmail.com")
+                    InternetAddress.parse(toMail)
             );
             message.setSubject("מערכת לילך אוטומטית");
             message.setText(text);

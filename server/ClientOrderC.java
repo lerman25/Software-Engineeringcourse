@@ -83,11 +83,15 @@ public class ClientOrderC implements Initializable {
 	{
 		orderTable.setPlaceholder(new Label("No Orders to Display"));
 		orderTable.setItems(get_list());
+		
 
 	}
 	public ObservableList<Orders> get_list()
 	{
 		System.out.println("getlist");
+		if(Main.getPermission()==Permissions.SHOPMANAGER) // Change this later!
+			Main.send_toServer(new Massage (true, Commands.GETORDERS));
+		else
 		Main.send_toServer(new Massage (Main.getPerson().getId(), Commands.CLIENTORDERS));
 		Massage msg = Main.get_from_server();
 		ArrayList<Orders> o = new ArrayList<Orders>();

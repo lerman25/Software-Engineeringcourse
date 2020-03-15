@@ -34,7 +34,8 @@ public class DataBase {
 	static private final String DB = "SmFGAHPAE1";
 //	static private final String DB_URL = "https://remotemysql.com/phpmyadmin/" + DB + "?useSSL=false";
 	static private final String DB_URL = "jdbc:mysql://remotemysql.com/" + DB + "?useSSL=false";
-	static private final String LOCAL_DB_URL = "jdbc:MySql://localhost:3306/lilac?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	static private final String LOCAL_DB_URL = "jdbc:MySql://localhost:3306/";
+	static private final String LOCAL_DB_URL2 = "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 
 	static private final String USER = "SmFGAHPAE1";
 	static private final String PASS = "PrfUzkZFEX";
@@ -46,7 +47,7 @@ public class DataBase {
 	private DataBase() {
 	}
 
-	public static DataBase getInstance() {
+	public static  DataBase getRemoteInstance() {
 		boolean printflag = true;
 		if (_instance == null) {
 			_instance = new DataBase();
@@ -57,7 +58,31 @@ public class DataBase {
 				e.printStackTrace();
 			}
 			try {
-				conn = DriverManager.getConnection(LOCAL_DB_URL, LOCAL_USER, LOCAL_PASS);
+				conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				printflag=false;
+				workFlag = false;
+			}
+			if(printflag) System.out.println("<<<DATABASE>> CONNECTED TO DB");
+			else System.out.println("<<<DATABASE>> ERROR WHILE CONNECTING");
+			
+		}
+		return _instance;
+	}
+	public static  DataBase getLocalInstance(String scheme) {
+		boolean printflag = true;
+		if (_instance == null) {
+			_instance = new DataBase();
+			try {
+				Class.forName(JDBC_DRIVER);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				conn = DriverManager.getConnection(LOCAL_DB_URL+scheme+LOCAL_DB_URL2, LOCAL_USER, LOCAL_PASS);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -222,7 +247,8 @@ public class DataBase {
 				String recivername = rs.getString("ReciverName");
 				int totalCost = rs.getInt("TotalCost");
 				int status = rs.getInt("Status");
-               Orders order = new Orders(clientid,time,orderdate,shipment,address,receiverPone,recivername,deliverytime,totalCost,OStatus.values()[status]);
+				String greeting = rs.getString("Greeting");
+               Orders order = new Orders(clientid,time,orderdate,shipment,address,receiverPone,recivername,deliverytime,totalCost,OStatus.values()[status],greeting);
                order.setID(id);
                System.out.println("from DB order id "+order.getID());
                orders.add(order);
@@ -543,7 +569,7 @@ public class DataBase {
 			case "Orders": {
 				Orders order = (Orders) object;
 				PreparedStatement stmt1 = conn.prepareStatement(
-						"INSERT INTO Orders(`ID`, `ClientID`, `Time`, `OrderDate`, `Shipment_Method`, `Address`, `ReciverPhone`, `ReciverName`, `DeliveryTime`, `DeliveryCost`, `TotalCost`,`Status`) VALUES(?, ?, ?,?,?,?,?,?,?,?,?,?)");
+						"INSERT INTO Orders(`ID`, `ClientID`, `Time`, `OrderDate`, `Shipment_Method`, `Address`, `ReciverPhone`, `ReciverName`, `DeliveryTime`, `DeliveryCost`, `TotalCost`,`Status`,`Greeting`) VALUES(?, ?, ?,?,?,?,?,?,?,?,?,?,?)");
 				stmt1.setInt(1, order.getID());
 				stmt1.setInt(2, order.getClientID());
 				stmt1.setDate(3, order.getTime());
@@ -556,6 +582,7 @@ public class DataBase {
 				stmt1.setInt(10, order.getDeliveryCost());
 				stmt1.setInt(11, order.getItemList().getSumOfitems() + order.getDeliveryCost());
 				stmt1.setInt(12,order.getStatus().ordinal());
+				stmt1.setString(13,order.getGreeting());
 				System.out.println(add_to_DB(order.getItemList()));
 				stmt1.executeUpdate();
 				break;

@@ -19,7 +19,7 @@ public class Orders implements Serializable {
 	private int totalCost;
 	private OStatus status;
 	private static int counter = 0;
-	private String greeting = null;
+	private String greeting = "";
 	public Orders(Orders _order) {
 		ID = _order.getID();
 		ClientID = _order.getClientID();
@@ -33,6 +33,7 @@ public class Orders implements Serializable {
 		itemList = _order.getItemList();
 		totalCost = _order.getTotalCost();
 		status = _order.getStatus();
+		greeting = _order.getGreeting();
 
 	}
 
@@ -81,6 +82,22 @@ public class Orders implements Serializable {
 
 	}
 
+	public Orders(int _clientID, Date _time, Date _orderDate, int _shipment, String _address, int _receiverPhone,
+			String _reciverName, Date _deliveryTime,int _totalCost,OStatus _status, String _greeting) {
+		ID = ++counter;
+		ClientID = _clientID;
+		Time = _time;
+		OrderDate = _orderDate;
+		Shipment_Method = _shipment;
+		Address = _address;
+		ReciverPhone = _receiverPhone;
+		ReciverName = _reciverName;
+		DeliveryTime = _deliveryTime;
+		totalCost=_totalCost;
+		status=_status;
+		greeting = _greeting;
+
+	}
 
 	public int getClientID() {
 		return ClientID;
