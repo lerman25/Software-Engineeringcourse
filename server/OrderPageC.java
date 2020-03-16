@@ -146,6 +146,11 @@ public class OrderPageC implements Initializable {
 		return item_list;
 		
 	}
+	public void nonClientVis()
+	{
+		complain.setVisible(false);
+		cancel.setVisible(false);
+	}
 	public Orders getOrder() {
 		return order;
 	}

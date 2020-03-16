@@ -30,6 +30,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -46,23 +47,25 @@ public class EmployeeController implements Initializable {
 	@FXML
 	TableView<Orders> tableOrders;
 	@FXML
-	TableColumn<Orders, String> orderID;
+	TableColumn<Orders, Integer> orderID;
 	@FXML
-	TableColumn<Orders, String> clientID;
+	TableColumn<Orders, Integer> clientID;
 	@FXML
-	TableColumn<Orders, String> orderDate;
+	TableColumn<Orders, Timestamp> orderDate;
 	@FXML
 	TableColumn<Orders, String> clientAdress;
 	@FXML
-	TableColumn<Orders, String> clientPhone;
+	TableColumn<Orders, Integer> clientPhone;
 	@FXML
 	TableColumn<Orders, String> clientName;
 	@FXML
-	TableColumn<Orders, String> deliveryTime;
+	TableColumn<Orders, Timestamp> deliveryTime;
 	@FXML
-	TableColumn<Orders, String> deliveryCost;
+	TableColumn<Orders, Integer> deliveryCost;
 	@FXML
-	TableColumn<Orders, String> totalCost;
+	TableColumn<Orders, Integer> totalCost;
+    @FXML
+    TableColumn<Orders, String> status;
 	@FXML
 	Tab renderOrders;
 
@@ -121,18 +124,45 @@ public class EmployeeController implements Initializable {
 			orders = (ArrayList<Orders>) msg.getObject();
 		for (int i = 0; i < orders.size(); i++)
 			ordersList.add(orders.get(i));
-		// orderID.setCellValueFactory(new PropertyValueFactory<>("orderID"));
-		clientID.setCellValueFactory(new PropertyValueFactory<>("clientID"));
-//        orderDate.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
-//        clientAdress.setCellValueFactory(new PropertyValueFactory<>("clientAdress"));
-//        clientPhone.setCellValueFactory(new PropertyValueFactory<>("clientPhone"));
-//        clientName.setCellValueFactory(new PropertyValueFactory<>("clientName"));
-//        deliveryTime.setCellValueFactory(new PropertyValueFactory<>("delivery deliveryTime"));
-		deliveryCost.setCellValueFactory(new PropertyValueFactory<>("deliveryCost"));
+		 orderID.setCellValueFactory(new PropertyValueFactory<>("ID"));
+		clientID.setCellValueFactory(new PropertyValueFactory<>("ClientID"));
+       orderDate.setCellValueFactory(new PropertyValueFactory<>("OrderDate"));
+       clientAdress.setCellValueFactory(new PropertyValueFactory<>("Address"));
+      clientPhone.setCellValueFactory(new PropertyValueFactory<>("ReciverPhone"));
+      clientName.setCellValueFactory(new PropertyValueFactory<>("ReciverName"));
+       deliveryTime.setCellValueFactory(new PropertyValueFactory<>("DeliveryTime"));
+		deliveryCost.setCellValueFactory(new PropertyValueFactory<>("DeliveryCost"));
 		totalCost.setCellValueFactory(new PropertyValueFactory<>("totalCost"));
+		status.setCellValueFactory(new PropertyValueFactory<>("status"));
 		System.out.println("hey");
 		tableOrders.setItems(null);
 		tableOrders.setItems(ordersList);
+	       tableOrders.setRowFactory(tv -> {
+	            TableRow<Orders> row = new TableRow<>();
+	            row.setOnMouseClicked(event -> {
+	                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+	                    Orders rowData = row.getItem();
+						Stage primaryStage = new Stage();
+						FXMLLoader loader = new FXMLLoader();
+						loader.setLocation(getClass().getResource("OrderPage.fxml"));
+						try {
+							Parent root = loader.load();
+							OrderPageC cvc = loader.getController(); 
+							cvc.setOrder(rowData);
+							cvc.loadOrder();
+							cvc.nonClientVis();
+							primaryStage.setTitle("Order ID - "+rowData.getID());
+							primaryStage.setScene(new Scene(root, 600, 600));
+							primaryStage.show();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						}
+	            });
+	            return row ;
+	        });
 
 	}
 

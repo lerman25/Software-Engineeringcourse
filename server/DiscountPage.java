@@ -87,6 +87,7 @@ public class DiscountPage {
 	}
 
 	public void setDiscount(ObservableList<Item> selected, int percentage) {
+        AlertBox.display("Discount Setting","Not Yet Implemented!");
 
 	}
 }

@@ -57,7 +57,7 @@
 					<content>
 						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 							<children>
-								<TableView fx:id="tableOrders" prefHeight="251.0" prefWidth="836.0">
+								<TableView fx:id="tableOrders" prefHeight="251.0" prefWidth="911.0">
 									<columns>
 										<TableColumn fx:id="orderID" prefWidth="55.0" text="OID" />
 										<TableColumn fx:id="clientID" prefWidth="60.0" text="CID" />
@@ -69,10 +69,12 @@
 										<TableColumn fx:id="deliveryTime" prefWidth="109.0" text="delivery time" />
 										<TableColumn fx:id="deliveryCost" minWidth="0.0" prefWidth="86.0" text="delivery cost" />
 										<TableColumn fx:id="totalCost" prefWidth="88.0" text="Total cost" />
+                              <TableColumn fx:id="status" prefWidth="75.0" text="Status" />
 									</columns>
 								</TableView>
                         <Button fx:id="delivered" layoutX="29.0" layoutY="261.0" mnemonicParsing="false" onAction="#delivered" prefHeight="25.0" prefWidth="178.0" text="Change Status to Delivered" />
                         <Button fx:id="mail" layoutX="29.0" layoutY="305.0" mnemonicParsing="false" onAction="#mail" prefHeight="25.0" prefWidth="177.0" text="Send delivery mail to client" />
+                        <Label layoutX="289.0" layoutY="286.0" text="Double Click on order for more information" />
 							</children>
 						</AnchorPane>
 					</content>

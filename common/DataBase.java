@@ -49,7 +49,7 @@ public class DataBase {
 	private DataBase() {
 	}
 
-	public static  DataBase getRemoteInstance() {
+	public static DataBase getRemoteInstance() {
 		boolean printflag = true;
 		if (_instance == null) {
 			_instance = new DataBase();
@@ -64,16 +64,19 @@ public class DataBase {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				printflag=false;
+				printflag = false;
 				workFlag = false;
 			}
-			if(printflag) System.out.println("<<<DATABASE>> CONNECTED TO DB");
-			else System.out.println("<<<DATABASE>> ERROR WHILE CONNECTING");
-			
+			if (printflag)
+				System.out.println("<<<DATABASE>> CONNECTED TO DB");
+			else
+				System.out.println("<<<DATABASE>> ERROR WHILE CONNECTING");
+
 		}
 		return _instance;
 	}
-	public static  DataBase getLocalInstance(String scheme) {
+
+	public static DataBase getLocalInstance(String scheme) {
 		boolean printflag = true;
 		if (_instance == null) {
 			_instance = new DataBase();
@@ -84,29 +87,30 @@ public class DataBase {
 				e.printStackTrace();
 			}
 			try {
-				conn = DriverManager.getConnection(LOCAL_DB_URL+scheme+LOCAL_DB_URL2, LOCAL_USER, LOCAL_PASS);
+				conn = DriverManager.getConnection(LOCAL_DB_URL + scheme + LOCAL_DB_URL2, LOCAL_USER, LOCAL_PASS);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				printflag=false;
+				printflag = false;
 				workFlag = false;
 			}
-			if(printflag) System.out.println("<<<DATABASE>> CONNECTED TO DB");
-			else System.out.println("<<<DATABASE>> ERROR WHILE CONNECTING");
-			
+			if (printflag)
+				System.out.println("<<<DATABASE>> CONNECTED TO DB");
+			else
+				System.out.println("<<<DATABASE>> ERROR WHILE CONNECTING");
+
 		}
 		return _instance;
 	}
-	public int getLastID(String object)
-	{
-		int maxID=0;
+
+	public int getLastID(String object) {
+		int maxID = 0;
 		try {
 			ResultSet rs = this.get_TableResultSet(object);
-			while(rs.next())
-			{
+			while (rs.next()) {
 				int id = (rs.getInt("ID"));
-				if(maxID<id)
-					maxID=id;
+				if (maxID < id)
+					maxID = id;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -114,6 +118,7 @@ public class DataBase {
 		}
 		return maxID;
 	}
+
 	public ArrayList<Item> get_flowers() {
 		ArrayList<Item> catalog = new ArrayList<Item>();
 		try {
@@ -126,11 +131,10 @@ public class DataBase {
 				String Color = rs.getString("Color");
 				int id = (rs.getInt("ID"));
 				int Size = (rs.getInt("Size"));
-				if(Size>server.Size.values().length-1)
-				{
-					Size = server.Size.values().length-1;
+				if (Size > server.Size.values().length - 1) {
+					Size = server.Size.values().length - 1;
 				}
-				Item newitem = new Item(Name, Price, Kind, Color,server.Size.values()[Size], String.valueOf(id));	
+				Item newitem = new Item(Name, Price, Kind, Color, server.Size.values()[Size], String.valueOf(id));
 				System.out.println(newitem.to_String());
 				catalog.add(newitem);
 			}
@@ -141,6 +145,7 @@ public class DataBase {
 		return catalog;
 
 	}
+
 	public Item get_flower(int iid) {
 
 		try {
@@ -148,14 +153,13 @@ public class DataBase {
 
 			while (rs.next()) {
 				int id = (rs.getInt("ID"));
-				if(iid==id)
-				{
+				if (iid == id) {
 					String Name = rs.getString("Name");
 					int Price = rs.getInt("Price");
 					String Kind = rs.getString("Kind");
 					String Color = rs.getString("Color");
 					int Size = (rs.getInt("Size"));
-					Item newitem = new Item(Name, Price, Kind, Color,server.Size.values()[Size], String.valueOf(id));
+					Item newitem = new Item(Name, Price, Kind, Color, server.Size.values()[Size], String.valueOf(id));
 					return newitem;
 				}
 			}
@@ -166,7 +170,6 @@ public class DataBase {
 		return null;
 
 	}
-	
 
 	public ArrayList<Item> get_flowers(String criteria, String wanted) {
 
@@ -201,33 +204,29 @@ public class DataBase {
 		return catalog;
 
 	}
-	public ItemInOrder getItemsInOrder(int id)
-	{
-		ItemInOrder iio = new ItemInOrder(id,-1);
+
+	public ItemInOrder getItemsInOrder(int id) {
+		ItemInOrder iio = new ItemInOrder(id, -1);
 		try {
 			ResultSet rs = this.get_TableResultSet("ItemInOrder");
-			while(rs.next())
-			{
-				int orderID=rs.getInt("OrderID");
-				if(orderID==id)
-				{
-					int clientID=rs.getInt("ClientID");
+			while (rs.next()) {
+				int orderID = rs.getInt("OrderID");
+				if (orderID == id) {
+					int clientID = rs.getInt("ClientID");
 					iio.setClientID(clientID);
 					int iioID = rs.getInt("ID");
 					int itemID = rs.getInt("ItemID");
 					int amount = rs.getInt("Amount");
 					Item item = get_flower(iioID);
-					if(item==null)
-					{
+					if (item == null) {
 						System.out.println("NO ITEM IN DB");
-						Item removedItem = new Item("Item Removed",0,"-","-",Size.SMALL,String.valueOf(iioID));
-						item=removedItem;
+						Item removedItem = new Item("Item Removed", 0, "-", "-", Size.SMALL, String.valueOf(iioID));
+						item = removedItem;
 					}
-					for(int i = 0 ; i<amount;i++)
-					{
+					for (int i = 0; i < amount; i++) {
 						iio.addToList(item);
 					}
-					
+
 				}
 			}
 		} catch (SQLException e) {
@@ -237,6 +236,7 @@ public class DataBase {
 		return iio;
 
 	}
+
 	public ArrayList<Orders> get_orders() {
 		ArrayList<Orders> orders = new ArrayList<Orders>();
 		try {
@@ -244,7 +244,7 @@ public class DataBase {
 
 			while (rs.next()) {
 				int id = rs.getInt("ID");
-				int clientid= rs.getInt("ClientID");
+				int clientid = rs.getInt("ClientID");
 				Timestamp time = rs.getTimestamp("Time");
 				Timestamp orderdate = rs.getTimestamp("OrderDate");
 				Timestamp deliverytime = rs.getTimestamp("DeliveryTime");
@@ -255,16 +255,19 @@ public class DataBase {
 				int totalCost = rs.getInt("TotalCost");
 				int status = rs.getInt("Status");
 				String greeting = rs.getString("Greeting");
-               Orders order = new Orders(clientid,time,orderdate,shipment,address,receiverPone,recivername,deliverytime,totalCost,OStatus.values()[status],greeting);
-               order.setID(id);
-               System.out.println("from DB order id "+order.getID());
-               orders.add(order);
+				Orders order = new Orders(clientid, time, orderdate, shipment, address, receiverPone, recivername,
+						deliverytime, totalCost, OStatus.values()[status], greeting);
+				order.setID(id);
+				order.setItemList(this.getItemsInOrder(id));
+				System.out.println("from DB order id " + order.getID());
+				orders.add(order);
 			}
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}
 		return orders;
 	}
+
 	public ArrayList<Complaint> get_complaints() {
 
 		ArrayList<Complaint> complaints = new ArrayList<Complaint>();
@@ -287,6 +290,7 @@ public class DataBase {
 		return complaints;
 
 	}
+
 	public ArrayList<Complaint> get_complaints(int id) {
 
 		ArrayList<Complaint> complaints = new ArrayList<Complaint>();
@@ -301,8 +305,8 @@ public class DataBase {
 				int OrderID = (rs.getInt("OrderID"));
 				int cid = (rs.getInt("ID"));
 				Complaint complaint = new Complaint(date, text, clientID, Status, OrderID, cid);
-				if(complaint.getClientID()==id)
-				complaints.add(complaint);
+				if (complaint.getClientID() == id)
+					complaints.add(complaint);
 			}
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -310,6 +314,7 @@ public class DataBase {
 		return complaints;
 
 	}
+
 	public ArrayList<Complaint> get_complaints(String criteria, String wanted) {
 
 		ArrayList<Complaint> complaints = new ArrayList<Complaint>();
@@ -390,34 +395,34 @@ public class DataBase {
 				Person person = get_person(id);
 				int branchid = rs.getInt("BranchID");
 				int rank = rs.getInt("Rank");
-				employees.add(new Employee(branchid, person.getUsername(),person.getPassword(),person));
-				
+				employees.add(new Employee(branchid, person.getUsername(), person.getPassword(), person));
+
 			}
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}
 		return employees;
 	}
-	public Client get_client(int id) {
-		Client client=null;
 
-			ResultSet rs;
-			try {
-				rs = this.get_TableResultSet("Client");
-			
+	public Client get_client(int id) {
+		Client client = null;
+
+		ResultSet rs;
+		try {
+			rs = this.get_TableResultSet("Client");
+
 			while (rs.next()) {
 				int _id = rs.getInt("ID");
-				if(_id==id)
-				{
+				if (_id == id) {
 					String user = rs.getString("Username");
 					String password = rs.getString("Password");
-					client=new Client(user,password,get_person(_id));
+					client = new Client(user, password, get_person(_id));
 				}
 			}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return client;
 	}
 
@@ -590,8 +595,8 @@ public class DataBase {
 				stmt1.setTimestamp(9, order.getDeliveryTime());
 				stmt1.setInt(10, order.getDeliveryCost());
 				stmt1.setInt(11, order.getItemList().getSumOfitems() + order.getDeliveryCost());
-				stmt1.setInt(12,order.getStatus().ordinal());
-				stmt1.setString(13,order.getGreeting());
+				stmt1.setInt(12, order.getStatus().ordinal());
+				stmt1.setString(13, order.getGreeting());
 				System.out.println(add_to_DB(order.getItemList()));
 				stmt1.executeUpdate();
 				break;
@@ -622,7 +627,7 @@ public class DataBase {
 
 			}
 			case "Complaint": {
-				int id = getLastID("Complaint"); //auto id setting
+				int id = getLastID("Complaint"); // auto id setting
 				Complaint complaint = (Complaint) object;
 				PreparedStatement stmt1 = conn.prepareStatement(
 						"INSERT INTO Complaint(`Date`, `TextField`, `ClientID`, `Status`, `OrderID`, `ID`) VALUES (?, ?, ?,?,?,?)");
@@ -649,44 +654,42 @@ public class DataBase {
 		return "FAIL-UNKNOWN";
 
 	}
+
 //redo it !!!!!!!
 	public String delete_from_DB(Object object) {
 		try {
 			String table = object.getClass().getSimpleName();
-			if (table.equals("Orders")) {
+			if (table.equals("Orders")) { // to delete item in order.
 				Orders order = (Orders) object;
+				System.out.println("hey");
+				System.out.println("Sending to delete"+order.getItemList().getClass().getSimpleName());
 				System.out.println(delete_from_DB(order.getItemList()));
 			}
 			Class cls = Person.class;
 			boolean isAflag = cls.isInstance(object);
 			boolean isntPerson = !(object.getClass().getSimpleName().equals(cls.getSimpleName()));
 			ResultSet rs = this.get_TableResultSet(table);
-			if (isAflag && isntPerson) {
+			if (isAflag && isntPerson) { // if its is Client, emp , sm, cm etc..
 				Person p = new Person((Person) object);
 				String out = delete_from_DB(p);
 				if (out == "FAIL-NO-ID IN")
 					return out;
-				PreparedStatement st = conn.prepareStatement("DELETE FROM " + table + " WHERE Username = ?");
-				st.setString(1, object.toString());
-				st.executeUpdate();
-				if (this.exists_in_DB(object) == 0)
-					return table + " " + object.toString() + " DELETED FROM DB";
-			} else {
-				boolean id_flag = false;
-				while (rs.next()) {
-					int id = (rs.getInt("ID"));
-					if (String.valueOf(id).equals((object.toString()))) {
-						id_flag = true;
-						PreparedStatement st = conn.prepareStatement("DELETE FROM " + table + " WHERE ID = ?");
-						st.setInt(1, Integer.valueOf(object.toString()));
-						st.executeUpdate();
-					}
-				}
-				if (!id_flag)
-					return "FAIL-NO-ID IN";
-				if (this.exists_in_DB(object) == 0)
-					return table + " " + object.toString() + " DELETED FROM DB";
 			}
+			boolean id_flag = false;
+			while (rs.next()) {
+				int id = (rs.getInt("ID"));
+				if (String.valueOf(id).equals((object.toString()))) {
+					id_flag = true;
+					PreparedStatement st = conn.prepareStatement("DELETE FROM " + table + " WHERE ID = ?");
+					st.setInt(1, Integer.valueOf(object.toString()));
+					st.executeUpdate();
+				}
+			}
+			if (!id_flag)
+				return "FAIL-NO-ID IN";
+			if (this.exists_in_DB(object) == 0)
+				return table + " " + object.toString() + " DELETED FROM DB";
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -779,6 +782,7 @@ public class DataBase {
 		return null;
 
 	}
+
 	public byte[] get_imageDBasByte(int itemID) {
 		Statement stmt;
 		try {
@@ -803,6 +807,7 @@ public class DataBase {
 		return null;
 
 	}
+
 	private ResultSet get_TableResultSet(String table) throws SQLException {
 		Statement stmt;
 		stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);

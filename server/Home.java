@@ -53,24 +53,24 @@ public class Home implements Initializable {
 
         //
         Main.getStage().getScene().setCursor(Cursor.WAIT);
-        int size = items.size()>12?12:items.size();
+        int size = items.size()>9?9:items.size();
         try {
-        	for(int i=0;i<2;i++)
+        	for(int i=0;i<3;i++)
         	{
         		for(int j=1;j<4;j++)
         		{
+
                     FXMLLoader loader =  new FXMLLoader(getClass().getResource("Item.fxml"));
                     catalog.add(loader.load(),j,i);
                     ItemController controller= loader.getController();
                     //setItem arraylist<count> |count  1 to 6 or 0 to 5
-                    if((i+i*j)<items.size())
+                    if((j+i*3-1)<items.size())
                     {
-                        Item item = items.get(i+i*j); //this needs to be fixed!!!!!
+                        Item item = items.get(j+i*3-1); //this needs to be fixed!!!!!
                        controller.setItem(item);
 
 
                     }
-
         		}
         	}
 
