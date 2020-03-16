@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -244,9 +245,9 @@ public class DataBase {
 			while (rs.next()) {
 				int id = rs.getInt("ID");
 				int clientid= rs.getInt("ClientID");
-				Date time = rs.getDate("Time");
-				Date orderdate = rs.getDate("OrderDate");
-				Date deliverytime = rs.getDate("DeliveryTime");
+				Timestamp time = rs.getTimestamp("Time");
+				Timestamp orderdate = rs.getTimestamp("OrderDate");
+				Timestamp deliverytime = rs.getTimestamp("DeliveryTime");
 				int shipment = rs.getInt("Shipment_Method");
 				String address = rs.getString("Address");
 				int receiverPone = rs.getInt("ReciverPhone");
@@ -271,7 +272,7 @@ public class DataBase {
 			ResultSet rs = this.get_TableResultSet("Complaint");
 
 			while (rs.next()) {
-				Date date = rs.getDate("Date");
+				Timestamp date = rs.getTimestamp("Date");
 				String text = rs.getString("TextField");
 				int clientID = rs.getInt("ClientID");
 				int Status = rs.getInt("Status");
@@ -293,7 +294,7 @@ public class DataBase {
 			ResultSet rs = this.get_TableResultSet("Complaint");
 
 			while (rs.next()) {
-				Date date = rs.getDate("Date");
+				Timestamp date = rs.getTimestamp("Date");
 				String text = rs.getString("TextField");
 				int clientID = rs.getInt("ClientID");
 				int Status = rs.getInt("Status");
@@ -316,7 +317,7 @@ public class DataBase {
 			ResultSet rs = this.get_TableResultSet("Complaint");
 
 			while (rs.next()) {
-				Date date = rs.getDate("Date");
+				Timestamp date = rs.getTimestamp("Date");
 				String text = rs.getString("TextField");
 				int clientID = rs.getInt("ClientID");
 				int Status = rs.getInt("Status");
@@ -580,13 +581,13 @@ public class DataBase {
 						"INSERT INTO Orders(`ID`, `ClientID`, `Time`, `OrderDate`, `Shipment_Method`, `Address`, `ReciverPhone`, `ReciverName`, `DeliveryTime`, `DeliveryCost`, `TotalCost`,`Status`,`Greeting`) VALUES(?, ?, ?,?,?,?,?,?,?,?,?,?,?)");
 				stmt1.setInt(1, order.getID());
 				stmt1.setInt(2, order.getClientID());
-				stmt1.setDate(3, order.getTime());
-				stmt1.setDate(4, order.getOrderDate());
+				stmt1.setTimestamp(3, order.getTime());
+				stmt1.setTimestamp(4, order.getOrderDate());
 				stmt1.setInt(5, order.getShipment_Method());
 				stmt1.setString(6, order.getAddress());
 				stmt1.setInt(7, order.getReciverPhone());
 				stmt1.setString(8, order.getReciverName());
-				stmt1.setDate(9, order.getDeliveryTime());
+				stmt1.setTimestamp(9, order.getDeliveryTime());
 				stmt1.setInt(10, order.getDeliveryCost());
 				stmt1.setInt(11, order.getItemList().getSumOfitems() + order.getDeliveryCost());
 				stmt1.setInt(12,order.getStatus().ordinal());
@@ -625,7 +626,7 @@ public class DataBase {
 				Complaint complaint = (Complaint) object;
 				PreparedStatement stmt1 = conn.prepareStatement(
 						"INSERT INTO Complaint(`Date`, `TextField`, `ClientID`, `Status`, `OrderID`, `ID`) VALUES (?, ?, ?,?,?,?)");
-				stmt1.setDate(1, complaint.getDate());
+				stmt1.setTimestamp(1, complaint.getDate());
 				stmt1.setString(2, complaint.getText());
 				stmt1.setInt(3, complaint.getClientID());
 				stmt1.setInt(4, complaint.getStatus());
