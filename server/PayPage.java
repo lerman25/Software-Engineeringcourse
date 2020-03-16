@@ -83,7 +83,7 @@ public class PayPage implements Initializable {
 	private Item selected;
 	private boolean toggleFlag = true;
 	private java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis());
-
+	private Stage thisStage;
 	private LocalDate delTime = null;
 
 
@@ -96,6 +96,7 @@ public class PayPage implements Initializable {
 			Parent root = loader.load();
 			GreetingCardC cvc = loader.getController();
 			cvc.setPpc(this);
+			cvc.setThisStage(primaryStage);
 			primaryStage.setTitle("Greeting Card");
 			primaryStage.setScene(new Scene(root, 600, 600));
 			primaryStage.show();
@@ -108,6 +109,8 @@ public class PayPage implements Initializable {
 
 	@FXML
 	void notme(ActionEvent event) {
+		notme = new ToggleButton();
+
 		if (toggleFlag) {
 			rAddress.setVisible(true);
 			rAddressF.setVisible(true);
@@ -174,10 +177,23 @@ public class PayPage implements Initializable {
     		newOrder.setReciverName(rNameF.getText());;
     		newOrder.setReciverPhone(Integer.parseInt(rPhoneF.getText()));
     	}
+    	Main.send_toServer(new Massage("Orders",Commands.GETLASTID));
+		Massage msg = Main.get_from_server();
+		//check errros
+		newOrder.setID((int)msg.getObject()+1);
+    	Main.send_toServer(new Massage("ItemInOrder",Commands.GETLASTID));
+		 msg = Main.get_from_server();
+		//check errros
+		_item.setID((int)msg.getObject()+1);
     	_item.setOrderID(newOrder.getID());
     	newOrder.setItemList(_item);
+    	if(gFlag)
+    		newOrder.setGreeting(getGreetingS());
     	Main.send_toServer(new Massage(newOrder,Commands.ADD));
         AlertBox.display("Payment","SUCCESS!");
+        thisStage.close();
+
+        
 
     }
 
@@ -196,6 +212,7 @@ public class PayPage implements Initializable {
 	}
     @FXML
     void datePick(ActionEvent event) {
+    	//make sure date is after today and now. 
     	setDelTime(deliveryTime.getValue());
     }
 
@@ -212,5 +229,13 @@ public class PayPage implements Initializable {
 
 	public void setDelTime(LocalDate delTime) {
 		this.delTime = delTime;
+	}
+
+	public Stage getThisStage() {
+		return thisStage;
+	}
+
+	public void setThisStage(Stage thisStage) {
+		this.thisStage = thisStage;
 	}
 }

@@ -60,6 +60,7 @@ public class Item1 implements Initializable {
         kind.setText(this.item.getKind());
         color.setText(this.item.getColor());
         size.setText(this.item.getSize().toString());
+        
 
 
     }
@@ -95,6 +96,7 @@ public class Item1 implements Initializable {
   	        PayPage cvc = loader.getController(); // This did the "trick"
 
   	         cvc.setSelected(this.item); // Passing the client-object to the ClientViewController
+  	         cvc.setThisStage(primaryStage);
   	         Scene scene = new Scene(mainLayout, 600, 600);
   	         primaryStage.setScene(scene);
   	         primaryStage.setResizable(true);

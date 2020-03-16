@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
 
 public class GreetingCardC {
 
@@ -17,7 +18,8 @@ public class GreetingCardC {
     @FXML
     private TextArea writeBox;
 
-    
+	private Stage thisStage;
+
     private PayPage ppc = null;
     
     
@@ -31,6 +33,8 @@ public class GreetingCardC {
     	{
     		ppc.setgFlag(true);
     		ppc.setGreetingS(writeBox.getText());
+            AlertBox.display("Greeting Add","SUCCESS!");
+            thisStage.close();
     		//send to server writeBox.getText();
     		// OR add to order or send back to PayPage or something like that
     	}
@@ -45,6 +49,16 @@ public class GreetingCardC {
 
 	public void setPpc(PayPage ppc) {
 		this.ppc = ppc;
+	}
+
+
+	public Stage getThisStage() {
+		return thisStage;
+	}
+
+
+	public void setThisStage(Stage thisStage) {
+		this.thisStage = thisStage;
 	}
     
     

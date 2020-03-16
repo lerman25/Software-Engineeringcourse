@@ -249,6 +249,7 @@ public class Server extends AbstractServer {
 						e.printStackTrace();
 					}
 				} 
+				
 
 			}
 			if (!flag) {
@@ -277,6 +278,7 @@ public class Server extends AbstractServer {
 
 			}
 			System.out.println(username+" Logged Out");
+			break;
 		}
 		case CLIENTORDERS: // this function is not effcient , but okay for project.
 		{
