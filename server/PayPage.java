@@ -2,9 +2,21 @@ package server;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 
+import common.Commands;
 import common.Item;
+import common.ItemInOrder;
+import common.Massage;
+import common.Orders;
+import common.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
@@ -56,14 +69,23 @@ public class PayPage implements Initializable {
 
 	@FXML
 	private Label rPhone;
-
+    @FXML
+    private TextArea greetingBox;
 	@FXML
 	private TextField rPhoneF;
     @FXML
     private Button complete;
 
+    @FXML
+    private Label notmeL;
+    private String greetingS="";
+    private boolean gFlag = false;
 	private Item selected;
 	private boolean toggleFlag = true;
+	private java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis());
+
+	private LocalDate delTime = null;
+
 
 	@FXML
 	void greeting(ActionEvent event) {
@@ -73,6 +95,7 @@ public class PayPage implements Initializable {
 		try {
 			Parent root = loader.load();
 			GreetingCardC cvc = loader.getController();
+			cvc.setPpc(this);
 			primaryStage.setTitle("Greeting Card");
 			primaryStage.setScene(new Scene(root, 600, 600));
 			primaryStage.show();
@@ -80,8 +103,6 @@ public class PayPage implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//if greeting not empty
-		greetingLabel.setText("Greeting added");
 
 	}
 
@@ -95,6 +116,8 @@ public class PayPage implements Initializable {
 			rName.setVisible(true);
 			rNameF.setVisible(true);
 			toggleFlag=false;
+			notme.setText("This order is for me");
+			notmeL.setText("Click this button if this order is for you");
 		} else {
 			rAddress.setVisible(false);
 			rAddressF.setVisible(false);
@@ -103,6 +126,8 @@ public class PayPage implements Initializable {
 			rName.setVisible(false);
 			rNameF.setVisible(false);
 			toggleFlag=true;
+			notme.setText("This order is not for me");
+			notmeL.setText("Click this button if this order is for someone else");
 
 		}
 	}
@@ -116,7 +141,11 @@ public class PayPage implements Initializable {
 			hour.getItems().add(i);
 		for (int i = 0; i < 60; i++)
 			min.getItems().add(i);
-
+		greetingBox.setVisible(false);
+		setDelTime(LocalDate.now());
+		hour.setValue(12);
+		min.setValue(0);
+		shipmentMethod.setValue(shipmentMethod.getItems().get(0));
 	}
 
 	public Item getSelected() {
@@ -128,6 +157,60 @@ public class PayPage implements Initializable {
 	}
     @FXML
     void complete(ActionEvent event) {
+    	//check if
+        Timestamp del =  new java.sql.Timestamp(System.currentTimeMillis());
+        LocalTime delHour  = LocalTime.of(hour.getValue(), min.getValue());
+        LocalDateTime delLDT = LocalDateTime.of(delTime, delHour);
+        Person reciver = Main.getPerson();
+        del = Timestamp.valueOf(delLDT);
+    	ArrayList<Item> items = new ArrayList<Item>();
+    	items.add(selected);
+    	ItemInOrder _item = new ItemInOrder(items,0,reciver.getId());
+    	Orders newOrder = new Orders(reciver.getId(),now,del,shipmentMethod.getSelectionModel().getSelectedIndex(),reciver.getAddress(),reciver.getPhone_number(),reciver.getFirstName()+" "+reciver.getLastName(),del);
+    	if(!toggleFlag)
+    	{
+    		// this needs parsing!!!!!
+    		newOrder.setAddress(rAddressF.getText());
+    		newOrder.setReciverName(rNameF.getText());;
+    		newOrder.setReciverPhone(Integer.parseInt(rPhoneF.getText()));
+    	}
+    	_item.setOrderID(newOrder.getID());
+    	newOrder.setItemList(_item);
+    	Main.send_toServer(new Massage(newOrder,Commands.ADD));
+        AlertBox.display("Payment","SUCCESS!");
 
     }
+
+	public String getGreetingS() {
+		return greetingS;
+	}
+
+	public void setGreetingS(String greetingS) {
+		greetingBox.setText(greetingS);
+		greetingBox.setVisible(true);
+		this.greetingS = greetingS;
+	}
+
+	public boolean getgFlag() {
+		return gFlag;
+	}
+    @FXML
+    void datePick(ActionEvent event) {
+    	setDelTime(deliveryTime.getValue());
+    }
+
+	public void setgFlag(boolean gFlag) {
+		if(gFlag)
+			greetingLabel.setText("Greeting added");
+
+		this.gFlag = gFlag;
+	}
+
+	public LocalDate getDelTime() {
+		return delTime;
+	}
+
+	public void setDelTime(LocalDate delTime) {
+		this.delTime = delTime;
+	}
 }

@@ -1,19 +1,20 @@
 package common;
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import server.OStatus;
 
 public class Orders implements Serializable {
 	private int ID;
 	private int ClientID;
-	private Date Time;
-	private Date OrderDate;
+	private Timestamp Time;
+	private Timestamp OrderDate;
 	private int Shipment_Method;
 	private String Address;
 	private int ReciverPhone;
 	private String ReciverName;
-	private Date DeliveryTime;
+	private Timestamp DeliveryTime;
 	private ItemInOrder itemList;
 	private static int DeliveryCost=10;
 	private int totalCost;
@@ -37,8 +38,8 @@ public class Orders implements Serializable {
 
 	}
 
-	public Orders(int _clientID, Date _time, Date _orderDate, int _shipment, String _address, int _receiverPhone,
-			String _reciverName, Date _deliveryTime) {
+	public Orders(int _clientID, Timestamp _time, Timestamp _orderDate, int _shipment, String _address, int _receiverPhone,
+			String _reciverName, Timestamp _deliveryTime) {
 		ID = ++counter;
 		ClientID = _clientID;
 		Time = _time;
@@ -51,8 +52,8 @@ public class Orders implements Serializable {
 		totalCost=0;
 		status= OStatus.ACCEPTED;
 	}
-	public Orders(int _clientID, Date _time, Date _orderDate, int _shipment, String _address, int _receiverPhone,
-			String _reciverName, Date _deliveryTime,int _totalCost) {
+	public Orders(int _clientID, Timestamp _time, Timestamp _orderDate, int _shipment, String _address, int _receiverPhone,
+			String _reciverName, Timestamp _deliveryTime,int _totalCost) {
 		ID = ++counter;
 		ClientID = _clientID;
 		Time = _time;
@@ -66,8 +67,8 @@ public class Orders implements Serializable {
 		status= OStatus.ACCEPTED;
 
 	}
-	public Orders(int _clientID, Date _time, Date _orderDate, int _shipment, String _address, int _receiverPhone,
-			String _reciverName, Date _deliveryTime,int _totalCost,OStatus _status) {
+	public Orders(int _clientID, Timestamp _time, Timestamp _orderDate, int _shipment, String _address, int _receiverPhone,
+			String _reciverName, Timestamp _deliveryTime,int _totalCost,OStatus _status) {
 		ID = ++counter;
 		ClientID = _clientID;
 		Time = _time;
@@ -82,8 +83,8 @@ public class Orders implements Serializable {
 
 	}
 
-	public Orders(int _clientID, Date _time, Date _orderDate, int _shipment, String _address, int _receiverPhone,
-			String _reciverName, Date _deliveryTime,int _totalCost,OStatus _status, String _greeting) {
+	public Orders(int _clientID, Timestamp _time, Timestamp _orderDate, int _shipment, String _address, int _receiverPhone,
+			String _reciverName, Timestamp _deliveryTime,int _totalCost,OStatus _status, String _greeting) {
 		ID = ++counter;
 		ClientID = _clientID;
 		Time = _time;
@@ -115,19 +116,19 @@ public class Orders implements Serializable {
 		ID = iD;
 	}
 
-	public Date getTime() {
+	public Timestamp getTime() {
 		return Time;
 	}
 
-	public void setTime(Date time) {
+	public void setTime(Timestamp time) {
 		Time = time;
 	}
 
-	public Date getOrderDate() {
+	public Timestamp getOrderDate() {
 		return OrderDate;
 	}
 
-	public void setOrderDate(Date orderDate) {
+	public void setOrderDate(Timestamp orderDate) {
 		OrderDate = orderDate;
 	}
 
@@ -163,11 +164,11 @@ public class Orders implements Serializable {
 		ReciverName = reciverName;
 	}
 
-	public Date getDeliveryTime() {
+	public Timestamp getDeliveryTime() {
 		return DeliveryTime;
 	}
 
-	public void setDeliveryTime(Date deliveryTime) {
+	public void setDeliveryTime(Timestamp deliveryTime) {
 		DeliveryTime = deliveryTime;
 	}
 

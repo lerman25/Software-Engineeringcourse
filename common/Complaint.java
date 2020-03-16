@@ -1,9 +1,10 @@
 package common;
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Complaint implements Serializable {
-	 private Date date;
+	 private Timestamp date;
 	 private  String text;
 	 private int clientID;
 	 private int status;
@@ -19,7 +20,7 @@ public class Complaint implements Serializable {
 		 orderID=complient.getOrderID();
 		 ID=complient.getID();
 	 }
-	 public Complaint(Date _date,String _text,int _clientID,int _status,int _orderID)
+	 public Complaint(Timestamp _date,String _text,int _clientID,int _status,int _orderID)
 	 {
 		 date=_date;
 		 text=_text;
@@ -28,7 +29,7 @@ public class Complaint implements Serializable {
 		 orderID=_orderID;
 		 ID=++counter;
 	 }
-	 public Complaint(Date _date,String _text,int _clientID,int _status,int _orderID,int id)
+	 public Complaint(Timestamp _date,String _text,int _clientID,int _status,int _orderID,int id)
 	 {
 		 date=_date;
 		 text=_text;
@@ -37,10 +38,10 @@ public class Complaint implements Serializable {
 		 orderID=_orderID;
 		 ID=id;
 	 }
-	public Date getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 	public String getText() {

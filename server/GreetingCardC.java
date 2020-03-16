@@ -18,6 +18,8 @@ public class GreetingCardC {
     private TextArea writeBox;
 
     
+    private PayPage ppc = null;
+    
     
     @FXML
     void add(ActionEvent event) {
@@ -27,11 +29,23 @@ public class GreetingCardC {
     	}
     	else
     	{
+    		ppc.setgFlag(true);
+    		ppc.setGreetingS(writeBox.getText());
     		//send to server writeBox.getText();
     		// OR add to order or send back to PayPage or something like that
     	}
 
     }
+
+
+	public PayPage getPpc() {
+		return ppc;
+	}
+
+
+	public void setPpc(PayPage ppc) {
+		this.ppc = ppc;
+	}
     
     
 }

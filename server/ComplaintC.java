@@ -34,9 +34,9 @@ public class ComplaintC {
     	}
     	else
     	{
-    		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+    		java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis());
 
-    		Complaint complaint = new Complaint(date,writeBox.getText(),order.getClientID() ,1, order.getID(), 1);
+    		Complaint complaint = new Complaint(now,writeBox.getText(),order.getClientID() ,1, order.getID(), 1);
     		Main.send_toServer(new Massage (complaint, Commands.COMPLAIN));
     	      AlertBox.display("Complaint","SUCCESS!");
     	}

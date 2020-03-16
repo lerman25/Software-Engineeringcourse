@@ -200,4 +200,5 @@ public class Main extends Application {
 	public static void setPermission(Permissions permission) {
 		Main.permission = permission;
 	}
+
 }
