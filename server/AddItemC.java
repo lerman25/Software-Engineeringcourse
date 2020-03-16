@@ -53,7 +53,7 @@ public class AddItemC implements Initializable {
 		msg = Main.get_from_server();
 		if(msg.getCommand()!=Commands.DBERROR) 
 		{
-			// INSERT SUCSESS PROMPT
+	        AlertBox.display("Item Add","SUCCESS!");
 		}
         
     }

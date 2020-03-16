@@ -1,17 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane onMouseClicked="#backHome" onMouseDragged="#backHome" prefHeight="500.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.PayPage">
+<AnchorPane prefHeight="479.0" prefWidth="464.0" style="-fx-background-color: #fff0f5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.PayPage">
    <children>
-      <TextField fx:id="name1" disable="true" layoutX="410.0" layoutY="100.0" prefHeight="34.0" prefWidth="227.0" />
-      <TextField fx:id="creditCard" disable="true" layoutX="410.0" layoutY="165.0" prefHeight="34.0" prefWidth="227.0" />
-      <Label layoutX="324.0" layoutY="109.0" text="name" />
-      <Label layoutX="324.0" layoutY="174.0" text="credit card" />
-      <Button fx:id="payFinal" layoutX="498.0" layoutY="238.0" mnemonicParsing="false" onAction="#buyB" onMouseClicked="#buyB" onMouseDragged="#buyB" onMouseEntered="#buyB" text="Pay" />
-      <Button fx:id="backToHome" layoutX="464.0" layoutY="294.0" mnemonicParsing="false" onAction="#backHome" onMouseClicked="#backHome" onMouseDragged="#backHome" text="Back to home page" />
+      <GridPane layoutX="7.0" layoutY="2.0" prefHeight="431.0" prefWidth="318.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="214.0" minWidth="10.0" prefWidth="140.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="111.0" minWidth="0.0" prefWidth="74.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="130.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="253.0" minHeight="0.0" prefHeight="87.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="376.0" minHeight="10.0" prefHeight="169.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="376.0" minHeight="10.0" prefHeight="109.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="greeting" mnemonicParsing="false" onAction="#greeting" text="Add Greeting" GridPane.halignment="CENTER" />
+            <Label fx:id="greetingLabel" prefHeight="17.0" prefWidth="95.0" text="..." textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <ToggleButton fx:id="notme" mnemonicParsing="false" onAction="#notme" prefHeight="25.0" prefWidth="146.0" text="This order is not for me" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Label prefHeight="132.0" prefWidth="71.0" text="Click this button if this order is for someone else" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+            <Label fx:id="rAddress" text="Reciver's Address" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+            <Label fx:id="rName" prefHeight="17.0" prefWidth="88.0" text="Reciver's Name" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <Label fx:id="rPhone" text="Reciver's Phone" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
+            <TextField fx:id="rAddressF" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+            <TextField fx:id="rNameF" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <TextField fx:id="rPhoneF" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
+            <Label prefHeight="36.0" prefWidth="111.0" text="Choose Delivery Date" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="shipmentMethod" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP" />
+            <DatePicker fx:id="deliveryTime" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <Label prefHeight="50.0" prefWidth="111.0" text="Choose Shipment Method" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP" />
+            <ChoiceBox fx:id="hour" prefHeight="25.0" prefWidth="43.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+               <padding>
+                  <Insets right="20.0" />
+               </padding>
+            </ChoiceBox>
+            <ChoiceBox fx:id="min" prefHeight="25.0" prefWidth="46.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets left="100.0" right="-4.0" />
+               </GridPane.margin>
+               <padding>
+                  <Insets right="20.0" />
+               </padding>
+            </ChoiceBox>
+            <Label prefHeight="29.0" prefWidth="109.0" text="Choose Delivry Hour" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
+         </children>
+      </GridPane>
+      <Button fx:id="complete" layoutX="350.0" layoutY="205.0" mnemonicParsing="false" onAction="#complete" text="Complete Order" />
    </children>
 </AnchorPane>

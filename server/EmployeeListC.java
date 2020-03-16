@@ -95,6 +95,9 @@ public class EmployeeListC implements Initializable {
 
     @FXML
     void add(ActionEvent event) {
+    	
+    	
+    	//signupform.
 
     }
 
@@ -107,7 +110,7 @@ public class EmployeeListC implements Initializable {
     		Massage msg = Main.get_from_server();
     		if(msg.getCommand()!=Commands.DBERROR) 
     		{
-    			// INSERT SUCSESS PROMPT
+    	        AlertBox.display("Emploeyy Remove","SUCCESS!");
     		}
 			refreshTable();
 			// need to see how to refresh catalog in main stage....

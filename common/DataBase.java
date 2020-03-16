@@ -15,6 +15,7 @@ import com.mysql.cj.jdbc.Blob;
 
 import server.OStatus;
 import server.Permissions;
+import server.Size;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -217,8 +218,9 @@ public class DataBase {
 					Item item = get_flower(iioID);
 					if(item==null)
 					{
-						System.out.println("ERROR DB");
-						return null;
+						System.out.println("NO ITEM IN DB");
+						Item removedItem = new Item("Item Removed",0,"-","-",Size.SMALL,String.valueOf(iioID));
+						item=removedItem;
 					}
 					for(int i = 0 ; i<amount;i++)
 					{

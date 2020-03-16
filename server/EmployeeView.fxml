@@ -71,7 +71,8 @@
 										<TableColumn fx:id="totalCost" prefWidth="88.0" text="Total cost" />
 									</columns>
 								</TableView>
-                        <Button fx:id="delivered" layoutX="309.0" layoutY="301.0" mnemonicParsing="false" onAction="#delivered" prefHeight="85.0" prefWidth="178.0" text="Change Status to Delivered" />
+                        <Button fx:id="delivered" layoutX="29.0" layoutY="261.0" mnemonicParsing="false" onAction="#delivered" prefHeight="25.0" prefWidth="178.0" text="Change Status to Delivered" />
+                        <Button fx:id="mail" layoutX="29.0" layoutY="305.0" mnemonicParsing="false" onAction="#mail" prefHeight="25.0" prefWidth="177.0" text="Send delivery mail to client" />
 							</children>
 						</AnchorPane>
 					</content>

@@ -86,7 +86,7 @@ public class Item1 implements Initializable {
 //        int width = gd.getDisplayMode().getWidth();
 //        int height = gd.getDisplayMode().getHeight();
 //        primaryStage.setScene(new Scene(root, width, height));
-    	  Stage primaryStage =Main.getStage();
+    	  Stage primaryStage =new Stage();
           FXMLLoader loader = new FXMLLoader();
           loader.setLocation(Main.class.getResource("PayPage.fxml"));
           AnchorPane mainLayout;
@@ -94,9 +94,8 @@ public class Item1 implements Initializable {
   			mainLayout = loader.load();
   	        PayPage cvc = loader.getController(); // This did the "trick"
 
-  	         cvc.setItem(this.item); // Passing the client-object to the ClientViewController
-
-  	         Scene scene = new Scene(mainLayout, 1900, 1080);
+  	         cvc.setSelected(this.item); // Passing the client-object to the ClientViewController
+  	         Scene scene = new Scene(mainLayout, 600, 600);
   	         primaryStage.setScene(scene);
   	         primaryStage.setResizable(true);
   	         primaryStage.show();
@@ -108,7 +107,7 @@ public class Item1 implements Initializable {
     }
     public void addCart(MouseEvent event) throws IOException {
     	
-        AlertBox.display("ADDED","Item added to cart!");
+        AlertBox.display("ADDED","Not implemented yet..");
 //        Stage primaryStage =Main.getStage();
 //        FXMLLoader loader = new FXMLLoader();
 //        loader.setLocation(Main.class.getResource("Cart.fxml"));

@@ -135,7 +135,9 @@ public class OrderPageC implements Initializable {
 		ItemInOrder iio = new ItemInOrder(-1, -1);
 		if(msg.getCommand()!=Commands.DBERROR)
 		 iio = (ItemInOrder)msg.getObject();
-		ArrayList<Item> o =iio.getItemList();
+		ArrayList<Item> o = new ArrayList<Item>();
+		if(iio!=null)
+		 o =iio.getItemList();
 		ObservableList<Item> item_list = FXCollections.observableArrayList();
 		for(int i=0; i<o.size();i++)
 		{

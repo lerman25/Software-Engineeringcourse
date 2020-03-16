@@ -1,77 +1,133 @@
 package server;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import common.Item;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
 
-import common.*;
-import java.awt.*;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.ResourceBundle;
+public class PayPage implements Initializable {
 
-import common.Client;
-import common.Item;
-
-public class PayPage  implements Initializable {
-	 private Item item;
 	@FXML
-    TextField name1;
+	private DatePicker deliveryTime;
+
+	@FXML
+	private Button greeting;
+
+	@FXML
+	private TextField rNameF;
+
+	@FXML
+	private Label greetingLabel;
+
+	@FXML
+	private ToggleButton notme;
+
+	@FXML
+	private TextField rAddressF;
+
+	@FXML
+	private ChoiceBox<String> shipmentMethod;
+
+	@FXML
+	private ChoiceBox<Integer> min;
+
+	@FXML
+	private Label rAddress;
+
+	@FXML
+	private ChoiceBox<Integer> hour;
+
+	@FXML
+	private Label rName;
+
+	@FXML
+	private Label rPhone;
+
+	@FXML
+	private TextField rPhoneF;
     @FXML
-    TextField creditCard;
-    @FXML
-    Button payFinal;
-    @FXML
-    Button backToHome;
-    Person client ;
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    	client = server.Main.getPerson();
-    	if(client !=null)
-    	{
-    	name1.setText(client.getFirstName()+" "+client.getLastName());
-    	creditCard.setText(client.getCredit_card());
-    	}
-    	else
-    		System.out.println("Client is null");
-        }
-    public void buyB(MouseEvent event) throws IOException {
-    	ArrayList<Item> items = new ArrayList<Item>();
-    	System.out.println(item.getName());
-    	items.add(item);
-    	ItemInOrder _item = new ItemInOrder(items,0,client.getId());
-    	java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-    	Orders order = new Orders(client.getId(), date, date,1,client.getAddress(), client.getPhone_number(), client.getFirstName()+" "+client.getLastName(),date);
-    	order.setStatus(OStatus.ACCEPTED);
-    	_item.setOrderID(order.getID());
-    	order.setItemList(_item);
-    	Main.send_toServer(new Massage(order,Commands.ADD));
-        AlertBox.display("Payment","SUCCESS!");
-    }
-    public void backHome(MouseEvent event) throws IOException {
-        Stage primaryStage =Main.getStage();
-        Parent root = FXMLLoader.load(getClass().getResource("base.fxml"));
-        // primaryStage.setTitle("Hello World");
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int width = gd.getDisplayMode().getWidth();
-        int height = gd.getDisplayMode().getHeight();
-        primaryStage.setScene(new Scene(root, width, height));
-    }
-	public void setItem(Item _item) {
-		// TODO Auto-generated method stub
-		  this.item = _item;
-	      
-		
+    private Button complete;
+
+	private Item selected;
+	private boolean toggleFlag = true;
+
+	@FXML
+	void greeting(ActionEvent event) {
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("GreetingCard.fxml"));
+		try {
+			Parent root = loader.load();
+			GreetingCardC cvc = loader.getController();
+			primaryStage.setTitle("Greeting Card");
+			primaryStage.setScene(new Scene(root, 600, 600));
+			primaryStage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//if greeting not empty
+		greetingLabel.setText("Greeting added");
+
 	}
+
+	@FXML
+	void notme(ActionEvent event) {
+		if (toggleFlag) {
+			rAddress.setVisible(true);
+			rAddressF.setVisible(true);
+			rPhone.setVisible(true);
+			rPhoneF.setVisible(true);
+			rName.setVisible(true);
+			rNameF.setVisible(true);
+			toggleFlag=false;
+		} else {
+			rAddress.setVisible(false);
+			rAddressF.setVisible(false);
+			rPhone.setVisible(false);
+			rPhoneF.setVisible(false);
+			rName.setVisible(false);
+			rNameF.setVisible(false);
+			toggleFlag=true;
+
+		}
+	}
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+		shipmentMethod.getItems().add("Self Pickup");
+		shipmentMethod.getItems().add("Delivery");
+		for (int i = 0; i < 24; i++)
+			hour.getItems().add(i);
+		for (int i = 0; i < 60; i++)
+			min.getItems().add(i);
+
+	}
+
+	public Item getSelected() {
+		return selected;
+	}
+
+	public void setSelected(Item selected) {
+		this.selected = selected;
+	}
+    @FXML
+    void complete(ActionEvent event) {
+
+    }
 }

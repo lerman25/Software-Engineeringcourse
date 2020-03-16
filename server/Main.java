@@ -92,6 +92,8 @@ public class Main extends Application {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	        Platform.exit();
+	        System.exit(0);	
 		});
 		stage.show();
 
