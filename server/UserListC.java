@@ -43,16 +43,16 @@ public class UserListC implements Initializable {
 	@FXML
 	private TableColumn<Person, String> personName;
 
-    @FXML
-    private TableColumn<Person, Integer> personID;
+	@FXML
+	private TableColumn<Person, Integer> personID;
 
 	@FXML
 	private Button remove;
 
 	@FXML
 	private TableView<Person> tablePerson;
-    @FXML
-    private TableColumn<Person, Permissions> personPermission;
+	@FXML
+	private TableColumn<Person, Permissions> personPermission;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -122,28 +122,34 @@ public class UserListC implements Initializable {
 	void update(ActionEvent event) {
 		if (tablePerson.getSelectionModel().getSelectedItems().size() > 0) {
 			Person selected = tablePerson.getSelectionModel().getSelectedItem();
-			Stage primaryStage = new Stage();
-			Parent root;
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("SignUp.fxml"));
-			try {
-				root = loader.load();
-				GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-				int width = gd.getDisplayMode().getWidth();
-				int height = gd.getDisplayMode().getHeight();
-				SignUp cvc = loader.getController();
-				cvc.renderPerson(selected);
-				primaryStage.setTitle("Update");
-				primaryStage.setScene(new Scene(root, width, height));
-				primaryStage.show();
+			if (selected.getPermission().ordinal() >= Main.getPermission().ordinal()) {
+				AlertBox.display("User Update",
+						"You dont have the permission to change a : " + selected.getPermission().toString());
 
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} else {
+				Stage primaryStage = new Stage();
+				Parent root;
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(getClass().getResource("SignUp.fxml"));
+				try {
+					root = loader.load();
+					GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+					int width = gd.getDisplayMode().getWidth();
+					int height = gd.getDisplayMode().getHeight();
+					SignUp cvc = loader.getController();
+					cvc.renderPerson(selected);
+					primaryStage.setTitle("Update");
+					primaryStage.setScene(new Scene(root, width, height));
+					primaryStage.show();
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				// primaryStage.setTitle("Hello World");
+
+				// signupform.
 			}
-			// primaryStage.setTitle("Hello World");
-
-			// signupform.
 		}
 	}
 
@@ -151,13 +157,19 @@ public class UserListC implements Initializable {
 	void remove(ActionEvent event) {
 		if (tablePerson.getSelectionModel().getSelectedItems().size() > 0) {
 			Person selected = tablePerson.getSelectionModel().getSelectedItem();
-			Main.send_toServer(new Massage(selected, Commands.DELETE));
-			Massage msg = Main.get_from_server();
-			if (msg.getCommand() != Commands.DBERROR) {
-				AlertBox.display("User Remove", "SUCCESS!");
+			if (selected.getPermission().ordinal() >= Main.getPermission().ordinal()) {
+				AlertBox.display("User Remove",
+						"You dont have the permission to remove a : " + selected.getPermission().toString());
+
+			} else {
+				Main.send_toServer(new Massage(selected, Commands.DELETE));
+				Massage msg = Main.get_from_server();
+				if (msg.getCommand() != Commands.DBERROR) {
+					AlertBox.display("User Remove", "SUCCESS!");
+				}
+				refreshTable();
+				// need to see how to refresh catalog in main stage....
 			}
-			refreshTable();
-			// need to see how to refresh catalog in main stage....
 		}
 
 	}
