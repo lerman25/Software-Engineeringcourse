@@ -175,6 +175,15 @@ public class Server extends AbstractServer {
 			}
 			break;
 		}
+		case GETPERSONS: {
+			try {
+				client.sendToClient(new Massage(mydb.get_persons(), Commands.GETPERSONS));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
 		case GETORDERS: {
 			try {
 				client.sendToClient(new Massage(mydb.get_orders(), Commands.GETORDERS));

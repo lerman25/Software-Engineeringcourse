@@ -11,6 +11,7 @@ import common.Commands;
 import common.Employee;
 import common.Massage;
 import common.Orders;
+import common.Person;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,26 +32,27 @@ import javafx.stage.Stage;
 
 public class EmployeeListC implements Initializable {
 
-    @FXML
-    private AnchorPane EmployeeListAnchor;
+	@FXML
+	private AnchorPane EmployeeListAnchor;
 
-    @FXML
-    private Button add;
+	@FXML
+	private Button add;
 
-    @FXML
-    private Button goBack;
+	@FXML
+	private Button goBack;
 
-    @FXML
-    private TableColumn<Employee, String> EmployeeName;
+	@FXML
+	private TableColumn<Employee, String> EmployeeName;
 
-    @FXML
-    private Button remove;
+	@FXML
+	private Button remove;
 
-    @FXML
-    private TableView<Employee> tableEmployee;
+	@FXML
+	private TableView<Employee> tableEmployee;
 
-    @FXML
-    private TableColumn<Employee, Integer> EmployeeRank;
+	@FXML
+	private TableColumn<Employee, Integer> EmployeeRank;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		EmployeeName.setCellValueFactory(new PropertyValueFactory<>("Name"));
@@ -88,57 +90,100 @@ public class EmployeeListC implements Initializable {
 
 	}
 
-    @FXML
-    void goBack(ActionEvent event) {
+	@FXML
+	void goBack(ActionEvent event) {
 
-    }
+	}
 
-    @FXML
-    void add(ActionEvent event) {
-    	
-    	
-    	//signupform.
+	@FXML
+	void add(ActionEvent event) {
+		Stage primaryStage = new Stage();
+		Parent root;
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("SignUp.fxml"));
+		try {
+			root = loader.load();
+			GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+			int width = gd.getDisplayMode().getWidth();
+			int height = gd.getDisplayMode().getHeight();
+			SignUp cvc = loader.getController();
+			cvc.setThisStage(primaryStage);
+			primaryStage.setTitle("Sign Up");
+			primaryStage.setScene(new Scene(root, width, height));
+			primaryStage.show();
+			primaryStage.setFullScreen(false);
 
-    }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// primaryStage.setTit
 
-    @FXML
-    void remove(ActionEvent event) {
-    	if(tableEmployee.getSelectionModel().getSelectedItems().size() > 0)
-    	{
-    		Employee selected = tableEmployee.getSelectionModel().getSelectedItem();
-    		Main.send_toServer(new Massage (selected,Commands.DELETE));
-    		Massage msg = Main.get_from_server();
-    		if(msg.getCommand()!=Commands.DBERROR) 
-    		{
-    	        AlertBox.display("Emploeyy Remove","SUCCESS!");
-    		}
+	}
+
+	@FXML
+	void update(ActionEvent event) {
+		if (tableEmployee.getSelectionModel().getSelectedItems().size() > 0) {
+			Person selected = tableEmployee.getSelectionModel().getSelectedItem();
+			Stage primaryStage = new Stage();
+			Parent root;
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("SignUp.fxml"));
+			try {
+				root = loader.load();
+				GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+				int width = gd.getDisplayMode().getWidth();
+				int height = gd.getDisplayMode().getHeight();
+				SignUp cvc = loader.getController();
+				cvc.renderPerson(selected);
+				primaryStage.setTitle("Update");
+				primaryStage.setScene(new Scene(root, width, height));
+				primaryStage.show();
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// primaryStage.setTitle("Hello World");
+
+			// signupform.
+		}
+	}
+
+	@FXML
+	void remove(ActionEvent event) {
+		if (tableEmployee.getSelectionModel().getSelectedItems().size() > 0) {
+			Employee selected = tableEmployee.getSelectionModel().getSelectedItem();
+			Main.send_toServer(new Massage(selected, Commands.DELETE));
+			Massage msg = Main.get_from_server();
+			if (msg.getCommand() != Commands.DBERROR) {
+				AlertBox.display("Emploeyy Remove", "SUCCESS!");
+			}
 			refreshTable();
 			// need to see how to refresh catalog in main stage....
-    	}
+		}
 
-    }
-    public void refreshTable()
-    {
-    	tableEmployee.setPlaceholder(new Label("No Employees to Display"));
-    	tableEmployee.setItems(get_list());
+	}
+
+	public void refreshTable() {
+		tableEmployee.setPlaceholder(new Label("No Employees to Display"));
+		tableEmployee.setItems(get_list());
 		tableEmployee.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-    }
-	public ObservableList<Employee> get_list()
-	{
-		Main.send_toServer(new Massage (Main.getPerson().getId(), Commands.GETEMPLOYEES));
+	}
+
+	public ObservableList<Employee> get_list() {
+		Main.send_toServer(new Massage(Main.getPerson().getId(), Commands.GETEMPLOYEES));
 		Massage msg = Main.get_from_server();
 		ArrayList<Employee> o = new ArrayList<Employee>();
-		if(msg.getCommand()!=Commands.DBERROR)
-		 o =(ArrayList<Employee>) msg.getObject();
+		if (msg.getCommand() != Commands.DBERROR)
+			o = (ArrayList<Employee>) msg.getObject();
 		ObservableList<Employee> emp_list = FXCollections.observableArrayList();
-		for(int i=0; i<o.size();i++)
-		{
+		for (int i = 0; i < o.size(); i++) {
 			emp_list.add(o.get(i));
 		}
 		return emp_list;
-		
-	}
 
+	}
 
 }

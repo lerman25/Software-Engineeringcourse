@@ -384,7 +384,37 @@ public class DataBase {
 		return person;
 
 	}
+	public ArrayList<Person> get_persons() {
+		ArrayList<Person> persons = new ArrayList<Person>();
+		ResultSet rs;
+		try {
+			rs = this.get_TableResultSet("Person");
 
+			while (rs.next()) {
+				int _id = rs.getInt("ID");			
+					String firstname = rs.getString("FirstName");
+					String lastname = rs.getString("LastName");
+					String mail = rs.getString("EMail");
+					int phone = rs.getInt("PhoneNumber");
+					String credit = rs.getString("CreditCard");
+					int age = rs.getInt("Age");
+					String gender = rs.getString("Gender");
+					String address = rs.getString("Address");
+					String username = rs.getString("Username");
+					String password = rs.getString("Password");
+					Person person = new Person(firstname, lastname, _id, mail, phone, credit, age, gender, address, username,
+							password);
+					Permissions p = Permissions.valueOf(rs.getString("Permission"));
+					person.setPermission(p);
+					persons.add(person);
+				}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return persons;
+
+	}
 	public ArrayList<Employee> get_employees() {
 		ArrayList<Employee> employees = new ArrayList<Employee>();
 		try {

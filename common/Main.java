@@ -66,15 +66,23 @@ public class Main {
 			System.out.println(id);
 		}
 		*/
-		DataBase mydb = DataBase.getLocalInstance("remote");//		Person p1 = new Person("omer","lerman",2,"gmail",11,"22",11,"male","haifa","admin","admin");
+//		Server myServer= new Server(5555);
+//		try {
+//			myServer.listen();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		DataBase myDB = DataBase.getLocalInstance("remote");
+		//		Person p1 = new Person("omer","lerman",2,"gmail",11,"22",11,"male","haifa","admin","admin");
 ////		ShopManager sm = new ShopManager(p1, 1);
-//		Person p2 = new Person("omer","lerman",1,"gmail",11,"22",11,"male","haifa","emploeyy","emploeyy");
-//		p2.setId(3);
+		Person p2 = new Person("omer","lerman",1,"gmail",11,"22",11,"male","haifa","employee","employee");
+		p2.setId(3);
 //		Employee e = new Employee(1,p2.getUsername(),p2.getPassword(),p2);
 //		Person p3 = new Person("omer2","lerman2",1,"gmail",11,"22",11,"male","haifa","emploeyy2","emploeyy");
 //		p3.setId(4);
-//		Employee e2 = new Employee(1,p2.getUsername(),p2.getPassword(),p3);
-////		myDB.add_to_DB(c);
+		Employee e2 = new Employee(1,p2.getUsername(),p2.getPassword(),p2);
+		myDB.add_to_DB(e2);
 ////		Mailer mail = new Mailer("ahmed.m.tayah@gmail.comþ");
 ////		Mailer mail = new Mailer("ahmed.m.tayah@gmail.com");
 ////		mail.sendMail("hey ahmed , this is sent from my Java program ");

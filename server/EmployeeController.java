@@ -99,6 +99,8 @@ public class EmployeeController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resource) {
 		username.setText(Main.getPerson().getUsername());
+		if(Main.getPermission().ordinal()<Permissions.SHOPMANAGER.ordinal())
+			EditEmployees.setDisable(true);
 	}
 
 	@FXML
@@ -200,12 +202,12 @@ public class EmployeeController implements Initializable {
 	void openEmployeesList(ActionEvent event) throws IOException {
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("EmployeeListView.fxml"));
+		loader.setLocation(getClass().getResource("UserList.fxml"));
 		try {
 			Parent root = loader.load();
-			EmployeeListC cvc = loader.getController();
+			UserListC cvc = loader.getController();
 			cvc.refreshTable();
-			primaryStage.setTitle("Employee List");
+			primaryStage.setTitle("User List");
 			primaryStage.setScene(new Scene(root, 600, 600));
 			primaryStage.show();
 		} catch (IOException e) {

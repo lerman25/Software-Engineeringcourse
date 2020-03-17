@@ -21,6 +21,8 @@ public class LClient extends AbstractClient {
 		{
 			System.out.println("Server Not Working");
 			serverFlag=false;
+			returnMassage=massage;
+			
 		}
 		else
 		{

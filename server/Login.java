@@ -123,13 +123,29 @@ public class Login implements Initializable {
 
 	public void signup(ActionEvent event) throws IOException {
 
-		Stage primaryStage = Main.getStage();
-		Parent root = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
+		Stage primaryStage = new Stage();
+		Parent root;
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("SignUp.fxml"));
+		try {
+			root = loader.load();
+			GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+			int width = gd.getDisplayMode().getWidth();
+			int height = gd.getDisplayMode().getHeight();
+			SignUp cvc = loader.getController();
+			cvc.setThisStage(primaryStage);
+			primaryStage.setTitle("Sign Up");
+			primaryStage.setScene(new Scene(root, width, height));
+			primaryStage.show();
+			primaryStage.setFullScreen(false);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// primaryStage.setTitle("Hello World");
-		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		int width = gd.getDisplayMode().getWidth();
-		int height = gd.getDisplayMode().getHeight();
-		primaryStage.setScene(new Scene(root, width, height));
+
+		// signupform.
 
 	}
 

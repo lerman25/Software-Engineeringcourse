@@ -51,7 +51,7 @@ public class MainServer extends Application {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-		        Platform.exit();
+		        Platform.exit(); // this is for when you close the main stage the whole program will close
 		        System.exit(0);
 		    }
 		});
@@ -62,7 +62,7 @@ public class MainServer extends Application {
 		}
 	}
 
-	public static void main() {
+	public static void main(String args[]) {
 		launch();
 
 	}

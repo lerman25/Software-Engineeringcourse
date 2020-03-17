@@ -46,13 +46,13 @@ public class Main extends Application {
 		try {
 			client.openConnection();
 		} catch (IOException e) {
-			resource = "ServerErrorWindow.fxml";
 			// TODO Auto-generated catch block
+			loadError();
 			e.printStackTrace();
 			System.out.println("problem");
 
 		}
-
+		permission=Permissions.GUEST;
 		stage = primaryStage;
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource(resource));
@@ -73,6 +73,7 @@ public class Main extends Application {
 		int width = gd.getDisplayMode().getWidth();
 		int height = gd.getDisplayMode().getHeight();
 		stage.setScene(new Scene(root, width, height));
+		stage.setResizable(true);
 		stage.setOnCloseRequest(event -> {
 			System.out.println("exiting");
 			System.out.println("Stage is closing");
@@ -104,17 +105,7 @@ public class Main extends Application {
 	}
 
 	public static void loadError() {	
-			stage.close();
-	        Stage stage1 = new Stage();
-			stage1.setTitle("Server Error - Program Closing...");
-			stage1.setScene(new Scene(errorRoot, 450, 450));
-			stage1.show();
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			AlertBox.display("Server Error","Server Error - program will close!");
 	        Platform.exit();
 	        System.exit(0);		
 	        // Hide this current window (if this is what you want)
@@ -141,6 +132,7 @@ public class Main extends Application {
 	}
 
 	static Massage get_from_server() {
+	
 		while (client.isnull()) {
 			try {
 				Thread.sleep(300);
@@ -150,6 +142,8 @@ public class Main extends Application {
 			}
 		}
 		Massage rmsg = client.getReturnMassage();
+		if(rmsg.getCommand()==Commands.SHUTDOWN)
+			loadError();
 //		if(rmsg.getCommand()==Commands.DBERROR)
 //		{
 //			try {
