@@ -132,12 +132,8 @@ public class Base implements Initializable {
 				signup.setVisible(true);
 				manager.setVisible(true);
 			}
-			else
-			{
+
 				userLabel.setText("Welcom "+Main.getPerson().getUsername());
-
-			}
-
 		}
 			
 

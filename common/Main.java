@@ -74,15 +74,15 @@ public class Main {
 //			e.printStackTrace();
 //		}
 		DataBase myDB = DataBase.getLocalInstance("remote");
-		//		Person p1 = new Person("omer","lerman",2,"gmail",11,"22",11,"male","haifa","admin","admin");
-////		ShopManager sm = new ShopManager(p1, 1);
-		Person p2 = new Person("omer","lerman",1,"gmail",11,"22",11,"male","haifa","employee","employee");
-		p2.setId(3);
-//		Employee e = new Employee(1,p2.getUsername(),p2.getPassword(),p2);
+				Person p1 = new Person("omer","lerman",2,"gmail",11,"22",11,"male","haifa","admin","admin");
+				p1.setId(5);
+				p1.setPermission(Permissions.ADMIN);
+//		Person p2 = new Person("omer","lerman",1,"gmail",11,"22",11,"male","haifa","employee","employee");
+		//		Employee e = new Employee(1,p2.getUsername(),p2.getPassword(),p2);
 //		Person p3 = new Person("omer2","lerman2",1,"gmail",11,"22",11,"male","haifa","emploeyy2","emploeyy");
 //		p3.setId(4);
-		Employee e2 = new Employee(1,p2.getUsername(),p2.getPassword(),p2);
-		myDB.add_to_DB(e2);
+//		Employee e2 = new Employee(1,p2.getUsername(),p2.getPassword(),p2);
+		myDB.add_to_DB(p1);
 ////		Mailer mail = new Mailer("ahmed.m.tayah@gmail.comþ");
 ////		Mailer mail = new Mailer("ahmed.m.tayah@gmail.com");
 ////		mail.sendMail("hey ahmed , this is sent from my Java program ");
