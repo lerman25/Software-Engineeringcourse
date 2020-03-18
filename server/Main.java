@@ -177,7 +177,67 @@ public class Main extends Application {
 
 
 
+	public static void restart() throws IOException
+	{
+		send_toServer(new Massage(person.getUsername(),Commands.LOGOUT));
+		setPerson(null);
+		System.out.println("New Main is loading...");
+		try {
+			client.openConnection();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			loadError();
+			e.printStackTrace();
+			System.out.println("problem");
 
+		}
+		permission=Permissions.GUEST;
+		stage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource(resource));
+		Parent root = loader.load();
+//		DiscountPage cvc = loader.getController();
+////		client.sendToServer(new Massage ( 1, Commands.CLIENTORDERS));
+////		Massage msg = this.get_from_server();
+////		ArrayList<Orders> o =(ArrayList<Orders>) msg.getObject();
+////		cvc.setOrders(o);
+//		cvc.loadTable();
+		errorRoot= FXMLLoader.load(Main.class.getResource("ServerErrorWindow.fxml"));
+
+		stage.setTitle("Lilac");
+
+		stage.getIcons().add(new Image(Main.class.getResourceAsStream("icon.jpg")));
+
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		int width = gd.getDisplayMode().getWidth();
+		int height = gd.getDisplayMode().getHeight();
+		stage.setScene(new Scene(root, width, height));
+		stage.setResizable(true);
+		stage.setOnCloseRequest(event -> {
+			System.out.println("exiting");
+			System.out.println("Stage is closing");
+			if(person!=null)
+			{
+				send_toServer(new Massage(person.getUsername(),Commands.LOGOUT));
+			}
+			try {
+				Thread.sleep(300);
+				client.closeConnection();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// Save file
+ catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        Platform.exit();
+	        System.exit(0);	
+		});
+		stage.show();
+
+	}
 
 	public static Person getPerson() {
 		return person;

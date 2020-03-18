@@ -1,6 +1,7 @@
 package server;
 
 import common.*;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -94,8 +95,7 @@ public class EmployeeController implements Initializable {
     private Button mail;
 	private ObservableList<Orders> ordersList;
 	private ObservableList<Employee> data1;
-	DataBase DbConnection;
-
+	private Stage thisStage;
 	@Override
 	public void initialize(URL location, ResourceBundle resource) {
 		username.setText(Main.getPerson().getUsername());
@@ -186,16 +186,9 @@ public class EmployeeController implements Initializable {
 
 	@FXML
 	void LogOut(ActionEvent event) throws IOException {
-		Stage primaryStage = Main.getStage();
-		primaryStage.close();
-		primaryStage = new Stage();
-		URL url = getClass().getResource("Login.fxml");
-		Parent root = FXMLLoader.load(url);
-		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		int width = gd.getDisplayMode().getWidth();
-		int height = gd.getDisplayMode().getHeight();
-		primaryStage.setScene(new Scene(root, width, height));
-		primaryStage.show();
+		Main.restart();
+		thisStage.close();
+
 	}
 
 	@FXML
@@ -309,5 +302,13 @@ public class EmployeeController implements Initializable {
 	        AlertBox.display("Mail","FAIL!");
 		}
 
+	}
+
+	public Stage getThisStage() {
+		return thisStage;
+	}
+
+	public void setThisStage(Stage thisStage) {
+		this.thisStage = thisStage;
 	}
 }

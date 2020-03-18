@@ -67,6 +67,8 @@ public class Base implements Initializable {
 		loader.setLocation(getClass().getResource("EmployeeView.fxml"));
 		try {
 			Parent root = loader.load();
+			EmployeeController cvc = loader.getController();
+			cvc.setThisStage(primaryStage);
 			primaryStage.setScene(new Scene(root, 400, 400));
 
 			primaryStage.show();
