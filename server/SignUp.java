@@ -96,7 +96,7 @@ public class SignUp implements Initializable {
 			typeSignup.setDisable(true);
 			perLabel.setVisible(false);
 		} else {
-			
+
 			for (int i = Permissions.values().length - 1; i >= user.ordinal(); i--) {
 				typeSignup.getItems().remove(Permissions.values()[i]);
 			}
@@ -108,78 +108,83 @@ public class SignUp implements Initializable {
 
 	public void signup(ActionEvent event) throws IOException {
 		Object newuser = textValidation();
+		boolean removeflag = true;
 		if (newuser != null) {
-			if (updateMode)
-			{
-				Main.send_toServer(new Massage(newuser, Commands.UPDATE));
-				//check if realy okay...
-		        AlertBox.display("Update","SUCCESS!");
-		        thisStage.close();
+			if (updateMode) {
+				Main.send_toServer(new Massage(Person.returnUser(user), Commands.DELETE));
+				Massage msg = Main.get_from_server();
+				if (msg.getCommand() == Commands.DBERROR) {
+					AlertBox.display("Remove", "ERROR!");
+					removeflag = false;
+				}
+				else
+				{
+					AlertBox.display("Remove", "SUCCESS!");
 
-
+				}
 			}
-			else
-			{
-				Main.send_toServer(new Massage(newuser, Commands.ADD));
-		        AlertBox.display("Sign UP","SUCCESS!");
-		        //check if really okay
-		        thisStage.close();
-
-
+			Main.send_toServer(new Massage(newuser, Commands.ADD));
+			Massage msg = server.Main.get_from_server();
+			if (msg.getCommand() != Commands.DBERROR && removeflag) {
+				AlertBox.display("Sign UP", "SUCCESS!");
+				thisStage.close();
 			}
+
 		}
 
 	}
+
 	@FXML
 	private void perChange(ActionEvent event) {
-	    // existing code...
+		// existing code...
 		branchVisC();
-		
+
 	}
-	public void branchVis()
-	{
-		int perOrd =Main.getPermission().ordinal();
-		boolean isEmp =( perOrd == Permissions.EMPLOYEE.ordinal());
+
+	public void branchVis() {
+		int perOrd = Main.getPermission().ordinal();
+		boolean isEmp = (perOrd == Permissions.EMPLOYEE.ordinal());
 		if (isEmp) {
 			brachID.setVisible(true);
 			branchLabel.setVisible(true);
 		}
-		boolean isSM =( perOrd == Permissions.SHOPMANAGER.ordinal());
+		boolean isSM = (perOrd == Permissions.SHOPMANAGER.ordinal());
 		if (isSM) {
 			brachID.setVisible(true);
 			branchLabel.setVisible(true);
 		}
 
 	}
-	public void branchVisC()
-	{
+
+	public void branchVisC() {
 		int perOrd = typeSignup.getSelectionModel().getSelectedItem().ordinal();
-		boolean isEmp =( perOrd == Permissions.EMPLOYEE.ordinal());
+		boolean isEmp = (perOrd == Permissions.EMPLOYEE.ordinal());
 		if (isEmp) {
 			brachID.setVisible(true);
 			branchLabel.setVisible(true);
 		}
-		boolean isSM =( perOrd == Permissions.SHOPMANAGER.ordinal());
+		boolean isSM = (perOrd == Permissions.SHOPMANAGER.ordinal());
 		if (isSM) {
 			brachID.setVisible(true);
 			branchLabel.setVisible(true);
 		}
-		if((!isSM)&&(!isEmp))
-		{
+		if ((!isSM) && (!isEmp)) {
 			brachID.setVisible(false);
 			branchLabel.setVisible(false);
 		}
 
 	}
+
 	public void renderPerson(Object _user) {
 		user = (Person) _user;
 		int perOrd = user.getPermission().ordinal();
-		boolean isEmp =( perOrd == Permissions.EMPLOYEE.ordinal());
+		boolean isEmp = (perOrd == Permissions.EMPLOYEE.ordinal());
 		if (isEmp) {
-			Employee e = new Employee(0,user.getFirstName(),user.getLastName(),user); // this need to be changes...to tired right now
+			Employee e = new Employee(0, user.getFirstName(), user.getLastName(), user); // this need to be changes...to
+																							// tired right now
 			brachID.setText(String.valueOf(e.getBranchID()));
 		}
-		boolean isSM =( perOrd == Permissions.SHOPMANAGER.ordinal());// this need to be changes...to tired right now
+		boolean isSM = (perOrd == Permissions.SHOPMANAGER.ordinal());// this need to be changes...to tired right now
 		if (isSM) {
 			ShopManager e = new ShopManager(user, 0);
 			brachID.setText(String.valueOf(e.getBranchID()));
@@ -273,7 +278,7 @@ public class SignUp implements Initializable {
 			if (!updateMode) {
 				Main.send_toServer(new Massage("Person", Commands.GETLASTID));
 				Massage msg = Main.get_from_server();
-				id = (int) msg.getObject() +1;
+				id = (int) msg.getObject() + 1;
 			} else {
 				id = user.getId();
 			}
@@ -301,32 +306,12 @@ public class SignUp implements Initializable {
 					_username, _password);
 			newPerson.setPermission(_permission);
 			newPerson.setId(id);
-			switch (_permission) {
-			case CLIENT: {
-				Client newClient = new Client(newPerson.getUsername(), newPerson.getPassword(), newPerson);
-				return newClient;
-			}
-			case EMPLOYEE: {
+			if (_permission == Permissions.SHOPMANAGER || _permission == Permissions.EMPLOYEE) {
 				int _branchID = Integer.parseInt(s_branchID);
-				Employee newEmployee = new Employee(_branchID, newPerson.getFirstName(), newPerson.getLastName(),
-						newPerson);
-				return newEmployee;
-			}
-			case SHOPMANAGER: {
-				int _branchID = Integer.parseInt(s_branchID);
-				ShopManager newShopManager = new ShopManager(newPerson, _branchID);
-				return newShopManager;
-			}
-			case CHAINMANAGER: {
-				ChainManager newChainManager = new ChainManager(newPerson);
-				return newChainManager;
-			}
-			case ADMIN: {
-				return newPerson;
-			}
-			}
+				return Person.returnUser(newPerson, _branchID);
+			} else
+				return Person.returnUser(newPerson);
 		}
-		return null;
 	}
 
 	public Stage getThisStage() {

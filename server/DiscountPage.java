@@ -45,7 +45,6 @@ public class DiscountPage {
 			} else {
 				ObservableList<Item> selected = items.getSelectionModel().getSelectedItems();
 				setDiscount(selected,Integer.parseInt(percent.getText()));
-		        AlertBox.display("Discount Setting","SUCCESS!");
 
 			}
 			} else {

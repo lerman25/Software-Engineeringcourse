@@ -75,7 +75,7 @@ public class Main {
 //		}
 		DataBase myDB = DataBase.getLocalInstance("remote");
 				Person p1 = new Person("omer","lerman",2,"gmail",11,"22",11,"male","haifa","admin","admin");
-				p1.setId(5);
+				p1.setId(1);
 				p1.setPermission(Permissions.ADMIN);
 //		Person p2 = new Person("omer","lerman",1,"gmail",11,"22",11,"male","haifa","employee","employee");
 		//		Employee e = new Employee(1,p2.getUsername(),p2.getPassword(),p2);

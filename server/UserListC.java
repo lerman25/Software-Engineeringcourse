@@ -7,8 +7,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+
+import common.ChainManager;
+import common.Client;
 import common.Commands;
+import common.Employee;
 import common.Person;
+import common.ShopManager;
 import common.Massage;
 import common.Orders;
 import javafx.collections.FXCollections;
@@ -101,11 +106,17 @@ public class UserListC implements Initializable {
 	void add(ActionEvent event) {
 		Stage primaryStage = new Stage();
 		Parent root;
-		try {
-			root = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("SignUp.fxml"));
+		try
+		{
+			root = loader.load();
 			GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 			int width = gd.getDisplayMode().getWidth();
 			int height = gd.getDisplayMode().getHeight();
+			SignUp cvc = loader.getController();
+			cvc.setThisStage(primaryStage);
+			primaryStage.setTitle("Update");
 			primaryStage.setScene(new Scene(root, width, height));
 			primaryStage.show();
 		} catch (IOException e) {
@@ -138,6 +149,7 @@ public class UserListC implements Initializable {
 					int height = gd.getDisplayMode().getHeight();
 					SignUp cvc = loader.getController();
 					cvc.renderPerson(selected);
+					cvc.setThisStage(primaryStage);
 					primaryStage.setTitle("Update");
 					primaryStage.setScene(new Scene(root, width, height));
 					primaryStage.show();
@@ -162,7 +174,7 @@ public class UserListC implements Initializable {
 						"You dont have the permission to remove a : " + selected.getPermission().toString());
 
 			} else {
-				Main.send_toServer(new Massage(selected, Commands.DELETE));
+				Main.send_toServer(new Massage(Person.returnUser(selected), Commands.DELETE));
 				Massage msg = Main.get_from_server();
 				if (msg.getCommand() != Commands.DBERROR) {
 					AlertBox.display("User Remove", "SUCCESS!");
@@ -194,5 +206,6 @@ public class UserListC implements Initializable {
 		return emp_list;
 
 	}
+
 
 }

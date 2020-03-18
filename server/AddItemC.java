@@ -55,7 +55,7 @@ public class AddItemC implements Initializable {
 		{
 	        AlertBox.display("Item Add","SUCCESS!");
 		}
-        
+
     }
 
     @FXML

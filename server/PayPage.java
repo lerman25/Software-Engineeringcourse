@@ -179,20 +179,22 @@ public class PayPage implements Initializable {
     	}
     	Main.send_toServer(new Massage("Orders",Commands.GETLASTID));
 		Massage msg = Main.get_from_server();
-		//check errros
-		newOrder.setID((int)msg.getObject()+1);
+		boolean idflag = msg.getCommand()!=Commands.DBERROR;
     	Main.send_toServer(new Massage("ItemInOrder",Commands.GETLASTID));
-		 msg = Main.get_from_server();
-		//check errros
-		_item.setID((int)msg.getObject()+1);
-    	_item.setOrderID(newOrder.getID());
-    	newOrder.setItemList(_item);
-    	if(gFlag)
-    		newOrder.setGreeting(getGreetingS());
-    	Main.send_toServer(new Massage(newOrder,Commands.ADD));
-        AlertBox.display("Payment","SUCCESS!");
-        thisStage.close();
-
+		Massage msg2 = Main.get_from_server();
+		boolean iioIdflag = msg2.getCommand()!=Commands.DBERROR;
+		if(iioIdflag&&idflag)
+		{
+			newOrder.setID((int)msg.getObject()+1);
+			_item.setID((int)msg2.getObject()+1);
+	    	_item.setOrderID(newOrder.getID());
+	    	newOrder.setItemList(_item);
+	    	if(gFlag)
+	    		newOrder.setGreeting(getGreetingS());
+	    	Main.send_toServer(new Massage(newOrder,Commands.ADD));
+	        AlertBox.display("Payment","SUCCESS!");
+	        thisStage.close();
+		}
         
 
     }

@@ -120,7 +120,6 @@ public class EmployeeController implements Initializable {
 		ordersList = FXCollections.observableArrayList();
 		server.Main.send_toServer(msg);
 		msg = server.Main.get_from_server();
-
 		ArrayList<Orders> orders = new ArrayList<Orders>();
 		if (msg.getCommand() != Commands.DBERROR)
 			orders = (ArrayList<Orders>) msg.getObject();
@@ -296,10 +295,6 @@ public class EmployeeController implements Initializable {
 			Mailer mail = new Mailer(c.getMail());
 			mail.sendMail("Your order was delivered!, for any problem feel free to contact us.");
 	        AlertBox.display("Mail","SUCCESS!");
-		}
-		else
-		{
-	        AlertBox.display("Mail","FAIL!");
 		}
 
 	}

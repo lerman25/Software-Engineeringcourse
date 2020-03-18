@@ -145,5 +145,40 @@ public  class Person implements Serializable{
 	public void setPermission(Permissions permission) {
 		this.permission = permission;
 	}
-
+	public static Object returnUser(Person p)
+	{
+		switch(p.getPermission())
+		{
+		case ADMIN:
+			return p;
+		case CHAINMANAGER:
+			return new ChainManager(p);
+		case CLIENT:
+		return new Client(p.getUsername(), p.getPassword(), p);
+		case EMPLOYEE:
+			return new Employee(0,p.getUsername(),p.getPassword(), p);
+		case SHOPMANAGER:
+			return new ShopManager(p,0);
+		default:
+			return p;
+		}
+	}
+	public static Object returnUser(Person p,int branchID)
+	{
+		switch(p.getPermission())
+		{
+		case ADMIN:
+			return p;
+		case CHAINMANAGER:
+			return new ChainManager(p);
+		case CLIENT:
+		return new Client(p.getUsername(), p.getPassword(), p);
+		case EMPLOYEE:
+			return new Employee(branchID,p.getUsername(),p.getPassword(), p);
+		case SHOPMANAGER:
+			return new ShopManager(p,branchID);
+		default:
+			return p;
+		}
+	}
 }

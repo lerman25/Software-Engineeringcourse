@@ -144,6 +144,8 @@ public class Main extends Application {
 		Massage rmsg = client.getReturnMassage();
 		if(rmsg.getCommand()==Commands.SHUTDOWN)
 			loadError();
+		if(rmsg.getCommand()==Commands.DBERROR)
+	        AlertBox.display("DataBase","ERROR!");
 //		if(rmsg.getCommand()==Commands.DBERROR)
 //		{
 //			try {

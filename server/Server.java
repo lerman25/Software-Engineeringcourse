@@ -90,9 +90,12 @@ public class Server extends AbstractServer {
 		}
 		switch (massage.getCommand()) {
 		case ADD: {
-			System.out.println(mydb.add_to_DB(massage.getObject()));
+			DBERRORS flag = mydb.add_to_DB(massage.getObject());
 			try {
+				if(flag == DBERRORS.COMPLETE)
 				client.sendToClient(new Massage(true, Commands.ADD));
+				else
+					client.sendToClient(new Massage(true, Commands.DBERROR));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -107,9 +110,13 @@ public class Server extends AbstractServer {
 
 		}
 		case DELETE: {
-			System.out.println(mydb.delete_from_DB(massage.getObject()));
+			DBERRORS flag = mydb.delete_from_DB(massage.getObject());
 			try {
+				if(flag == DBERRORS.COMPLETE)
 				client.sendToClient(new Massage(true, Commands.DELETE));
+				else
+					client.sendToClient(new Massage(true, Commands.DBERROR));
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -140,14 +147,20 @@ public class Server extends AbstractServer {
 
 		}
 		case UPDATE: {
-			mydb.update_in_DB(massage.getObject());
+			DBERRORS flag = mydb.update_in_DB(massage.getObject());
 			try {
+				if(flag == DBERRORS.COMPLETE)
 				client.sendToClient(new Massage(true, Commands.UPDATE));
+				else
+					client.sendToClient(new Massage(true, Commands.DBERROR));
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 			break;
+
 		}
 		case GETIMAGE: {
 			Item item1 = (Item) massage.getObject();

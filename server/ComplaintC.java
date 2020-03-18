@@ -38,7 +38,10 @@ public class ComplaintC {
 
     		Complaint complaint = new Complaint(now,writeBox.getText(),order.getClientID() ,1, order.getID(), 1);
     		Main.send_toServer(new Massage (complaint, Commands.COMPLAIN));
+    		Massage msg = Main.get_from_server();
+    		if(msg.getCommand()!=Commands.DBERROR)
     	      AlertBox.display("Complaint","SUCCESS!");
+    		
     	}
 
     }

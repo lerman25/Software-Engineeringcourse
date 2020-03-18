@@ -506,20 +506,20 @@ public class DataBase {
 
 	}
 
-	public String add_to_DB(Object object) {
+	public DBERRORS add_to_DB(Object object) {
 
 		try {
 			String table = object.getClass().getSimpleName();
 			if (this.exists_in_DB(object) > 0)//
-				return table + " " + object.toString() + " ID IN DB";
+				return DBERRORS.IDEXIST;
 			Class cls = Person.class;
 			boolean isAflag = cls.isInstance(object);
 			boolean isntPerson = !(object.getClass().getSimpleName().equals(cls.getSimpleName()));
 			if (isAflag && isntPerson) {
 				Person p = new Person((Person) object);
-				String output = add_to_DB(p);
-				if (output.equals(p.getClass().getSimpleName() + " " + p.toString() + " ID IN DB")) {
-					return (object.toString() + " Is in Person");
+				DBERRORS output = add_to_DB(p);
+				if (output == DBERRORS.IDEXIST) {
+					return DBERRORS.IDEXIST;
 				}
 				System.out.println(output);
 
@@ -675,18 +675,17 @@ public class DataBase {
 			}
 
 			if (this.exists_in_DB(object) > 0)
-				return table + " " + object.toString() + " Added to DB";
+				return DBERRORS.COMPLETE;
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "FAIL-UNKNOWN";
+		return DBERRORS.UNKNOWN;
 
 	}
 
-//redo it !!!!!!!
-	public String delete_from_DB(Object object) {
+	public DBERRORS delete_from_DB(Object object) {
 		try {
 			String table = object.getClass().getSimpleName();
 			if (table.equals("Orders")) { // to delete item in order.
@@ -701,8 +700,8 @@ public class DataBase {
 			ResultSet rs = this.get_TableResultSet(table);
 			if (isAflag && isntPerson) { // if its is Client, emp , sm, cm etc..
 				Person p = new Person((Person) object);
-				String out = delete_from_DB(p);
-				if (out == "FAIL-NO-ID IN")
+				DBERRORS out = delete_from_DB(p);
+				if (out == DBERRORS.NOID)
 					return out;
 			}
 			boolean id_flag = false;
@@ -713,25 +712,32 @@ public class DataBase {
 					PreparedStatement st = conn.prepareStatement("DELETE FROM " + table + " WHERE ID = ?");
 					st.setInt(1, Integer.valueOf(object.toString()));
 					st.executeUpdate();
+					break;
 				}
 			}
 			if (!id_flag)
-				return "FAIL-NO-ID IN";
+				return DBERRORS.NOID;
 			if (this.exists_in_DB(object) == 0)
-				return table + " " + object.toString() + " DELETED FROM DB";
+				return DBERRORS.COMPLETE;
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "UNKNOWN-FAIL";
+		return DBERRORS.UNKNOWN;
 
 	}
 
-	public int update_in_DB(Object object) {
-		delete_from_DB(object);
-		add_to_DB(object);
-		return 1;
+	public DBERRORS update_in_DB(Object object) {
+		DBERRORS delete = delete_from_DB(object) ;
+		DBERRORS add = add_to_DB(object);
+		boolean deleteF= (delete == DBERRORS.COMPLETE);
+		boolean addF =( add == DBERRORS.COMPLETE);
+		if(addF&&deleteF)
+			return DBERRORS.COMPLETE;
+		else
+			return DBERRORS.UNKNOWN;
+		
 	}
 
 	public int exists_in_DB(Object object) {
