@@ -1,4 +1,5 @@
 package item;
+
 import java.net.URL;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,18 +12,18 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	@Override
-	public void start(Stage primaryStage)throws Exception {
-		
-        Parent root = FXMLLoader.load(getClass().getResource("itemFXML.fxml"));
+	public void start(Stage primaryStage) throws Exception {
+
+		Parent root = FXMLLoader.load(getClass().getResource("itemFXML.fxml"));
 
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Item");
 		primaryStage.show();
-             // Hide this current window (if this is what you want) 
-		}
-	public static void main(String[] args)
-	{
+		// Hide this current window (if this is what you want)
+	}
+
+	public static void main(String[] args) {
 		launch(args);
 	}
 }

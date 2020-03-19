@@ -21,6 +21,6 @@ public class ChainManager extends Person implements Serializable {
 	}
 
 	public String toString() {
-		return this.getUsername();
+		return String.valueOf(this.getId());
 	}
 }

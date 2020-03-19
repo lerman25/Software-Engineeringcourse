@@ -1,7 +1,5 @@
 package server;
 
 public enum OStatus {
-	ACCEPTED,
-	DELIVERED,
-	CANCELED,
+	ACCEPTED, DELIVERED, CANCELED,PENDING,
 }

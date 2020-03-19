@@ -1,8 +1,5 @@
 package server;
 
 public enum Size {
-SMALL,
-MEDIUM,
-LARGE,
-BIG
+	SMALL, MEDIUM, LARGE, BIG
 }

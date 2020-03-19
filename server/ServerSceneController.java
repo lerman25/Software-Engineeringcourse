@@ -12,25 +12,24 @@ import javafx.scene.control.Button;
 public class ServerSceneController {
 	private Server server;
 
-    @FXML
-    private ResourceBundle resources;
+	@FXML
+	private ResourceBundle resources;
 
-    @FXML
-    private URL location;
+	@FXML
+	private URL location;
 
-    @FXML
-    private Button stop;
-   
+	@FXML
+	private Button stop;
 
-    @FXML
-    private Button start;
+	@FXML
+	private Button start;
 
-    @FXML
-    void initialize() {
-        assert stop != null : "fx:id=\"stop\" was not injected: check your FXML file 'ServerScene.fxml'.";
-        assert start != null : "fx:id=\"start\" was not injected: check your FXML file 'ServerScene.fxml'.";
-        start.setOnAction(new EventHandler<ActionEvent>() {
-			
+	@FXML
+	void initialize() {
+		assert stop != null : "fx:id=\"stop\" was not injected: check your FXML file 'ServerScene.fxml'.";
+		assert start != null : "fx:id=\"start\" was not injected: check your FXML file 'ServerScene.fxml'.";
+		start.setOnAction(new EventHandler<ActionEvent>() {
+
 			@Override
 			public void handle(ActionEvent arg0) {
 				// TODO Auto-generated method stub
@@ -41,10 +40,10 @@ public class ServerSceneController {
 					e1.printStackTrace();
 				}
 			}
-			
+
 		});
-        stop.setOnAction(new EventHandler<ActionEvent>() {
-			
+		stop.setOnAction(new EventHandler<ActionEvent>() {
+
 			@Override
 			public void handle(ActionEvent arg0) {
 				// TODO Auto-generated method stub
@@ -53,10 +52,11 @@ public class ServerSceneController {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				};
+				}
+				;
 
 			}
 		});
 
-    }
+	}
 }

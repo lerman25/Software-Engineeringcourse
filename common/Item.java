@@ -24,7 +24,8 @@ public class Item implements Serializable {
 		setSize(_Size);
 		setId(Integer.toString(++count));
 	}
-	public Item(String _name, int _Price, String _Kind, String _Color, server.Size _Size,String _id) {
+
+	public Item(String _name, int _Price, String _Kind, String _Color, server.Size _Size, String _id) {
 		// TODO Auto-generated constructor stub
 		setName(_name);
 		setPrice(_Price);
@@ -33,8 +34,8 @@ public class Item implements Serializable {
 		setSize(_Size);
 		setId(_id);
 	}
-	public Item(Item _item)
-	{
+
+	public Item(Item _item) {
 		setName(_item.getName());
 		setPrice(_item.getPrice());
 		setKind(_item.getKind());
@@ -42,6 +43,7 @@ public class Item implements Serializable {
 		setSize(_item.getSize());
 		setId(_item.getId());
 	}
+
 	public String getColor() {
 		return Color;
 	}

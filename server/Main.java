@@ -34,13 +34,14 @@ import common.Person;
 public class Main extends Application {
 	static LClient client;
 	private static Permissions permission = Permissions.GUEST;
-	private static Person person=null;
+	private static Person person = null;
 	static private Stage stage = null;
 	private static String resource = "Login.fxml";
 	static Parent errorRoot = null;
-    @FXML // fx:id="text"
-    private Text text; // Value injected by FXMLLoader
-
+	@FXML // fx:id="text"
+	private Text text; // Value injected by FXMLLoader
+	static private Massage latestMsg;
+	static private Home HomeC=null;
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		try {
@@ -52,10 +53,10 @@ public class Main extends Application {
 			System.out.println("problem");
 
 		}
-		permission=Permissions.GUEST;
+		permission = Permissions.GUEST;
 		stage = primaryStage;
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource(resource));
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource(resource));
 		Parent root = loader.load();
 //		DiscountPage cvc = loader.getController();
 ////		client.sendToServer(new Massage ( 1, Commands.CLIENTORDERS));
@@ -63,7 +64,7 @@ public class Main extends Application {
 ////		ArrayList<Orders> o =(ArrayList<Orders>) msg.getObject();
 ////		cvc.setOrders(o);
 //		cvc.loadTable();
-		errorRoot= FXMLLoader.load(getClass().getResource("ServerErrorWindow.fxml"));
+		errorRoot = FXMLLoader.load(getClass().getResource("ServerErrorWindow.fxml"));
 
 		stage.setTitle("Lilac");
 
@@ -77,9 +78,8 @@ public class Main extends Application {
 		stage.setOnCloseRequest(event -> {
 			System.out.println("exiting");
 			System.out.println("Stage is closing");
-			if(person!=null)
-			{
-				send_toServer(new Massage(person.getUsername(),Commands.LOGOUT));
+			if (person != null) {
+				send_toServer(new Massage(person.getUsername(), Commands.LOGOUT));
 			}
 			try {
 				Thread.sleep(300);
@@ -89,12 +89,12 @@ public class Main extends Application {
 				e.printStackTrace();
 			}
 			// Save file
- catch (InterruptedException e) {
+			catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        Platform.exit();
-	        System.exit(0);	
+			Platform.exit();
+			System.exit(0);
 		});
 		stage.show();
 
@@ -104,12 +104,12 @@ public class Main extends Application {
 		return stage;
 	}
 
-	public static void loadError() {	
-			AlertBox.display("Server Error","Server Error - program will close!");
-	        Platform.exit();
-	        System.exit(0);		
-	        // Hide this current window (if this is what you want)
-	        //need to replace this with event handler maybe..
+	public static void loadError() {
+		AlertBox.display("Server Error", "Server Error - program will close!");
+		Platform.exit();
+		System.exit(0);
+		// Hide this current window (if this is what you want)
+		// need to replace this with event handler maybe..
 	}
 
 	static public void send_toServer(Massage m) {
@@ -121,10 +121,11 @@ public class Main extends Application {
 					System.out.println("Opening connection");
 					client.openConnection();
 				}
+				latestMsg=m;
 				client.sendToServer(m);
 			} catch (IOException e) {
 
-			// TODO Auto-generated catch block
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 
 			}
@@ -132,7 +133,8 @@ public class Main extends Application {
 	}
 
 	static Massage get_from_server() {
-	
+		Stage alertS = new Stage();
+		AlertBox.shortDisplay("Loading...", "Waiting for Server", alertS);
 		while (client.isnull()) {
 			try {
 				Thread.sleep(300);
@@ -142,10 +144,18 @@ public class Main extends Application {
 			}
 		}
 		Massage rmsg = client.getReturnMassage();
-		if(rmsg.getCommand()==Commands.SHUTDOWN)
-			loadError();
-		if(rmsg.getCommand()==Commands.DBERROR)
-	        AlertBox.display("DataBase","ERROR!");
+		if (rmsg.getCommand() == Commands.DBERROR)
+			AlertBox.display("DataBase", "ERROR!");
+		else
+		{
+			if (rmsg.getCommand() == Commands.SHUTDOWN || rmsg.getCommand()!=latestMsg.getCommand())
+			{
+				System.out.println("Command : "+rmsg.getCommand());
+				if(latestMsg!=null)
+					System.out.println("Latest Commands : "+latestMsg.getCommand());
+				loadError();
+			}
+		}
 //		if(rmsg.getCommand()==Commands.DBERROR)
 //		{
 //			try {
@@ -166,22 +176,20 @@ public class Main extends Application {
 //				e.printStackTrace();
 //			} 
 //		}
+		alertS.close();
 		return rmsg;
 
 	}
 
 	public static void main(String[] args) {
-		boolean launchf=true;
+		boolean launchf = true;
 		setPerson(null);
 		client = new LClient("127.0.0.1", 5555);
 		launch(args);
 	}
 
-
-
-	public static void restart() throws IOException
-	{
-		send_toServer(new Massage(person.getUsername(),Commands.LOGOUT));
+	public static void restart() throws IOException {
+		send_toServer(new Massage(person.getUsername(), Commands.LOGOUT));
 		setPerson(null);
 		System.out.println("New Main is loading...");
 		try {
@@ -193,10 +201,11 @@ public class Main extends Application {
 			System.out.println("problem");
 
 		}
-		permission=Permissions.GUEST;
+		stage.hide();
+		permission = Permissions.GUEST;
 		stage = new Stage();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource(resource));
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource(resource));
 		Parent root = loader.load();
 //		DiscountPage cvc = loader.getController();
 ////		client.sendToServer(new Massage ( 1, Commands.CLIENTORDERS));
@@ -204,7 +213,7 @@ public class Main extends Application {
 ////		ArrayList<Orders> o =(ArrayList<Orders>) msg.getObject();
 ////		cvc.setOrders(o);
 //		cvc.loadTable();
-		errorRoot= FXMLLoader.load(Main.class.getResource("ServerErrorWindow.fxml"));
+		errorRoot = FXMLLoader.load(Main.class.getResource("ServerErrorWindow.fxml"));
 
 		stage.setTitle("Lilac");
 
@@ -218,9 +227,8 @@ public class Main extends Application {
 		stage.setOnCloseRequest(event -> {
 			System.out.println("exiting");
 			System.out.println("Stage is closing");
-			if(person!=null)
-			{
-				send_toServer(new Massage(person.getUsername(),Commands.LOGOUT));
+			if (person != null) {
+				send_toServer(new Massage(person.getUsername(), Commands.LOGOUT));
 			}
 			try {
 				Thread.sleep(300);
@@ -230,12 +238,12 @@ public class Main extends Application {
 				e.printStackTrace();
 			}
 			// Save file
- catch (InterruptedException e) {
+			catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        Platform.exit();
-	        System.exit(0);	
+			Platform.exit();
+			System.exit(0);
 		});
 		stage.show();
 
@@ -255,6 +263,14 @@ public class Main extends Application {
 
 	public static void setPermission(Permissions permission) {
 		Main.permission = permission;
+	}
+
+	public static Home getHomeC() {
+		return HomeC;
+	}
+
+	public static void setHomeC(Home homeC) {
+		HomeC = homeC;
 	}
 
 }

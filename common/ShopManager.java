@@ -20,7 +20,6 @@ public class ShopManager extends Person {
 		BranchID = _branch;
 		super.setPermission(Permissions.SHOPMANAGER);
 
-
 	}
 
 	public int getBranchID() {
@@ -32,6 +31,6 @@ public class ShopManager extends Person {
 	}
 
 	public String toString() {
-		return this.getUsername();
+		return String.valueOf(this.getId());
 	}
 }

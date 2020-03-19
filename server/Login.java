@@ -108,10 +108,9 @@ public class Login implements Initializable {
 		Massage msg = new Massage(Commands.LOGIN, username.getText(), password.getText());
 		server.Main.send_toServer(msg);
 		msg = server.Main.get_from_server();
-		if(msg.getCommand()==Commands.DBERROR)
-		{	
+		if (msg.getCommand() == Commands.DBERROR) {
 			Main.setPermission(Permissions.ADMIN);
-			Main.setPerson(new Person("","",1,"",0,"", 0,"","","", null));
+			Main.setPerson(new Person("", "", 1, "", 0, "", 0, "", "", "", null));
 		}
 		cvc.loadView();
 		// primaryStage.setTitle("Hello World");
@@ -158,55 +157,58 @@ public class Login implements Initializable {
 			Massage msg = new Massage(Commands.LOGIN, username.getText(), password.getText());
 			server.Main.send_toServer(msg);
 			msg = server.Main.get_from_server();
-			if(msg.getCommand()!=Commands.DBERROR)
-			{	
-			int id = (int) msg.getObject();
-			
-			if (id > 0) {
-				msg = new Massage(username.getText(), Commands.CONNECTED);
-				server.Main.send_toServer(msg);
-				msg = server.Main.get_from_server();
-				boolean connected = (boolean) msg.getObject();
-				if (connected) {
-					for_password.setText("User : " + username.getText() + " Already Connected!");
-					password.setVisible(false);
-					login.setVisible(false);
-					next.setVisible(true);
-				} else {
-					msg = new Massage(id, Commands.GETPERSON);
+			if (msg.getCommand() != Commands.DBERROR) {
+				int id = (int) msg.getObject();
+
+				if (id > 0) {
+					msg = new Massage(username.getText(), Commands.CONNECTED);
 					server.Main.send_toServer(msg);
 					msg = server.Main.get_from_server();
-					Person _client = (Person) msg.getObject();
-					Main.setPerson(_client);
-					Main.setPermission(_client.getPermission());
-					for_password.setTextFill(Color.web("black"));
-					for_password.setText("Welcome to Lilac <3 ^_^ .!");
-					// AnchorPane newanchor =
-					// FXMLLoader.load(getClass().getResource("server.fxml"));
-					// anchorer.getChildren().setAll(newanchor);
-					// primaryStage.setTitle("Hello World");
-					Stage primaryStage = Main.getStage();
-					FXMLLoader loader = new FXMLLoader();
-					loader.setLocation(getClass().getResource("base.fxml"));
-					Parent root = loader.load();
-					Base cvc = loader.getController();
-					cvc.loadView();
+					boolean connected = (boolean) msg.getObject();
+					if (connected) {
+						for_password.setText("User : " + username.getText() + " Already Connected!");
+						password.setVisible(false);
+						login.setVisible(false);
+						next.setVisible(true);
+					} else {
+						//CHECK DB ERROR
+						msg = new Massage(id, Commands.GETPERSON);
+						server.Main.send_toServer(msg);
+						msg = server.Main.get_from_server();
+						Person _client = (Person) msg.getObject();
+						Main.setPerson(_client);
+						Main.setPermission(_client.getPermission());
+						for_password.setTextFill(Color.web("black"));
+						for_password.setText("Welcome to Lilac <3 ^_^ .!");
+						// AnchorPane newanchor =
+						// FXMLLoader.load(getClass().getResource("server.fxml"));
+						// anchorer.getChildren().setAll(newanchor);
+						// primaryStage.setTitle("Hello World");
+						Stage primaryStage = Main.getStage();
+						FXMLLoader loader = new FXMLLoader();
+						loader.setLocation(getClass().getResource("base.fxml"));
+						Stage window =new Stage();
+						AlertBox.shortDisplay("Please Wait", "Loading", window);
+						Parent root = loader.load();
+						Base cvc = loader.getController();
+						cvc.loadView();
 
-					// cvc.refreshTable();
-					// primaryStage.setTitle("Hello World");
-					GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-					int width = gd.getDisplayMode().getWidth();
-					int height = gd.getDisplayMode().getHeight();
-					primaryStage.setScene(new Scene(root, width, height));
-				}
-			} else {
-				if (!(password.getText().isEmpty())) {
-					for_password.setText("Incorrect Password!!");
+						// cvc.refreshTable();
+						// primaryStage.setTitle("Hello World");
+						GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+						int width = gd.getDisplayMode().getWidth();
+						int height = gd.getDisplayMode().getHeight();
+						window.close();
+						primaryStage.setScene(new Scene(root, width, height));
+					}
+				} else {
+					if (!(password.getText().isEmpty())) {
+						for_password.setText("Incorrect Password!!");
 
+					}
 				}
+				return;
 			}
-			return;
-		}
 		}
 
 	}

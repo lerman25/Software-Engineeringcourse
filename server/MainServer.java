@@ -16,13 +16,15 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+
 public class MainServer extends Application {
-	
+
 	public static Server myServer;
+
 	@Override
 	public void start(Stage primaryStage) {
 
-		myServer= new Server(5555);
+		myServer = new Server(5555);
 //		 Runtime.getRuntime().addShutdownHook(new Thread() 
 //		    { 
 //		      public void run() 
@@ -34,28 +36,28 @@ public class MainServer extends Application {
 		URL url = getClass().getResource("ServerScene.fxml");
 		try {
 			AnchorPane pane = FXMLLoader.load(url);
-		
-		Scene scene = new Scene(pane,300,275);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Server");
-		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("server.jpg")));
 
-		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-		    @Override
-		    public void handle(WindowEvent t) {
-		    	System.out.println("Server Shutting Down");
-		    	myServer.sendToAllClients(new Massage(true,Commands.SHUTDOWN));
-		    	try {
-					myServer.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			Scene scene = new Scene(pane, 300, 275);
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Server");
+			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("server.jpg")));
+
+			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+				@Override
+				public void handle(WindowEvent t) {
+					System.out.println("Server Shutting Down");
+					myServer.sendToAllClients(new Massage(true, Commands.SHUTDOWN));
+					try {
+						myServer.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Platform.exit(); // this is for when you close the main stage the whole program will close
+					System.exit(0);
 				}
-		        Platform.exit(); // this is for when you close the main stage the whole program will close
-		        System.exit(0);
-		    }
-		});
-		primaryStage.show();
+			});
+			primaryStage.show();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

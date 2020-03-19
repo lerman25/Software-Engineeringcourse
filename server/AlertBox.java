@@ -1,4 +1,5 @@
 package server;
+
 //import javafx.stage.*;
 //import javafx.scene.*;
 import javafx.scene.Scene;
@@ -11,28 +12,48 @@ import javafx.stage.Stage;
 
 public class AlertBox {
 
-    public static void display(String title, String message) {
-        Stage window = new Stage();
+	public static void display(String title, String message) {
+		Stage window = new Stage();
 
-        //Block events to other windows
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle(title);
-        window.setMinWidth(400);
+		// Block events to other windows
+		window.initModality(Modality.APPLICATION_MODAL);
+		window.setTitle(title);
+		window.setMinWidth(400);
 
-        Label label = new Label();
-        label.setText(message);
-        Button closeButton = new Button("OK");
-        closeButton.setOnAction(e -> window.close());
+		Label label = new Label();
+		label.setText(message);
+		Button closeButton = new Button("OK");
+		closeButton.setOnAction(e -> window.close());
 
-        VBox layout = new VBox(20);
-        layout.getChildren().addAll(label, closeButton);
-        layout.setAlignment(Pos.CENTER);
+		VBox layout = new VBox(20);
+		layout.getChildren().addAll(label, closeButton);
+		layout.setAlignment(Pos.CENTER);
 
-        //Display window and wait for it to be closed before returning
-        Scene scene = new Scene(layout);
-        window.setScene(scene);
-        window.showAndWait();
-        Alert alert;
-    }
+		// Display window and wait for it to be closed before returning
+		Scene scene = new Scene(layout);
+		window.setScene(scene);
+		window.showAndWait();
+		Alert alert;
+	}
+	public static void shortDisplay(String title, String message,Stage window) {
+
+		// Block events to other windows
+		window.setTitle(title);
+		window.setMinWidth(400);
+
+		Label label = new Label();
+		label.setText(message);
+
+		VBox layout = new VBox(20);
+		layout.getChildren().addAll(label);
+		layout.setAlignment(Pos.CENTER);
+
+		// Display window and wait for it to be closed before returning
+		Scene scene = new Scene(layout,400,50);
+		window.setScene(scene);
+		window.show();
+		Alert alert;
+	}
+
 
 }

@@ -13,8 +13,8 @@ public class Employee extends Person {
 		// TODO Auto-generated constructor stub
 		branchID = _branchID;
 		super.setPermission(Permissions.EMPLOYEE);
-		setName(super.getFirstName()+" "+super.getLastName());
-		System.out.println("Name"+this.getName());
+		setName(super.getFirstName() + " " + super.getLastName());
+		System.out.println("Name" + this.getName());
 	}
 
 	public Employee(int _branchID, String _firstname, String _lastname, int _id, String _mail, int _phone,
@@ -23,9 +23,8 @@ public class Employee extends Person {
 		// TODO Auto-generated constructor stub
 		branchID = _branchID;
 		super.setPermission(Permissions.EMPLOYEE);
-		setName(super.getFirstName()+" "+super.getLastName());
-		System.out.println("Name"+this.getName());
-
+		setName(super.getFirstName() + " " + super.getLastName());
+		System.out.println("Name" + this.getName());
 
 	}
 
@@ -50,7 +49,7 @@ public class Employee extends Person {
 	}
 
 	public String toString() {
-		return this.getUsername();
+		return String.valueOf(this.getId());
 
 	}
 

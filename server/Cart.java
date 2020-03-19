@@ -1,4 +1,5 @@
 package server;
+
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,18 +25,19 @@ import common.Orders;
 
 public class Cart implements Initializable {
 	@FXML
-    GridPane cartItmes;
-    @FXML
-    TextField name;
-    @FXML
-    TextField price;
-    @FXML
-    ImageView my_image;
-    private StackPane anchory;
-    private Item item;
+	GridPane cartItmes;
+	@FXML
+	TextField name;
+	@FXML
+	TextField price;
+	@FXML
+	ImageView my_image;
+	private StackPane anchory;
+	private Item item;
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

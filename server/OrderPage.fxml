@@ -36,5 +36,7 @@
         </columns>
       </TableView>
       <Button fx:id="cancel" layoutX="291.0" layoutY="182.0" mnemonicParsing="false" onAction="#cancel" text="Ask to cancel" />
+      <TextArea fx:id="greetingBox" editable="false" layoutX="234.0" layoutY="42.0" prefHeight="82.0" prefWidth="200.0" promptText="..." />
+      <Label fx:id="greetingLabel" layoutX="234.0" layoutY="14.0" text="Greeting Card:" />
    </children>
 </AnchorPane>

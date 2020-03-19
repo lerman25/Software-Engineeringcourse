@@ -7,7 +7,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-
 import common.ChainManager;
 import common.Client;
 import common.Commands;
@@ -108,8 +107,7 @@ public class UserListC implements Initializable {
 		Parent root;
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("SignUp.fxml"));
-		try
-		{
+		try {
 			root = loader.load();
 			GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 			int width = gd.getDisplayMode().getWidth();
@@ -118,7 +116,8 @@ public class UserListC implements Initializable {
 			cvc.setThisStage(primaryStage);
 			primaryStage.setTitle("Update");
 			primaryStage.setScene(new Scene(root, width, height));
-			primaryStage.show();
+			primaryStage.showAndWait();
+			refreshTable();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -152,7 +151,8 @@ public class UserListC implements Initializable {
 					cvc.setThisStage(primaryStage);
 					primaryStage.setTitle("Update");
 					primaryStage.setScene(new Scene(root, width, height));
-					primaryStage.show();
+					primaryStage.showAndWait();
+					refreshTable();
 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -206,6 +206,5 @@ public class UserListC implements Initializable {
 		return emp_list;
 
 	}
-
 
 }

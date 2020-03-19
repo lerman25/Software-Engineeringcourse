@@ -10,54 +10,51 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-
-public class Mailer 
-{
+public class Mailer {
 	private String toMail;
-	public Mailer(String _toMail)
-	{
-		toMail=_toMail;
+
+	public Mailer(String _toMail) {
+		toMail = _toMail;
 	}
-    public  void sendMail(String text) {
 
-        final String username = "lilacteam10@gmail.com";
-        final String password = "khklecumv10";
+	public void sendMail(String text) {
 
-        Properties prop = new Properties();
+		final String username = "lilacteam10@gmail.com";
+		final String password = "khklecumv10";
+
+		Properties prop = new Properties();
 		prop.put("mail.smtp.host", "smtp.gmail.com");
-        prop.put("mail.smtp.port", "587");
-        prop.put("mail.smtp.auth", "true");
-        prop.put("mail.smtp.starttls.enable", "true"); //TLS
-        
-        Session session = Session.getInstance(prop,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
+		prop.put("mail.smtp.port", "587");
+		prop.put("mail.smtp.auth", "true");
+		prop.put("mail.smtp.starttls.enable", "true"); // TLS
 
-        try {
+		Session session = Session.getInstance(prop, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
 
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("from@gmail.com"));
-            message.setRecipients(
-                    Message.RecipientType.TO,
-                    InternetAddress.parse(toMail)
-            );
-            message.setSubject("מערכת לילך אוטומטית");
-            message.setText(text);
+		try {
 
-            Transport.send(message);
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("from@gmail.com"));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toMail));
+			message.setSubject("מערכת לילך אוטומטית");
+			message.setText(text);
 
-            System.out.println("Mail sent to "+this.toMail);
+			Transport.send(message);
 
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
+			System.out.println("Mail sent to " + this.toMail);
+
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public String getToMail() {
 		return toMail;
 	}
+
 	public void setToMail(String toMail) {
 		this.toMail = toMail;
 	}

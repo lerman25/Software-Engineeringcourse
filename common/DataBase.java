@@ -206,6 +206,8 @@ public class DataBase {
 	}
 
 	public ItemInOrder getItemsInOrder(int id) {
+		Item removedItem = new Item("Item Removed", 0, "-", "-", Size.SMALL,"-1");
+
 		ItemInOrder iio = new ItemInOrder(id, -1);
 		try {
 			ResultSet rs = this.get_TableResultSet("ItemInOrder");
@@ -220,7 +222,7 @@ public class DataBase {
 					Item item = get_flower(iioID);
 					if (item == null) {
 						System.out.println("NO ITEM IN DB");
-						Item removedItem = new Item("Item Removed", 0, "-", "-", Size.SMALL, String.valueOf(iioID));
+						removedItem.setId(String.valueOf(iioID));
 						item = removedItem;
 					}
 					for (int i = 0; i < amount; i++) {
@@ -384,6 +386,7 @@ public class DataBase {
 		return person;
 
 	}
+
 	public ArrayList<Person> get_persons() {
 		ArrayList<Person> persons = new ArrayList<Person>();
 		ResultSet rs;
@@ -391,23 +394,23 @@ public class DataBase {
 			rs = this.get_TableResultSet("Person");
 
 			while (rs.next()) {
-				int _id = rs.getInt("ID");			
-					String firstname = rs.getString("FirstName");
-					String lastname = rs.getString("LastName");
-					String mail = rs.getString("EMail");
-					int phone = rs.getInt("PhoneNumber");
-					String credit = rs.getString("CreditCard");
-					int age = rs.getInt("Age");
-					String gender = rs.getString("Gender");
-					String address = rs.getString("Address");
-					String username = rs.getString("Username");
-					String password = rs.getString("Password");
-					Person person = new Person(firstname, lastname, _id, mail, phone, credit, age, gender, address, username,
-							password);
-					Permissions p = Permissions.valueOf(rs.getString("Permission"));
-					person.setPermission(p);
-					persons.add(person);
-				}
+				int _id = rs.getInt("ID");
+				String firstname = rs.getString("FirstName");
+				String lastname = rs.getString("LastName");
+				String mail = rs.getString("EMail");
+				int phone = rs.getInt("PhoneNumber");
+				String credit = rs.getString("CreditCard");
+				int age = rs.getInt("Age");
+				String gender = rs.getString("Gender");
+				String address = rs.getString("Address");
+				String username = rs.getString("Username");
+				String password = rs.getString("Password");
+				Person person = new Person(firstname, lastname, _id, mail, phone, credit, age, gender, address,
+						username, password);
+				Permissions p = Permissions.valueOf(rs.getString("Permission"));
+				person.setPermission(p);
+				persons.add(person);
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -415,6 +418,7 @@ public class DataBase {
 		return persons;
 
 	}
+
 	public ArrayList<Employee> get_employees() {
 		ArrayList<Employee> employees = new ArrayList<Employee>();
 		try {
@@ -691,7 +695,7 @@ public class DataBase {
 			if (table.equals("Orders")) { // to delete item in order.
 				Orders order = (Orders) object;
 				System.out.println("hey");
-				System.out.println("Sending to delete"+order.getItemList().getClass().getSimpleName());
+				System.out.println("Sending to delete" + order.getItemList().getClass().getSimpleName());
 				System.out.println(delete_from_DB(order.getItemList()));
 			}
 			Class cls = Person.class;
@@ -705,7 +709,8 @@ public class DataBase {
 					return out;
 			}
 			boolean id_flag = false;
-			while (rs.next()) {
+			while (rs.next()) { // should do something faster then this , mabye search see if not empty then
+								// delete in 2 commands in stead of while on everthing.
 				int id = (rs.getInt("ID"));
 				if (String.valueOf(id).equals((object.toString()))) {
 					id_flag = true;
@@ -729,15 +734,15 @@ public class DataBase {
 	}
 
 	public DBERRORS update_in_DB(Object object) {
-		DBERRORS delete = delete_from_DB(object) ;
+		DBERRORS delete = delete_from_DB(object);
 		DBERRORS add = add_to_DB(object);
-		boolean deleteF= (delete == DBERRORS.COMPLETE);
-		boolean addF =( add == DBERRORS.COMPLETE);
-		if(addF&&deleteF)
+		boolean deleteF = (delete == DBERRORS.COMPLETE);
+		boolean addF = (add == DBERRORS.COMPLETE);
+		if (addF && deleteF)
 			return DBERRORS.COMPLETE;
 		else
 			return DBERRORS.UNKNOWN;
-		
+
 	}
 
 	public int exists_in_DB(Object object) {

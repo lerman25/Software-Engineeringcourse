@@ -27,59 +27,56 @@ import javafx.stage.Stage;
 
 public class Item1 implements Initializable {
 
-	
-    @FXML
-    private TextField name;
-    @FXML
-    private ImageView imageview;
-    @FXML
-    private TextField kind;
-    @FXML
-    private TextField color;
-    @FXML
-    private TextField size;
-    @FXML
-    private TextField price;
-    @FXML
-    private ImageView backHome;
-    @FXML
-    private Button buyBtton ;
-    @FXML
-    private Button addCartBtton ;
-    @FXML
-    private StackPane anchory;
-    private Item item;
+	@FXML
+	private TextField name;
+	@FXML
+	private ImageView imageview;
+	@FXML
+	private TextField kind;
+	@FXML
+	private TextField color;
+	@FXML
+	private TextField size;
+	@FXML
+	private TextField price;
+	@FXML
+	private ImageView backHome;
+	@FXML
+	private Button buyBtton;
+	@FXML
+	private Button addCartBtton;
+	@FXML
+	private StackPane anchory;
+	private Item item;
 
-    Stage window = new Stage();
+	Stage window = new Stage();
 
+	public void setItem(Item _item) { // Setting the client-object in ClientViewController
+		this.item = _item;
+		name.setText(this.item.getName());
+		price.setText(Double.toString(this.item.getPrice()));
+		kind.setText(this.item.getKind());
+		color.setText(this.item.getColor());
+		size.setText(this.item.getSize().toString());
 
-    public void setItem(Item _item) { // Setting the client-object in ClientViewController
-        this.item = _item;
-        name.setText(this.item.getName());
-        price.setText(Double.toString(this.item.getPrice()));
-        kind.setText(this.item.getKind());
-        color.setText(this.item.getColor());
-        size.setText(this.item.getSize().toString());
-        
+	}
 
+	@Override
+	public void initialize(URL url, ResourceBundle resourceBundle) {
 
-    }
-    
-           @Override
-        public void initialize(URL url, ResourceBundle resourceBundle) {
+	}
 
+	public void back(MouseEvent event) throws IOException {
+		Stage primaryStage = Main.getStage();
+		Parent root = FXMLLoader.load(getClass().getResource("base.fxml"));
+		// primaryStage.setTitle("Hello World");
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		int width = gd.getDisplayMode().getWidth();
+		int height = gd.getDisplayMode().getHeight();
+		primaryStage.setScene(new Scene(root, width, height));
+	}
 
-    }
-    public void back(MouseEvent event) throws IOException {
-        Stage primaryStage =Main.getStage();
-        Parent root = FXMLLoader.load(getClass().getResource("base.fxml"));
-        // primaryStage.setTitle("Hello World");
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int width = gd.getDisplayMode().getWidth();
-        int height = gd.getDisplayMode().getHeight();
-        primaryStage.setScene(new Scene(root, width, height));
-    }
-    public void buyB(MouseEvent event) throws IOException {
+	public void buyB(MouseEvent event) throws IOException {
 //        Stage primaryStage =Main.getStage();
 //        Parent root = FXMLLoader.load(getClass().getResource("PayPage.fxml"));
 //        // primaryStage.setTitle("Hello World");
@@ -87,29 +84,30 @@ public class Item1 implements Initializable {
 //        int width = gd.getDisplayMode().getWidth();
 //        int height = gd.getDisplayMode().getHeight();
 //        primaryStage.setScene(new Scene(root, width, height));
-    	  Stage primaryStage =new Stage();
-          FXMLLoader loader = new FXMLLoader();
-          loader.setLocation(Main.class.getResource("PayPage.fxml"));
-          AnchorPane mainLayout;
-          try {
-  			mainLayout = loader.load();
-  	        PayPage cvc = loader.getController(); // This did the "trick"
+		Stage primaryStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("PayPage.fxml"));
+		AnchorPane mainLayout;
+		try {
+			mainLayout = loader.load();
+			PayPage cvc = loader.getController(); // This did the "trick"
 
-  	         cvc.setSelected(this.item); // Passing the client-object to the ClientViewController
-  	         cvc.setThisStage(primaryStage);
-  	         Scene scene = new Scene(mainLayout, 600, 600);
-  	         primaryStage.setScene(scene);
-  	         primaryStage.setResizable(true);
-  	         primaryStage.show();
-  		} catch (IOException e) {
-  			// TODO Auto-generated catch block
-  			e.printStackTrace();
-  		}
+			cvc.setSelected(this.item); // Passing the client-object to the ClientViewController
+			cvc.setThisStage(primaryStage);
+			Scene scene = new Scene(mainLayout, 600, 600);
+			primaryStage.setScene(scene);
+			primaryStage.setResizable(true);
+			primaryStage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-    }
-    public void addCart(MouseEvent event) throws IOException {
-    	
-        AlertBox.display("ADDED","Not implemented yet..");
+	}
+
+	public void addCart(MouseEvent event) throws IOException {
+
+		AlertBox.display("ADDED", "Not implemented yet..");
 //        Stage primaryStage =Main.getStage();
 //        FXMLLoader loader = new FXMLLoader();
 //        loader.setLocation(Main.class.getResource("Cart.fxml"));
@@ -128,5 +126,5 @@ public class Item1 implements Initializable {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-    }
+	}
 }

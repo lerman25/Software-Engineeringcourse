@@ -117,16 +117,14 @@ public class SignUp implements Initializable {
 					AlertBox.display("Remove", "ERROR!");
 					removeflag = false;
 				}
-				else
-				{
-					AlertBox.display("Remove", "SUCCESS!");
-
-				}
 			}
 			Main.send_toServer(new Massage(newuser, Commands.ADD));
 			Massage msg = server.Main.get_from_server();
 			if (msg.getCommand() != Commands.DBERROR && removeflag) {
-				AlertBox.display("Sign UP", "SUCCESS!");
+				if (updateMode)
+					AlertBox.display("Update", "SUCCESS!");
+				else
+					AlertBox.display("Sign UP", "SUCCESS!");
 				thisStage.close();
 			}
 

@@ -40,22 +40,20 @@ public class DiscountPage {
 	void confirm(ActionEvent event) {
 		if ((percent.getText().length() > 0) && percent.getText().toString().matches("\\d+")) {
 			if (Integer.parseInt(percent.getText()) > 0) {
-			if (items.getSelectionModel().getSelectedItems().size() < 1) {
-				label.setText("Please select items");
-			} else {
-				ObservableList<Item> selected = items.getSelectionModel().getSelectedItems();
-				setDiscount(selected,Integer.parseInt(percent.getText()));
+				if (items.getSelectionModel().getSelectedItems().size() < 1) {
+					label.setText("Please select items");
+				} else {
+					ObservableList<Item> selected = items.getSelectionModel().getSelectedItems();
+					setDiscount(selected, Integer.parseInt(percent.getText()));
 
-			}
+				}
 			} else {
 				label.setText("Please choose an integer bigger then 0");
 			}
-		}
-		else
-		{
+		} else {
 			label.setText("Please choose an integer percent");
 
-			}
+		}
 
 	}
 
@@ -86,7 +84,7 @@ public class DiscountPage {
 	}
 
 	public void setDiscount(ObservableList<Item> selected, int percentage) {
-        AlertBox.display("Discount Setting","Not Yet Implemented!");
+		AlertBox.display("Discount Setting", "Not Yet Implemented!");
 
 	}
 }

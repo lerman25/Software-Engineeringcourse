@@ -7,17 +7,17 @@ public class Client extends Person {
 			String _gender, String _address, String _username, String _password) {
 		super(_firstname, _lastname, _id, _mail, _phone, _credit, _age, _gender, _address, _username, _password);
 		// TODO Auto-generated constructor stub
-		
+
 		super.setPermission(Permissions.CLIENT);
 
 	}
-	public Client( String _username, String _password, Person p) {
+
+	public Client(String _username, String _password, Person p) {
 		super(p);
 		// TODO Auto-generated constructor stub
 		super.setPermission(Permissions.CLIENT);
 
 	}
-
 
 	public String getUsername() {
 		return super.getUsername();
@@ -40,7 +40,7 @@ public class Client extends Person {
 	}
 
 	public String toString() {
-		return this.getUsername();
+		return String.valueOf(this.getId());
 	}
 
 }

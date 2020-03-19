@@ -26,22 +26,20 @@ import common.Massage;
 import common.Orders;
 
 public class ClientOrderC implements Initializable {
-    @FXML
-    private TableColumn<Orders, Date> date;
+	@FXML
+	private TableColumn<Orders, Date> date;
 
-    @FXML
-    private TableView<Orders> orderTable;
+	@FXML
+	private TableView<Orders> orderTable;
 
+	@FXML
+	private TableColumn<Orders, String> name;
 
-    @FXML
-    private TableColumn<Orders, String> name;
+	@FXML
+	private TableColumn<Orders, String> id;
 
-    @FXML
-    private TableColumn<Orders, String> id;
-
-    @FXML
-    private TableColumn<Orders, String> status;
-    
+	@FXML
+	private TableColumn<Orders, String> status;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -52,20 +50,20 @@ public class ClientOrderC implements Initializable {
 		orderTable.setPlaceholder(new Label("No Orders to Display"));
 		orderTable.setItems(null);
 		orderTable.setItems(get_list());
-        orderTable.setRowFactory(tv -> {
-            TableRow<Orders> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-                    Orders rowData = row.getItem();
+		orderTable.setRowFactory(tv -> {
+			TableRow<Orders> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if (event.getClickCount() == 2 && (!row.isEmpty())) {
+					Orders rowData = row.getItem();
 					Stage primaryStage = new Stage();
 					FXMLLoader loader = new FXMLLoader();
 					loader.setLocation(getClass().getResource("OrderPage.fxml"));
 					try {
 						Parent root = loader.load();
-						OrderPageC cvc = loader.getController(); 
+						OrderPageC cvc = loader.getController();
 						cvc.setOrder(rowData);
 						cvc.loadOrder();
-						primaryStage.setTitle("Order ID - "+rowData.getID());
+						primaryStage.setTitle("Order ID - " + rowData.getID());
 						primaryStage.setScene(new Scene(root, 600, 600));
 						primaryStage.show();
 					} catch (IOException e) {
@@ -73,38 +71,36 @@ public class ClientOrderC implements Initializable {
 						e.printStackTrace();
 					}
 
-					}
-            });
-            return row ;
-        });
+				}
+			});
+			return row;
+		});
 
 	}
-	public void refreshTable()
-	{
+
+	public void refreshTable() {
 		orderTable.setPlaceholder(new Label("No Orders to Display"));
 		orderTable.setItems(get_list());
-		
 
 	}
-	public ObservableList<Orders> get_list()
-	{
+
+	public ObservableList<Orders> get_list() {
 		System.out.println("getlist");
-		if(Main.getPermission()==Permissions.SHOPMANAGER) // Change this later!
-			Main.send_toServer(new Massage (true, Commands.GETORDERS));
+		if (Main.getPermission() == Permissions.SHOPMANAGER) // Change this later!
+			Main.send_toServer(new Massage(true, Commands.GETORDERS));
 		else
-		Main.send_toServer(new Massage (Main.getPerson().getId(), Commands.CLIENTORDERS));
+			Main.send_toServer(new Massage(Main.getPerson().getId(), Commands.CLIENTORDERS));
 		Massage msg = Main.get_from_server();
 		ArrayList<Orders> o = new ArrayList<Orders>();
-		if(msg.getCommand()!=Commands.DBERROR)
-		 o =(ArrayList<Orders>) msg.getObject();
+		if (msg.getCommand() != Commands.DBERROR)
+			o = (ArrayList<Orders>) msg.getObject();
 		ObservableList<Orders> order_list = FXCollections.observableArrayList();
-		for(int i=0; i<o.size();i++)
-		{
+		for (int i = 0; i < o.size(); i++) {
 			System.out.println("Add to orderlist");
 			order_list.add(o.get(i));
 		}
 		return order_list;
-		
+
 	}
 
 }

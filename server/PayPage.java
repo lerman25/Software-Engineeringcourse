@@ -69,23 +69,22 @@ public class PayPage implements Initializable {
 
 	@FXML
 	private Label rPhone;
-    @FXML
-    private TextArea greetingBox;
+	@FXML
+	private TextArea greetingBox;
 	@FXML
 	private TextField rPhoneF;
-    @FXML
-    private Button complete;
+	@FXML
+	private Button complete;
 
-    @FXML
-    private Label notmeL;
-    private String greetingS="";
-    private boolean gFlag = false;
+	@FXML
+	private Label notmeL;
+	private String greetingS = "";
+	private boolean gFlag = false;
 	private Item selected;
 	private boolean toggleFlag = true;
 	private java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis());
 	private Stage thisStage;
 	private LocalDate delTime = null;
-
 
 	@FXML
 	void greeting(ActionEvent event) {
@@ -109,7 +108,6 @@ public class PayPage implements Initializable {
 
 	@FXML
 	void notme(ActionEvent event) {
-		notme = new ToggleButton();
 
 		if (toggleFlag) {
 			rAddress.setVisible(true);
@@ -118,9 +116,7 @@ public class PayPage implements Initializable {
 			rPhoneF.setVisible(true);
 			rName.setVisible(true);
 			rNameF.setVisible(true);
-			toggleFlag=false;
-			notme.setText("This order is for me");
-			notmeL.setText("Click this button if this order is for you");
+			toggleFlag = false;
 		} else {
 			rAddress.setVisible(false);
 			rAddressF.setVisible(false);
@@ -128,9 +124,7 @@ public class PayPage implements Initializable {
 			rPhoneF.setVisible(false);
 			rName.setVisible(false);
 			rNameF.setVisible(false);
-			toggleFlag=true;
-			notme.setText("This order is not for me");
-			notmeL.setText("Click this button if this order is for someone else");
+			toggleFlag = true;
 
 		}
 	}
@@ -158,46 +152,46 @@ public class PayPage implements Initializable {
 	public void setSelected(Item selected) {
 		this.selected = selected;
 	}
-    @FXML
-    void complete(ActionEvent event) {
-    	//check if
-        Timestamp del =  new java.sql.Timestamp(System.currentTimeMillis());
-        LocalTime delHour  = LocalTime.of(hour.getValue(), min.getValue());
-        LocalDateTime delLDT = LocalDateTime.of(delTime, delHour);
-        Person reciver = Main.getPerson();
-        del = Timestamp.valueOf(delLDT);
-    	ArrayList<Item> items = new ArrayList<Item>();
-    	items.add(selected);
-    	ItemInOrder _item = new ItemInOrder(items,0,reciver.getId());
-    	Orders newOrder = new Orders(reciver.getId(),now,del,shipmentMethod.getSelectionModel().getSelectedIndex(),reciver.getAddress(),reciver.getPhone_number(),reciver.getFirstName()+" "+reciver.getLastName(),del);
-    	if(!toggleFlag)
-    	{
-    		// this needs parsing!!!!!
-    		newOrder.setAddress(rAddressF.getText());
-    		newOrder.setReciverName(rNameF.getText());;
-    		newOrder.setReciverPhone(Integer.parseInt(rPhoneF.getText()));
-    	}
-    	Main.send_toServer(new Massage("Orders",Commands.GETLASTID));
-		Massage msg = Main.get_from_server();
-		boolean idflag = msg.getCommand()!=Commands.DBERROR;
-    	Main.send_toServer(new Massage("ItemInOrder",Commands.GETLASTID));
-		Massage msg2 = Main.get_from_server();
-		boolean iioIdflag = msg2.getCommand()!=Commands.DBERROR;
-		if(iioIdflag&&idflag)
-		{
-			newOrder.setID((int)msg.getObject()+1);
-			_item.setID((int)msg2.getObject()+1);
-	    	_item.setOrderID(newOrder.getID());
-	    	newOrder.setItemList(_item);
-	    	if(gFlag)
-	    		newOrder.setGreeting(getGreetingS());
-	    	Main.send_toServer(new Massage(newOrder,Commands.ADD));
-	        AlertBox.display("Payment","SUCCESS!");
-	        thisStage.close();
-		}
-        
 
-    }
+	@FXML
+	void complete(ActionEvent event) {
+		// check if
+		Timestamp del = new java.sql.Timestamp(System.currentTimeMillis());
+		LocalTime delHour = LocalTime.of(hour.getValue(), min.getValue());
+		LocalDateTime delLDT = LocalDateTime.of(delTime, delHour);
+		Person reciver = Main.getPerson();
+		del = Timestamp.valueOf(delLDT);
+		ArrayList<Item> items = new ArrayList<Item>();
+		items.add(selected);
+		ItemInOrder _item = new ItemInOrder(items, 0, reciver.getId());
+		Orders newOrder = new Orders(reciver.getId(), now, del, shipmentMethod.getSelectionModel().getSelectedIndex(),
+				reciver.getAddress(), reciver.getPhone_number(), reciver.getFirstName() + " " + reciver.getLastName(),
+				del);
+		if (!toggleFlag) {
+			// this needs parsing!!!!!
+			newOrder.setAddress(rAddressF.getText());
+			newOrder.setReciverName(rNameF.getText());
+			newOrder.setReciverPhone(Integer.parseInt(rPhoneF.getText()));
+		}
+		Main.send_toServer(new Massage("Orders", Commands.GETLASTID));
+		Massage msg = Main.get_from_server();
+		boolean idflag = msg.getCommand() != Commands.DBERROR;
+		Main.send_toServer(new Massage("ItemInOrder", Commands.GETLASTID));
+		Massage msg2 = Main.get_from_server();
+		boolean iioIdflag = msg2.getCommand() != Commands.DBERROR;
+		if (iioIdflag && idflag) {
+			newOrder.setID((int) msg.getObject() + 1);
+			_item.setID((int) msg2.getObject() + 1);
+			_item.setOrderID(newOrder.getID());
+			newOrder.setItemList(_item);
+			if (gFlag)
+				newOrder.setGreeting(getGreetingS());
+			Main.send_toServer(new Massage(newOrder, Commands.ADD));
+			AlertBox.display("Payment", "SUCCESS!");
+			thisStage.close();
+		}
+
+	}
 
 	public String getGreetingS() {
 		return greetingS;
@@ -212,14 +206,15 @@ public class PayPage implements Initializable {
 	public boolean getgFlag() {
 		return gFlag;
 	}
-    @FXML
-    void datePick(ActionEvent event) {
-    	//make sure date is after today and now. 
-    	setDelTime(deliveryTime.getValue());
-    }
+
+	@FXML
+	void datePick(ActionEvent event) {
+		// make sure date is after today and now.
+		setDelTime(deliveryTime.getValue());
+	}
 
 	public void setgFlag(boolean gFlag) {
-		if(gFlag)
+		if (gFlag)
 			greetingLabel.setText("Greeting added");
 
 		this.gFlag = gFlag;

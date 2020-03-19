@@ -1,10 +1,6 @@
 package common;
 
 public enum DBERRORS {
-	COMPLETE,
-	IDEXIST,
-	NOID,
-	UNKNOWN,
-	
+	COMPLETE, IDEXIST, NOID, UNKNOWN,
 
 }

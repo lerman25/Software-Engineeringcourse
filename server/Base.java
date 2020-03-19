@@ -27,12 +27,11 @@ public class Base implements Initializable {
 
 	private int id = 0;
 
+	@FXML
+	private Text userLabel;
 
-    @FXML
-    private Text userLabel;
-
-    @FXML
-    private Button personal;
+	@FXML
+	private Button personal;
 	@FXML
 	Button login;
 	@FXML
@@ -42,9 +41,8 @@ public class Base implements Initializable {
 	@FXML
 	Tab home;
 
-
-    @FXML
-    private Button manager;
+	@FXML
+	private Button manager;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -60,8 +58,9 @@ public class Base implements Initializable {
 		int height = gd.getDisplayMode().getHeight();
 		primaryStage.setScene(new Scene(root, width, height));
 	}
-    @FXML
-    void manager(ActionEvent event) {
+
+	@FXML
+	void manager(ActionEvent event) {
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("EmployeeView.fxml"));
@@ -78,7 +77,8 @@ public class Base implements Initializable {
 			e.printStackTrace();
 		}
 
-    }
+	}
+
 	public void signup(ActionEvent event) throws IOException {
 		Stage primaryStage = Main.getStage();
 		Parent root = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
@@ -110,34 +110,33 @@ public class Base implements Initializable {
 
 	public void loadView() {
 		Permissions p = Main.getPermission();
-		if(p==Permissions.GUEST)
-		{
+		if (p == Permissions.GUEST) {
 			personal.setVisible(false);
 			userLabel.setVisible(false);
 			manager.setVisible(false);
-		}
-		else
-		{
+		} else {
 			personal.setVisible(true);
 			userLabel.setVisible(true);
 			login.setVisible(false);
 			signup.setVisible(false);
 			manager.setVisible(false);
 
-			if(p==Permissions.EMPLOYEE);
+			if (p == Permissions.EMPLOYEE)
+				;
+			manager.setVisible(true);
+			if (p == Permissions.SHOPMANAGER)
 				manager.setVisible(true);
-			if(p==Permissions.SHOPMANAGER)
-				manager.setVisible(true);
-			if(p==Permissions.ADMIN)
-			{
+			if (p == Permissions.ADMIN) {
 				login.setVisible(true);
 				signup.setVisible(true);
 				manager.setVisible(true);
 			}
 
-				userLabel.setText("Welcom "+Main.getPerson().getUsername());
+			userLabel.setText("Welcom " + Main.getPerson().getUsername());
 		}
-			
 
 	}
+
+
+
 }

@@ -89,7 +89,7 @@
 		</GridPane>
       <TabPane prefHeight="409.0" prefWidth="1246.0" stylesheets="@pane.css" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
         <tabs>
-          <Tab text="Home">
+          <Tab fx:id="home" text="Home">
              <content>
    			  <fx:include source="Home.fxml" />
              </content>
