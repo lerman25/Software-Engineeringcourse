@@ -153,13 +153,7 @@ public class EmployeeController implements Initializable {
 		System.out.println("hey");
 		tableOrders.setItems(null);
 		tableOrders.setItems(ordersList);
-		if(pendingF&&penCounter==1)
-		{
-			AlertBox.display("Pending Orders", "There are pending orders!");
-			pendingF=false;
-			penCounter=0;
-		}
-		ObservableList<Orders> selected = tableOrders.getSelectionModel().getSelectedItems();
+
 		tableOrders.setRowFactory(tv -> {
 			TableRow<Orders> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
@@ -187,6 +181,13 @@ public class EmployeeController implements Initializable {
 			
 			return row;
 		});
+		//this for some weird reason ,must be last! don't move it or double click feature won't work
+		if(pendingF&&penCounter==1)
+		{
+			AlertBox.display("Pending Orders", "There are pending orders!");
+			pendingF=false;
+			penCounter=0;
+		}
 
 	}
 
