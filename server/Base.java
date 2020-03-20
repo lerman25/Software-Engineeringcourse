@@ -122,7 +122,6 @@ public class Base implements Initializable {
 			manager.setVisible(false);
 
 			if (p == Permissions.EMPLOYEE)
-				;
 			manager.setVisible(true);
 			if (p == Permissions.SHOPMANAGER)
 				manager.setVisible(true);
