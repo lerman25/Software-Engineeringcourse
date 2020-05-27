@@ -53,17 +53,13 @@ public class Main {
 //		} catch (IOException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
-//		}
-		DataBase myDB = DataBase.getLocalInstance("remote");
-		Person p1 = new Person("omer", "lerman", 2, "gmail", 11, "22", 11, "male", "haifa", "admin", "admin");
-		p1.setId(2);
-		p1.setPermission(Permissions.ADMIN);
-//		Person p2 = new Person("omer","lerman",1,"gmail",11,"22",11,"male","haifa","employee","employee");
-		// Employee e = new Employee(1,p2.getUsername(),p2.getPassword(),p2);
-//		Person p3 = new Person("omer2","lerman2",1,"gmail",11,"22",11,"male","haifa","emploeyy2","emploeyy");
-//		p3.setId(4);
-//		Employee e2 = new Employee(1,p2.getUsername(),p2.getPassword(),p2);
-		myDB.delete_from_DB(p1);
+////		}
+////		Person p2 = new Person("omer","lerman",1,"gmail",11,"22",11,"male","haifa","employee","employee");
+//		// Employee e = new Employee(1,p2.getUsername(),p2.getPassword(),p2);
+////		Person p3 = new Person("omer2","lerman2",1,"gmail",11,"22",11,"male","haifa","emploeyy2","emploeyy");
+////		p3.setId(4);
+////		Employee e2 = new Employee(1,p2.getUsername(),p2.getPassword(),p2);
+//		myDB.delete_from_DB(p1);
 ////		Mailer mail = new Mailer("ahmed.m.tayah@gmail.comþ");
 ////		Mailer mail = new Mailer("ahmed.m.tayah@gmail.com");
 ////		mail.sendMail("hey ahmed , this is sent from my Java program ");

@@ -63,12 +63,12 @@ public class Base implements Initializable {
 	void manager(ActionEvent event) {
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("EmployeeView.fxml"));
+		loader.setLocation(getClass().getResource("ManagerView.fxml"));
 		try {
 			Parent root = loader.load();
 			EmployeeController cvc = loader.getController();
 			cvc.setThisStage(primaryStage);
-			primaryStage.setScene(new Scene(root, 400, 400));
+			primaryStage.setScene(new Scene(root, 800, 400));
 
 			primaryStage.show();
 
@@ -124,6 +124,8 @@ public class Base implements Initializable {
 			if (p == Permissions.EMPLOYEE)
 			manager.setVisible(true);
 			if (p == Permissions.SHOPMANAGER)
+				manager.setVisible(true);
+			if (p == Permissions.CHAINMANAGER)
 				manager.setVisible(true);
 			if (p == Permissions.ADMIN) {
 				login.setVisible(true);

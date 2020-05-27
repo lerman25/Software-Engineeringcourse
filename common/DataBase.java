@@ -35,7 +35,7 @@ public class DataBase {
 	// better env variables
 	static private final String DB = "SmFGAHPAE1";
 //	static private final String DB_URL = "https://remotemysql.com/phpmyadmin/" + DB + "?useSSL=false";
-	static private final String DB_URL = "jdbc:mysql://remotemysql.com/" + DB + "?useSSL=false";
+	static private final String DB_URL = "jdbc:mysql://remotemysql.com/" + DB + "?autoReconnect=true&useSSL=false";
 	static private final String LOCAL_DB_URL = "jdbc:MySql://localhost:3306/";
 	static private final String LOCAL_DB_URL2 = "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 
@@ -280,10 +280,10 @@ public class DataBase {
 				Timestamp date = rs.getTimestamp("Date");
 				String text = rs.getString("TextField");
 				int clientID = rs.getInt("ClientID");
-				int Status = rs.getInt("Status");
+				int status = rs.getInt("Status");
 				int OrderID = (rs.getInt("OrderID"));
 				int cid = (rs.getInt("ID"));
-				Complaint complaint = new Complaint(date, text, clientID, Status, OrderID, cid);
+				Complaint complaint = new Complaint(date, text, clientID, CStatus.values()[status], OrderID, cid);
 				complaints.add(complaint);
 			}
 		} catch (SQLException se) {
@@ -303,10 +303,10 @@ public class DataBase {
 				Timestamp date = rs.getTimestamp("Date");
 				String text = rs.getString("TextField");
 				int clientID = rs.getInt("ClientID");
-				int Status = rs.getInt("Status");
+				int status = rs.getInt("Status");
 				int OrderID = (rs.getInt("OrderID"));
 				int cid = (rs.getInt("ID"));
-				Complaint complaint = new Complaint(date, text, clientID, Status, OrderID, cid);
+				Complaint complaint = new Complaint(date, text, clientID, CStatus.values()[status], OrderID, cid);
 				if (complaint.getClientID() == id)
 					complaints.add(complaint);
 			}
@@ -327,19 +327,19 @@ public class DataBase {
 				Timestamp date = rs.getTimestamp("Date");
 				String text = rs.getString("TextField");
 				int clientID = rs.getInt("ClientID");
-				int Status = rs.getInt("Status");
+				int status = rs.getInt("Status");
 				int OrderID = (rs.getInt("OrderID"));
 				int cid = (rs.getInt("ID"));
 				if (criteria.equals("ClientID")) {
 					if (rs.getInt(criteria) == Integer.parseInt(wanted)) {
-						Complaint complaint = new Complaint(date, text, clientID, Status, OrderID, cid);
+						Complaint complaint = new Complaint(date, text, clientID, CStatus.values()[status], OrderID, cid);
 
 						complaints.add(complaint);
 					}
 
 				} else {
 					if (rs.getString(criteria).equals(wanted)) {
-						Complaint complaint = new Complaint(date, text, clientID, Status, OrderID, cid);
+						Complaint complaint = new Complaint(date, text, clientID, CStatus.values()[status], OrderID, cid);
 						complaints.add(complaint);
 
 					}
@@ -668,9 +668,9 @@ public class DataBase {
 				stmt1.setTimestamp(1, complaint.getDate());
 				stmt1.setString(2, complaint.getText());
 				stmt1.setInt(3, complaint.getClientID());
-				stmt1.setInt(4, complaint.getStatus());
+				stmt1.setInt(4, complaint.getStatus().ordinal());
 				stmt1.setInt(5, complaint.getOrderID());
-				stmt1.setInt(6, id);
+				stmt1.setInt(6, id+1);
 				stmt1.executeUpdate();
 				break;
 

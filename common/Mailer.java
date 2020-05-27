@@ -20,14 +20,15 @@ public class Mailer {
 	public void sendMail(String text) {
 
 		final String username = "lilacteam10@gmail.com";
-		final String password = "khklecumv10";
+		final String password = "khklecumv101";
 
-		Properties prop = new Properties();
+        Properties prop = new Properties();
 		prop.put("mail.smtp.host", "smtp.gmail.com");
-		prop.put("mail.smtp.port", "587");
-		prop.put("mail.smtp.auth", "true");
-		prop.put("mail.smtp.starttls.enable", "true"); // TLS
-
+        prop.put("mail.smtp.port", "465");
+        prop.put("mail.smtp.auth", "true");
+        prop.put("mail.smtp.socketFactory.port", "465");
+        prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        
 		Session session = Session.getInstance(prop, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(username, password);

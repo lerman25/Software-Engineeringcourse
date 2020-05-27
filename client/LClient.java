@@ -19,6 +19,7 @@ public class LClient extends AbstractClient {
 	protected synchronized void handleMessageFromServer(Object msg) {
 		// TODO Auto-generated method stub
 		Massage massage = (Massage) msg;
+		System.out.println("Massage handling from server :  Massage: "+massage.getCommand().toString());
 		if (massage.getCommand().equals(Commands.SHUTDOWN)) {
 			System.out.println("Server Not Working");
 			serverFlag = false;

@@ -19,6 +19,7 @@ public class Server extends AbstractServer {
 
 		super(port);
 		System.out.println("Server Loading...");
+
 		connectedClients = new ArrayList<ConnectionToClient>();
 		// TODO Auto-generated constructor stub
 	}
@@ -260,7 +261,7 @@ public class Server extends AbstractServer {
 				String username = (String) massage.getObject();
 
 				for (int i = 0; i < connectedClients.size(); i++) {
-					if (connectedClients.get(i).getName().equals(username)) {
+					if (connectedClients.get(i).getName().equals(username)&&!username.equals("admin")) {
 
 						try {
 							client.sendToClient(new Massage(true, Commands.CONNECTED));
@@ -355,7 +356,7 @@ public class Server extends AbstractServer {
 	}
 
 	protected void serverStarted() {
-		mydb = DataBase.getLocalInstance("remote");
+		mydb = DataBase.getRemoteInstance();
 		if (mydb.workFlag == false) {
 			dbFlag = false;
 		}

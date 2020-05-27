@@ -96,6 +96,26 @@
 						</AnchorPane>
 					</content>
 				</Tab>
+            <Tab fx:id="comaplaints" onSelectionChanged="#renderComplaints" text="Complaints">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="complaint_table" layoutX="71.0" layoutY="38.0" prefHeight="200.0" prefWidth="862.0">
+                          <columns>
+                            <TableColumn fx:id="complaint_complaintID" prefWidth="89.0" text="Complaint ID" />
+                            <TableColumn fx:id="complaint_ClientID" prefWidth="61.0" text="CID" />
+                              <TableColumn fx:id="complaint_orderID" prefWidth="75.0" text="OID" />
+                              <TableColumn fx:id="complaint_date" prefWidth="75.0" text="Date" />
+                              <TableColumn fx:id="complaint_status" prefWidth="75.0" text="Status" />
+                              <TableColumn fx:id="complaint_text" prefWidth="481.0" text="Text" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="111.0" layoutY="284.0" mnemonicParsing="false" onAction="#complaint_rejected" prefHeight="25.0" prefWidth="167.0" text="Change Status to REJECTED" />
+                        <Button layoutX="111.0" layoutY="319.0" mnemonicParsing="false" onAction="#complaint_accepted" text="Change Status to ACCEPTED" />
+                        <Button layoutX="111.0" layoutY="353.0" mnemonicParsing="false" onAction="#complaint_mail" prefHeight="25.0" prefWidth="167.0" text="Send Update mail to client" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
 			</tabs>
 		</TabPane>
 	</children>

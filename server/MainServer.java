@@ -25,6 +25,27 @@ public class MainServer extends Application {
 	public void start(Stage primaryStage) {
 
 		myServer = new Server(5555);
+		Thread unSleep = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				while(true)
+				{
+				try {
+					Thread.sleep(10000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("DataBase ping");
+				myServer.getDataBase().checkLogin_user("admin");
+				}
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		unSleep.start();
 //		 Runtime.getRuntime().addShutdownHook(new Thread() 
 //		    { 
 //		      public void run() 

@@ -1,11 +1,10 @@
 package server;
 
 import common.*;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,28 +14,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 //import server.FormValidation;
 //import server.Main;
 import server.Main;
 
-import java.awt.*;
 import java.io.*;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class EmployeeController implements Initializable {
@@ -48,7 +37,7 @@ public class EmployeeController implements Initializable {
 	Button EditEmployees;
 	@FXML
 	AnchorPane EmployeeListAnchor;
-	@FXML
+	@FXML 
 	TableView<Orders> tableOrders;
 	@FXML
 	TableColumn<Orders, Integer> orderID;
@@ -72,6 +61,24 @@ public class EmployeeController implements Initializable {
 	TableColumn<Orders, String> status;
 	@FXML
 	Tab renderOrders;
+	String Latest = "";
+	@FXML
+	private TableView<Complaint> complaint_table;
+    @FXML
+    private TableColumn<Complaint, Timestamp> complaint_date;
+	@FXML
+	private TableColumn<Complaint, Integer> complaint_ClientID;
+	@FXML
+	private TableColumn<Complaint, Integer> complaint_orderID;
+	@FXML
+	private TableColumn<Complaint, String> complaint_status;
+	@FXML
+	private TableColumn<Complaint, Integer> complaint_complaintID;
+	@FXML
+	private TableColumn<Complaint, String> complaint_text;
+	
+	@FXML
+	private Tab complaints;
 
 	@FXML
 	private Button itemAdd;
@@ -96,97 +103,104 @@ public class EmployeeController implements Initializable {
 
 	@FXML
 	private Button mail;
-    @FXML
-    private Button pending;
-
+	@FXML
+	private Button pending;
 
 	private ObservableList<Orders> ordersList;
+	private ObservableList<Complaint> complaintsList;
 	private ObservableList<Employee> data1;
 	private Stage thisStage;
 	int penCounter;
+	int complaintPenCounter;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resource) {
 		username.setText(Main.getPerson().getUsername());
 		if (Main.getPermission().ordinal() < Permissions.SHOPMANAGER.ordinal())
 			EditEmployees.setDisable(true);
-		penCounter=1;
+		penCounter = 1;
+		complaintPenCounter=1;
 	}
 
 	@FXML
 	void renderCatalog() {
-		System.out.println("Render Catalog!");
-		item.setCellValueFactory(new PropertyValueFactory<>("Name"));
-		itemPrice.setCellValueFactory(new PropertyValueFactory<>("Price"));
-		items.setItems(null);
-		items.setItems(get_ItemList());
-		items.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		if (!Latest.equals("CATALOG")) {
+			System.out.println("Render Catalog!");
+			item.setCellValueFactory(new PropertyValueFactory<>("Name"));
+			itemPrice.setCellValueFactory(new PropertyValueFactory<>("Price"));
+			items.setItems(null);
+			items.setItems(get_ItemList());
+			items.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+			Latest = "CATALOG";
+		}
 	}
 
 	@FXML
 	void renderOrders() {
-		Massage msg = new Massage();
-		msg.setCommand(Commands.GETORDERS);
-		ordersList = FXCollections.observableArrayList();
-		server.Main.send_toServer(msg);
-		msg = server.Main.get_from_server();
-		ArrayList<Orders> orders = new ArrayList<Orders>();
-		if (msg.getCommand() != Commands.DBERROR)
-			orders = (ArrayList<Orders>) msg.getObject();
-		boolean pendingF = false;
-		for (int i = 0; i < orders.size(); i++)
-		{
-			if(orders.get(i).getStatus()==OStatus.PENDING)
-				pendingF=true;
-			ordersList.add(orders.get(i));
-		}
-		orderID.setCellValueFactory(new PropertyValueFactory<>("ID"));
-		clientID.setCellValueFactory(new PropertyValueFactory<>("ClientID"));
-		orderDate.setCellValueFactory(new PropertyValueFactory<>("OrderDate"));
-		clientAdress.setCellValueFactory(new PropertyValueFactory<>("Address"));
-		clientPhone.setCellValueFactory(new PropertyValueFactory<>("ReciverPhone"));
-		clientName.setCellValueFactory(new PropertyValueFactory<>("ReciverName"));
-		deliveryTime.setCellValueFactory(new PropertyValueFactory<>("DeliveryTime"));
-		deliveryCost.setCellValueFactory(new PropertyValueFactory<>("DeliveryCost"));
-		totalCost.setCellValueFactory(new PropertyValueFactory<>("totalCost"));
-		status.setCellValueFactory(new PropertyValueFactory<>("status"));
-		System.out.println("hey");
-		tableOrders.setItems(null);
-		tableOrders.setItems(ordersList);
+		if (!Latest.equals("ORDERS")) {
+			Latest = "ORDERS";
+			Massage msg = new Massage();
+			msg.setCommand(Commands.GETORDERS);
+			ordersList = FXCollections.observableArrayList();
+			server.Main.send_toServer(msg);
+			msg = server.Main.get_from_server();
+			ArrayList<Orders> orders = new ArrayList<Orders>();
+			if (msg.getCommand() != Commands.DBERROR)
+				orders = (ArrayList<Orders>) msg.getObject();
+			boolean pendingF = false;
+			for (int i = 0; i < orders.size(); i++) {
+				if (orders.get(i).getStatus() == OStatus.PENDING)
+					pendingF = true;
+				ordersList.add(orders.get(i));
+			}
+			orderID.setCellValueFactory(new PropertyValueFactory<>("ID"));
+			clientID.setCellValueFactory(new PropertyValueFactory<>("ClientID"));
+			orderDate.setCellValueFactory(new PropertyValueFactory<>("OrderDate"));
+			clientAdress.setCellValueFactory(new PropertyValueFactory<>("Address"));
+			clientPhone.setCellValueFactory(new PropertyValueFactory<>("ReciverPhone"));
+			clientName.setCellValueFactory(new PropertyValueFactory<>("ReciverName"));
+			deliveryTime.setCellValueFactory(new PropertyValueFactory<>("DeliveryTime"));
+			deliveryCost.setCellValueFactory(new PropertyValueFactory<>("DeliveryCost"));
+			totalCost.setCellValueFactory(new PropertyValueFactory<>("totalCost"));
+			status.setCellValueFactory(new PropertyValueFactory<>("status"));
+			System.out.println("hey");
+			tableOrders.setItems(null);
+			tableOrders.setItems(ordersList);
 
-		tableOrders.setRowFactory(tv -> {
-			TableRow<Orders> row = new TableRow<>();
-			row.setOnMouseClicked(event -> {
-				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					Orders rowData = row.getItem();
-					Stage primaryStage = new Stage();
-					FXMLLoader loader = new FXMLLoader();
-					loader.setLocation(getClass().getResource("OrderPage.fxml"));
-					try {
-						Parent root = loader.load();
-						OrderPageC cvc = loader.getController();
-						cvc.setOrder(rowData);
-						cvc.loadOrder();
-						cvc.nonClientVis();
-						primaryStage.setTitle("Order ID - " + rowData.getID());
-						primaryStage.setScene(new Scene(root, 600, 600));
-						primaryStage.show();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+			tableOrders.setRowFactory(tv -> {
+				TableRow<Orders> row = new TableRow<>();
+				row.setOnMouseClicked(event -> {
+					if (event.getClickCount() == 2 && (!row.isEmpty())) {
+						Orders rowData = row.getItem();
+						Stage primaryStage = new Stage();
+						FXMLLoader loader = new FXMLLoader();
+						loader.setLocation(getClass().getResource("OrderPage.fxml"));
+						try {
+							Parent root = loader.load();
+							OrderPageC cvc = loader.getController();
+							cvc.setOrder(rowData);
+							cvc.loadOrder();
+							cvc.nonClientVis();
+							primaryStage.setTitle("Order ID - " + rowData.getID());
+							primaryStage.setScene(new Scene(root, 600, 600));
+							primaryStage.show();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
 					}
+				});
 
-				}
+				return row;
 			});
-			
-			return row;
-		});
-		//this for some weird reason ,must be last! don't move it or double click feature won't work
-		if(pendingF&&penCounter==1)
-		{
-			AlertBox.display("Pending Orders", "There are pending orders!");
-			pendingF=false;
-			penCounter=0;
+			// this for some weird reason ,must be last! don't move it or double click
+			// feature won't work
+			if (pendingF && penCounter == 1) {
+				AlertBox.display("Pending Orders", "There are pending orders!");
+				pendingF = false;
+				penCounter = 0;
+			}
 		}
 
 	}
@@ -197,7 +211,7 @@ public class EmployeeController implements Initializable {
 		server.Main.send_toServer(msg);
 		msg = server.Main.get_from_server();
 		ArrayList<Item> itemList = new ArrayList<Item>();
-		if (msg.getCommand() ==Commands.GETCATALOG)
+		if (msg.getCommand() == Commands.GETCATALOG)
 			itemList = (ArrayList<Item>) msg.getObject();
 		else
 			Main.loadError();
@@ -208,7 +222,23 @@ public class EmployeeController implements Initializable {
 		return item_list;
 
 	}
+	public ObservableList<Complaint> get_ComplaintList() {
+		Massage msg = new Massage();
+		msg.setCommand(Commands.GETCOMPLAINTS);
+		server.Main.send_toServer(msg);
+		msg = server.Main.get_from_server();
+		ArrayList<Complaint> itemList = new ArrayList<Complaint>();
+		if (msg.getCommand() == Commands.GETCOMPLAINTS)
+			itemList = (ArrayList<Complaint>) msg.getObject();
+		else
+			Main.loadError();
+		ObservableList<Complaint> item_list = FXCollections.observableArrayList();
+		for (int i = 0; i < itemList.size(); i++) {
+			item_list.add(itemList.get(i));
+		}
+		return item_list;
 
+	}
 	@FXML
 	void LogOut(ActionEvent event) throws IOException {
 		Main.restart();
@@ -216,6 +246,39 @@ public class EmployeeController implements Initializable {
 
 	}
 
+    @FXML
+    void renderComplaints() {
+		if (!Latest.equals("COMPLAINT")) {
+
+			Latest = "COMPLAINT";
+
+		    complaint_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+		    complaint_ClientID.setCellValueFactory(new PropertyValueFactory<>("clientID"));
+ 			complaint_orderID.setCellValueFactory(new PropertyValueFactory<>("orderID"));
+ 			complaint_status.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+ 			complaint_complaintID.setCellValueFactory(new PropertyValueFactory<>("ID"));
+ 			complaint_text.setCellValueFactory(new PropertyValueFactory<>("text"));
+ 			complaint_table.setItems(null);
+ 			ObservableList<Complaint> complist =get_ComplaintList();
+ 			complaint_table.setItems(get_ComplaintList());
+ 			complaint_table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+			boolean pendingF = false;
+
+			for (int i = 0; i < complist.size(); i++) {
+				if (complist.get(i).getStatus() == CStatus.PENDING)
+					 pendingF = true;
+			}
+			if (pendingF && penCounter == 1) {
+				AlertBox.display("Pending Orders", "There are pending orders!");
+				pendingF = false;
+				penCounter = 0;
+			}
+
+ 			
+		}
+
+    }
 	@FXML
 	void openEmployeesList(ActionEvent event) throws IOException {
 		Stage primaryStage = new Stage();
@@ -256,23 +319,25 @@ public class EmployeeController implements Initializable {
 			cvc.setThisStage(primaryStage);
 			primaryStage.setTitle("User List");
 			primaryStage.setScene(new Scene(root, 600, 600));
-			primaryStage.showAndWait();;
+			primaryStage.showAndWait();
+			;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Latest="";
 		renderCatalog();
-        thisStage.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent we) {
-               try {
+		thisStage.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
+			public void handle(WindowEvent we) {
+				try {
 					AlertBox.display("CATALOG UPDATE", "Please re-enter the system for catalog Update!");
-				Main.restart();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+					Main.restart();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-            }
-        });  
+		});
 
 	}
 
@@ -285,18 +350,19 @@ public class EmployeeController implements Initializable {
 			if (msg.getCommand() != Commands.DBERROR) {
 				AlertBox.display("Item Remove", "SUCCESS!");
 			}
+			Latest="";
 			renderCatalog();
-	        thisStage.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
-	            public void handle(WindowEvent we) {
-	               try {
+			thisStage.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
+				public void handle(WindowEvent we) {
+					try {
 						AlertBox.display("CATALOG UPDATE", "Please re-enter the system for catalog Update!");
-					Main.restart();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+						Main.restart();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
-	            }
-	        });  
+			});
 
 		}
 	}
@@ -305,6 +371,7 @@ public class EmployeeController implements Initializable {
 	void delivered(ActionEvent event) {
 		Orders selected = tableOrders.getSelectionModel().getSelectedItem();
 		selected.setStatus(OStatus.DELIVERED);
+		Latest="";
 		Main.send_toServer(new Massage(selected, Commands.UPDATE));
 		Massage msg = Main.get_from_server();
 		if (msg.getCommand() != Commands.DBERROR) {
@@ -337,18 +404,17 @@ public class EmployeeController implements Initializable {
 		Orders selected = tableOrders.getSelectionModel().getSelectedItem();
 		// check if order is selected...
 		int clientID = selected.getClientID();
-		Main.send_toServer(new Massage(clientID, Commands.GETCLIENT));
+		Main.send_toServer(new Massage(clientID, Commands.GETPERSON));
 		Massage msg = Main.get_from_server();
 		if (msg.getCommand() != Commands.DBERROR) {
-			Client c = (Client) msg.getObject();
+			Person c = (Person) msg.getObject();
 			// check if client is okay... it should be okay but check for errors....
 			Mailer mail = new Mailer(c.getMail());
-			if(mail!=null)
-			{
-			mail.sendMail("Your order to: "+selected.getReciverName()+ " was delivered!, for any problem that may rise ,feel free to contact us.");
-			AlertBox.display("Mail", "SUCCESS!");
-			}
-			else
+			if (mail != null) {
+				mail.sendMail("Your order to: " + selected.getReciverName()
+						+ " was delivered!, for any problem that may rise ,feel free to contact us.");
+				AlertBox.display("Mail", "SUCCESS!");
+			} else
 				AlertBox.display("Mail", "ERROR!");
 
 		}
@@ -362,10 +428,12 @@ public class EmployeeController implements Initializable {
 	public void setThisStage(Stage thisStage) {
 		this.thisStage = thisStage;
 	}
-    @FXML
-    void pending(ActionEvent event) {
+
+	@FXML
+	void pending(ActionEvent event) {
 		Orders selected = tableOrders.getSelectionModel().getSelectedItem();
 		selected.setStatus(OStatus.ACCEPTED);
+		Latest="";
 		Main.send_toServer(new Massage(selected, Commands.UPDATE));
 		Massage msg = Main.get_from_server();
 		if (msg.getCommand() != Commands.DBERROR) {
@@ -373,5 +441,113 @@ public class EmployeeController implements Initializable {
 		}
 		renderOrders();
 
-    }
+	}
+	@FXML
+	void complaint_accepted(ActionEvent event) {
+		Complaint selected = complaint_table.getSelectionModel().getSelectedItem();
+		System.out.println("SELEC ID"+selected.getStatus());
+		selected.setStatus(CStatus.ACCEPTED);
+		Latest="";
+		Main.send_toServer(new Massage(selected, Commands.UPDATE));
+		Massage msg = Main.get_from_server();
+		if (msg.getCommand() == Commands.UPDATE) {
+			AlertBox.display("Status Change", "SUCCESS!");
+		}
+		renderComplaints();
+
+	}
+	@FXML
+	void complaint_rejected(ActionEvent event) {
+		Complaint selected = complaint_table.getSelectionModel().getSelectedItem();
+		System.out.println("SELEC ID"+selected.getStatus());
+		selected.setStatus(CStatus.REJECTED);
+		Latest="";
+		Main.send_toServer(new Massage(selected, Commands.UPDATE));
+		Massage msg = Main.get_from_server();
+		if (msg.getCommand() == Commands.UPDATE) {
+			AlertBox.display("Status Change", "SUCCESS!");
+		}
+		renderComplaints();
+
+	}
+	@FXML
+	void complaint_mail(ActionEvent event) {
+		Complaint selected = complaint_table.getSelectionModel().getSelectedItem();
+		// check if order is selected...
+		int clientID = selected.getClientID();
+		Main.send_toServer(new Massage(clientID, Commands.GETPERSON));
+		Massage msg = Main.get_from_server();
+		if (msg.getCommand() == Commands.GETPERSON) {
+			Person c = (Person) msg.getObject();
+			// check if client is okay... it should be okay but check for errors....
+			Mailer mail = new Mailer(c.getMail());
+			if (mail != null) {
+				mail.sendMail("Your Complient Status has been changed! Order ID: " + selected.getOrderID()+" new status is: "+selected.getStatus().toString()
+						);
+				AlertBox.display("Mail", "SUCCESS!");
+			} else
+				AlertBox.display("Mail", "ERROR!");
+
+		}
+
+	}
+//	@FXML
+//	void render_Complaints(ActionEvent event) {
+//		System.out.println("RENDRING COMPLINTS!!!!");
+//		if (!Latest.equals("COMPLAINTS")) {
+//			Latest = "COMPLAINTS";
+//			System.out.println("Render Complaints");
+//			Massage masg = new Massage(true, Commands.GETCOMPLAINTS);
+//			complaintsList = FXCollections.observableArrayList();
+//
+//			Main.send_toServer(masg);
+//			masg = Main.get_from_server();
+//			ArrayList<Complaint> complaints = new ArrayList<Complaint>();
+//			if (masg.getCommand() == Commands.GETCOMPLAINTS)
+//				complaints = (ArrayList<Complaint>) masg.getObject();
+//			else
+//				Main.loadError();
+//			for (int i = 0; i < complaints.size(); i++) {
+//
+//				complaintsList.add(complaints.get(i));
+//			}
+//			complaint_complaintID.setCellValueFactory(new PropertyValueFactory<>("ID"));
+//			complaint_ClientID.setCellValueFactory(new PropertyValueFactory<>("ClientID"));
+//			complaint_orderID.setCellValueFactory(new PropertyValueFactory<>("orderID"));
+//			complaint_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+//			complaint_text.setCellValueFactory(new PropertyValueFactory<>("text"));
+//			complaint_status.setCellValueFactory(new PropertyValueFactory<>("status"));
+//			complaint_table.setItems(null);
+//			complaint_table.setItems(complaintsList);
+//		}
+//	}
+//	@FXML
+//	void renderComplaints(ActionEvent event) {
+////		System.out.println("RENDRING COMPLINTS!!!!");
+////		if (!Latest.equals("COMPLAINTS")) {
+////			Latest = "COMPLAINTS";
+////			System.out.println("Render Complaints");
+////			Massage masg = new Massage(true, Commands.GETCOMPLAINTS);
+////			complaintsList = FXCollections.observableArrayList();
+////
+////			Main.send_toServer(masg);
+////			masg = Main.get_from_server();
+////			ArrayList<Complaint> complaints = new ArrayList<Complaint>();
+////			if (masg.getCommand() == Commands.GETCOMPLAINTS)
+////				complaints = (ArrayList<Complaint>) masg.getObject();
+////			else
+////				Main.loadError();
+////			for (int i = 0; i < complaints.size(); i++) {
+////
+////				complaintsList.add(complaints.get(i));
+////			}
+////
+////		}
+//	}
+
+	@FXML
+	void do_nothing(ActionEvent event) {
+
+	}
+
 }

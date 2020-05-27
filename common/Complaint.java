@@ -8,9 +8,9 @@ public class Complaint implements Serializable {
 	private Timestamp date;
 	private String text;
 	private int clientID;
-	private int status;
+	private CStatus status;
 	private int orderID;
-	private int ID;
+	private int ID=0;
 	private static int counter = 0;
 
 	public Complaint(Complaint complient) {
@@ -20,9 +20,10 @@ public class Complaint implements Serializable {
 		status = complient.getStatus();
 		orderID = complient.getOrderID();
 		ID = complient.getID();
+		
 	}
 
-	public Complaint(Timestamp _date, String _text, int _clientID, int _status, int _orderID) {
+	public Complaint(Timestamp _date, String _text, int _clientID, CStatus _status, int _orderID) {
 		date = _date;
 		text = _text;
 		clientID = _clientID;
@@ -31,7 +32,7 @@ public class Complaint implements Serializable {
 		ID = ++counter;
 	}
 
-	public Complaint(Timestamp _date, String _text, int _clientID, int _status, int _orderID, int id) {
+	public Complaint(Timestamp _date, String _text, int _clientID, CStatus _status, int _orderID, int id) {
 		date = _date;
 		text = _text;
 		clientID = _clientID;
@@ -56,12 +57,12 @@ public class Complaint implements Serializable {
 		this.text = text;
 	}
 
-	public int getStatus() {
+	public CStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
-		status = status;
+	public void setStatus(CStatus _status) {
+		status = _status;
 	}
 
 	public int getClientID() {

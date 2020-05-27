@@ -95,6 +95,7 @@ public class OrderPageC implements Initializable {
 			Parent root = loader.load();
 			ComplaintC cvc = loader.getController();
 			cvc.setOrder(order);
+			cvc.setThisStage(primaryStage);
 			primaryStage.setTitle("Complain - Order ID - " + order.getID());
 			primaryStage.setScene(new Scene(root, 600, 600));
 			primaryStage.show();

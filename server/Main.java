@@ -123,6 +123,8 @@ public class Main extends Application {
 				}
 				latestMsg=m;
 				client.sendToServer(m);
+			
+				//avoid quick send and get.s
 			} catch (IOException e) {
 
 				// TODO Auto-generated catch block
@@ -135,8 +137,11 @@ public class Main extends Application {
 	static Massage get_from_server() {
 		Stage alertS = new Stage();
 		AlertBox.shortDisplay("Loading...", "Waiting for Server", alertS);
+
+
 		while (client.isnull()) {
 			try {
+				System.out.println("Wating...");
 				Thread.sleep(300);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

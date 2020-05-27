@@ -187,7 +187,11 @@ public class PayPage implements Initializable {
 			if (gFlag)
 				newOrder.setGreeting(getGreetingS());
 			Main.send_toServer(new Massage(newOrder, Commands.ADD));
-			AlertBox.display("Payment", "SUCCESS!");
+			Massage msg3 = Main.get_from_server();
+			if((boolean)msg3.getObject()==true)
+				AlertBox.display("Payment", "SUCCESS!");
+			else
+				AlertBox.display("Payment", "FAILURE! , Please try again.");;
 			thisStage.close();
 		}
 
